@@ -20,7 +20,7 @@ module.exports = (config) => {
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
     files: [
       'node_modules/react/dist/react.js',
-      {pattern: 'src/**/*-spec.jsx', watched: false}
+      {pattern: 'src/**/*-test.jsx', watched: false}
     ],
     preprocessors: {
       'src/**/*': ['webpack']

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node --require babel-core/register node_modules/karma/bin/karma start",
     "build": "webpack --progress --colors",
+    "lint": "eslint src/**/*.jsx",
     "start": "webpack-dev-server"
   },
   "repository": {
@@ -32,7 +33,9 @@
     "eslint-friendly-formatter": "^1.2.2",
     "eslint-loader": "^1.2.1",
     "eslint-plugin-react": "^3.16.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "history": "^1.17.0",
     "isparta-loader": "^2.0.0",
     "karma": "^0.13.19",
     "karma-chai": "^0.1.0",
@@ -52,6 +55,7 @@
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-router": "^1.0.3",
     "react-transform-hmr": "^1.0.1",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",

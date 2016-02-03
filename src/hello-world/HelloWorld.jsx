@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-export default class HelloWorld extends Component {
-  render() {
-    const text = 'Hello, World';
+import styles from './_hello-world.scss';
 
-    return (
-      <div>{text}</div>
-    );
-  }
-}
+export default () => (
+  <div className="hello-world">
+    <div className={styles['hello-world__icon']}></div>
+    Hello, World
+  </div>
+);

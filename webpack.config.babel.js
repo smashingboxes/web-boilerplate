@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 // PostCSS plugins
 import autoprefixer from 'autoprefixer';
@@ -35,15 +36,15 @@ export default {
     loaders: [
       {test: /\.html$/, loader: 'file', query: { name: '[name].[ext]' }},
       {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-0', 'react', 'es2015'] }},
-      {test: /\.s(c|a)ss$/, loader: 'postcss', query: { outputStyle: 'expanded' }},
-      {test: /\.s(c|a)ss$/, loader: 'sass'},
-      {test: /\.s(c|a)ss$/, loader: 'css'},
-      {test: /\.s(c|a)ss$/, loader: 'style'},
-      {test:/\.(png|jpg|svg)$/, loader: 'url', query: { limit: 25000 }}
+      {test: /\.s(c|a)ss$/, loader: ExtractTextPlugin.extract('css?modules')},
+      {test: /\.s(c|a)ss$/, loader: 'postcss'},
+      {test: /\.s(c|a)ss$/, loader: 'sass', query: { outputStyle: 'expanded' }},
+      {test:/\.(png|jpg|svg)$/, loader: 'url', query: { limit: 500 }}
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('styles.css')
   ],
   eslint: {
     formatter: eslintFriendlyFormatter
