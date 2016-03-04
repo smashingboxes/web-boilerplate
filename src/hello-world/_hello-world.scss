@@ -1,5 +1,8 @@
 .hello-world {
   &__icon {
+    height: 100px;
+    width: 100px;
+    background-size: cover;
     background-image: url(./smashing-boxes.png);
   }
 }

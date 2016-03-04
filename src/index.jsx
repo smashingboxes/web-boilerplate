@@ -1,9 +1,8 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, Router, browserHistory} from 'react-router';
+import {Routes} from './Routes.jsx';
 
-import HelloWorld from './hello-world/HelloWorld.jsx';
+if (module.hot) {
+  module.hot.decline('./Routes.jsx');
+}
 
-ReactDOM.render(<Router history={browserHistory}>
-    <Route path="/" component={HelloWorld} />
-  </Router>, document.getElementById('root'));
+ReactDOM.render(Routes, document.getElementById('root'));
