@@ -24,7 +24,9 @@ module.exports = (config) => {
     browsers: ['PhantomJS'],
     frameworks: ['mocha'],
     files: [
-      {pattern: 'src/**/*-test.jsx', watched: false}
+      'node_modules/react/dist/react.js',
+      {pattern: 'src/**/*-test.jsx', watched: false},
+      {pattern: 'src/**/*-test.js', watched: false}
     ],
     preprocessors: {
       'src/**/*': ['webpack']
