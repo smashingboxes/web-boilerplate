@@ -24,7 +24,7 @@ export default {
       {test: /\.s(c|a)ss$/, loader: 'css'},
       {test: /\.s(c|a)ss$/, loader: 'postcss'},
       {test: /\.s(c|a)ss$/, loader: 'sass', query: { outputStyle: 'expanded' }},
-      {test: /\.(png|jpg|svg|woff|woff2|ttf|eot)$/, loader: 'url', query: { limit: 25000 }}
+      {test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/, loader: 'url', query: { limit: 25000 }}
     ]
   },
   plugins: [
