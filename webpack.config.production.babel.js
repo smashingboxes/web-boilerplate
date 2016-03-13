@@ -8,6 +8,10 @@ config.devtool = 'source-map';
 
 config.plugins = config.plugins.concat([
   new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    mangle: true,
     output: {
       comments: false
     }

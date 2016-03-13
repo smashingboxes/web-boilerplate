@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 
@@ -14,12 +13,16 @@ export default {
     extensions: ['', '.js', '.jsx']
   },
   entry: ['./src/index.jsx'],
+  output: {
+    path: 'dist',
+    filename: 'bundle.js'
+  },
   module: {
     preLoaders: [
       {test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/}
     ],
     loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-0', 'react', 'es2015'] }},
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-2', 'react', 'es2015'] }},
       {test: /\.s(c|a)ss$/, loader: 'style'},
       {test: /\.s(c|a)ss$/, loader: 'css'},
       {test: /\.s(c|a)ss$/, loader: 'postcss'},
@@ -29,6 +32,10 @@ export default {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
+    new CleanWebpackPlugin('dist'),
+    new webpack.DefinePlugin({
+      'process.env': { 'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development') }
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     })

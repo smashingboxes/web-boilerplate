@@ -4,7 +4,7 @@ webpackConfig.entry = {};
 webpackConfig.devtool = 'inline-source-map';
 webpackConfig.module.loaders = [
   {test: /\.html$/, loader: 'file', query: { name: '[name].[ext]' }},
-  {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-0', 'react', 'es2015'] }},
+  {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-2', 'react', 'es2015'] }},
   {test: /\.s(c|a)ss$/, loader: 'style'},
   {test: /\.s(c|a)ss$/, loader: 'css?modules'},
   {test: /\.s(c|a)ss$/, loader: 'postcss'},
