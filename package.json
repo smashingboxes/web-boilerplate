@@ -4,7 +4,7 @@
   "description": "A template for new front-end projects.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=production node --require babel-core/register node_modules/karma/bin/karma start",
+    "test": "NODE_ENV=test node --require babel-core/register node_modules/karma/bin/karma start",
     "build": "webpack -d --progress --colors",
     "build-production": "NODE_ENV=production webpack -p --progress --colors",
     "lint": "eslint src/**/*.jsx",
