@@ -1,1 +1,3 @@
-module.exports = process.env.NODE_ENV === 'production' ? require('./webpack.config.production.babel.js') : require('./webpack.config.development.babel.js');
+var env = process.env.NODE_ENV || 'development';
+
+module.exports = require('./webpack.config.' + env + '.babel.js');
