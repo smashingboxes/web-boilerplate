@@ -2,25 +2,25 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import {expect} from 'chai';
 
-import HelloWorld from './HelloWorld';
+import Greeting from './Greeting';
 
-describe('Hello World', () => {
+describe('Greeting', () => {
   const renderer = ReactTestUtils.createRenderer();
   let component;
 
   beforeEach(() => {
-    renderer.render(<HelloWorld />);
+    renderer.render(<Greeting />);
     component = renderer.getRenderOutput();
   });
 
-  it('should display the text "Hello, World"', () => {
+  it('should display the text "Hello, "', () => {
     expect(component.type).to.equal('div');
 
     const [div, text] = component.props.children;
 
     expect(div.type).to.equal('div');
-    expect(div.props.className).to.equal('hello-world__icon');
+    expect(div.props.className).to.equal('greeting__icon');
 
-    expect(text).to.equal('Hello, World');
+    expect(text).to.equal('Hello, ');
   });
 });
