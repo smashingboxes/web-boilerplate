@@ -1,22 +1,32 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 
-import './_hello-world.scss';
+import Greeting from './Greeting';
+import NameTaker from './NameTaker';
 
-const HelloWorld = ({name}) => {
+import {setName} from './helloWorldActions';
+
+const App = ({name, onSubmit}) => {
   return (
-    <div className="hello-world">
-      <div className="hello-world__icon"></div>
-      Hello, {name}
+    <div>
+      <Greeting name={name} />
+      <NameTaker name={name} onSubmit={onSubmit} />
     </div>
   );
 };
 
-HelloWorld.propTypes = {
-  name: PropTypes.string
+const mapStateToProps = (state) => {
+  return {
+    ...state.helloWorld
+  };
 };
 
-HelloWorld.defaultProps = {
-  name: 'World'
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmit: (name) => {
+      dispatch(setName(name));
+    }
+  };
 };
 
-export default HelloWorld;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
