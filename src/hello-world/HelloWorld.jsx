@@ -1,12 +1,17 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 import Greeting from './Greeting';
 import NameTaker from './NameTaker';
 
-import {setName} from './helloWorldActions';
+import { setName } from './helloWorldActions';
 
-const App = ({name, onSubmit}) => {
+const propTypes = {
+  name: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
+
+const App = ({ name, onSubmit }) => {
   return (
     <div>
       <Greeting name={name} />
@@ -14,6 +19,8 @@ const App = ({name, onSubmit}) => {
     </div>
   );
 };
+
+App.propTypes = propTypes;
 
 const mapStateToProps = (state) => {
   return {
