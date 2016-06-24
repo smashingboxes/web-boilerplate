@@ -1,4 +1,4 @@
-import webpackConfig from './webpack.config';
+var webpackConfig = require('./webpack.config');
 
 webpackConfig.entry = {};
 webpackConfig.devtool = 'inline-source-map';
@@ -33,8 +33,8 @@ module.exports = (config) => {
     },
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
-        type: 'html',
-        dir: 'coverage/'
+      type: 'html',
+      dir: 'coverage/'
     },
     webpack: webpackConfig,
     webpackServer: {
