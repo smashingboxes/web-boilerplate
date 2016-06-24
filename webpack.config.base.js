@@ -1,14 +1,14 @@
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // PostCSS plugins
-import autoprefixer from 'autoprefixer';
-import lost from 'lost';
+var autoprefixer = require('autoprefixer');
+var lost = require('lost');
 
-import eslintFriendlyFormatter from 'eslint-friendly-formatter';
+var eslintFriendlyFormatter = require('eslint-friendly-formatter');
 
-export default {
+module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

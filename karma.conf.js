@@ -1,4 +1,4 @@
-import webpackConfig from './webpack.config.babel';
+import webpackConfig from './webpack.config';
 
 webpackConfig.entry = {};
 webpackConfig.devtool = 'inline-source-map';
