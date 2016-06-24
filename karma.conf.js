@@ -19,7 +19,7 @@ webpackConfig.module.preLoaders.unshift({
 webpackConfig.plugins = [];
 webpackConfig.watch = true;
 
-module.exports = (config) => {
+module.exports = function (config) {
   config.set({
     browsers: ['PhantomJS'],
     frameworks: ['mocha'],
