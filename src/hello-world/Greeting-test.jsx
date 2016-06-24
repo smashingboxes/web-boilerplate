@@ -1,25 +1,24 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 
 import Greeting from './Greeting';
 
 describe('Greeting', () => {
-  const renderer = ReactTestUtils.createRenderer();
   let component;
 
   beforeEach(() => {
-    renderer.render(<Greeting />);
-    component = renderer.getRenderOutput();
+    component = shallow(<Greeting />);
   });
 
   it('should display the text "Hello, "', () => {
-    expect(component.type).to.equal('div');
+    expect(component.type()).to.equal('div');
 
-    const [div, text] = component.props.children;
+    const div = component.childAt(0);
+    const text = component.childAt(1);
 
-    expect(div.type).to.equal('div');
-    expect(div.props.className).to.equal('greeting__icon');
+    expect(div.type()).to.equal('div');
+    expect(div.hasClass('greeting__icon')).to.be.true;
 
-    expect(text).to.equal('Hello, ');
+    expect(text.text()).to.equal('Hello, ');
   });
 });
