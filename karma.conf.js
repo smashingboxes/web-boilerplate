@@ -14,6 +14,7 @@ webpackConfig.module.loaders = [
 webpackConfig.module.preLoaders = [
   {test: /\.jsx?$/, exclude: /(tests.webpack\.js|node_modules|\-test\.jsx?$)/, loader: 'babel-istanbul'}
 ];
+webpackConfig.plugins = [];
 webpackConfig.watch = true;
 
 module.exports = function (config) {
