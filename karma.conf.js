@@ -10,26 +10,21 @@ webpackConfig.module.loaders = [
   {test: /\.s(c|a)ss$/, loader: 'postcss'},
   {test: /\.s(c|a)ss$/, loader: 'sass', query: { outputStyle: 'expanded' }},
   {test:/\.(png|jpg|svg)$/, loader: 'url', query: { limit: 500 }}
+]
+webpackConfig.module.preLoaders = [
+  {test: /\.jsx?$/, exclude: /(tests.webpack\.js|node_modules|\-test\.jsx?$)/, loader: 'babel-istanbul'}
 ];
-webpackConfig.module.preLoaders.unshift({
-  test: /\.jsx?$/,
-  exclude: /(node_modules|\-spec\.jsx?$)/,
-  loader: 'isparta'
-});
-webpackConfig.plugins = [];
 webpackConfig.watch = true;
 
 module.exports = function (config) {
   config.set({
     browsers: ['PhantomJS'],
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'sinon-chai'],
     files: [
-      'node_modules/react/dist/react.js',
-      {pattern: 'src/**/*-test.jsx', watched: false},
-      {pattern: 'src/**/*-test.js', watched: false}
+      {pattern: 'tests.webpack.js', watched: false}
     ],
     preprocessors: {
-      'src/**/*': ['webpack']
+      'tests.webpack.js': ['webpack', 'sourcemap']
     },
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
