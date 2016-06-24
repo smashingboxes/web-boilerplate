@@ -1,5 +1,5 @@
-import webpack from 'webpack';
-import config from './webpack.config.base.babel';
+var webpack = require('webpack');
+var config = require('./webpack.config.base');
 
 config.bail = true;
 config.debug = false;
@@ -18,4 +18,4 @@ config.plugins = config.plugins.concat([
   })
 ]);
 
-export default config;
+module.exports = config;
