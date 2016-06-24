@@ -43,5 +43,7 @@ module.exports = {
   eslint: {
     formatter: eslintFriendlyFormatter
   },
-  postcss: () => [lost, autoprefixer]
+  postcss: function() {
+    return [lost, autoprefixer];
+  }
 };
