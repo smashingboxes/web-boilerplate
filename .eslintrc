@@ -210,5 +210,8 @@
   },
   "plugins": [
     "react"
-  ]
+  ],
+  "globals": {
+    "expect": true
+  }
 }
