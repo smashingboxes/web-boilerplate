@@ -11,10 +11,10 @@ describe('Name Taker', () => {
   });
 
   it('should have a form element', () => {
-    expect(component.type()).to.equal('div');
+    expect(component).to.have.tagName('div');
 
     const form = component.find('form');
 
-    expect(form.type()).to.equal('form');
+    expect(form).to.have.tagName('form');
   });
 });

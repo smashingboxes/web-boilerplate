@@ -4,21 +4,20 @@ import { shallow } from 'enzyme';
 import Greeting from './Greeting';
 
 describe('Greeting', () => {
-  let component;
+  let wrapper;
 
   beforeEach(() => {
-    component = shallow(<Greeting />);
+    wrapper = shallow(<Greeting />);
   });
 
   it('should display the text "Hello, "', () => {
-    expect(component.type()).to.equal('div');
+    expect(wrapper).to.have.tagName('div');
 
-    const div = component.childAt(0);
-    const text = component.childAt(1);
+    const div = wrapper.childAt(0);
 
-    expect(div.type()).to.equal('div');
-    expect(div.hasClass('greeting__icon')).to.be.true;
+    expect(div).to.have.tagName('div');
+    expect(div).to.have.className('greeting__icon');
 
-    expect(text.text()).to.equal('Hello, ');
+    expect(wrapper).to.have.text('Hello, World');
   });
 });

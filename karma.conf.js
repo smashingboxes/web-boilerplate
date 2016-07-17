@@ -9,7 +9,8 @@ webpackConfig.module.loaders = [
   {test: /\.s(c|a)ss$/, loader: 'css?modules'},
   {test: /\.s(c|a)ss$/, loader: 'postcss'},
   {test: /\.s(c|a)ss$/, loader: 'sass', query: { outputStyle: 'expanded' }},
-  {test:/\.(png|jpg|svg)$/, loader: 'url', query: { limit: 500 }}
+  {test:/\.(png|jpg|svg)$/, loader: 'url', query: { limit: 500 }},
+  {test:/\.json$/, loader: 'json'}
 ]
 webpackConfig.module.preLoaders = [
   {test: /\.jsx?$/, exclude: /(tests.webpack\.js|node_modules|\-test\.jsx?$)/, loader: 'babel-istanbul'}
@@ -17,7 +18,6 @@ webpackConfig.module.preLoaders = [
 webpackConfig.plugins = [];
 webpackConfig.watch = true;
 webpackConfig.externals = {
-  'cheerio': 'window',
   'react/addons': true,
   'react/lib/ExecutionEnvironment': true,
   'react/lib/ReactContext': true

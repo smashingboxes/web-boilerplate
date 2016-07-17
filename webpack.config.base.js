@@ -10,7 +10,7 @@ var eslintFriendlyFormatter = require('eslint-friendly-formatter');
 
 module.exports = {
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.json']
   },
   entry: ['./src/index.jsx'],
   output: {
