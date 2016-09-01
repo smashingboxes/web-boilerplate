@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import './greeting.scss';
 
-const Greeting = ({name}) => {
+const Greeting = ({ name }) => {
   return (
     <div className="greeting">
-      <div className="greeting__icon"></div>
+      <div className="greeting__icon" />
       Hello, {name}
     </div>
   );

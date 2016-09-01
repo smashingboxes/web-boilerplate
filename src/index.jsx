@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {configureStore} from './stores';
+import { Provider } from 'react-redux';
+import { configureStore } from './stores';
 
 const store = configureStore();
 const rootEl = document.getElementById('root');
