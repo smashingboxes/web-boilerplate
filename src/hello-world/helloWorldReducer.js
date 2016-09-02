@@ -1,4 +1,4 @@
-import {SET_NAME} from './helloWorldConstants';
+import { SET_NAME } from './helloWorldConstants';
 
 const INITIAL_STATE = {
   name: 'World'

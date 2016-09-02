@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Router, browserHistory} from 'react-router';
+import { Route, Router, browserHistory } from 'react-router';
 import HelloWorld from './hello-world/HelloWorld';
 
 export default () => {

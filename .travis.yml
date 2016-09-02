@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "6"
+before_install:
+  - npm install -g npm@3
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+before_script:
+  - npm rebuild node-sass
+script:
+  - npm run lint
+  - NODE_ENV=test node --require babel-core/register node_modules/karma/bin/karma start --single-run
+  - npm run build

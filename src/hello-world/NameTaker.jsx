@@ -1,14 +1,14 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class NameTaker extends Component {
   componentDidMount() {
-    this.refs.name.focus();
+    this.nameInput.focus();
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    this.props.onSubmit(this.refs.name.value);
+    this.props.onSubmit(this.nameInput.value);
   }
 
   render() {
@@ -16,7 +16,12 @@ export default class NameTaker extends Component {
       <div>
         <form onSubmit={this.onSubmit.bind(this)}>
           <label htmlFor="name">Name</label>
-          <input ref="name" id="name" type="text" defaultValue={this.props.name} />
+          <input
+            defaultValue={this.props.name}
+            id="name"
+            ref={(input) => { this.nameInput = input; }}
+            type="text"
+          />
 
           <button>Submit</button>
         </form>
