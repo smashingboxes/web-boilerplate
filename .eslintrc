@@ -239,7 +239,6 @@
     "react/jsx-curly-spacing": [2, "never"],            // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md
     "react/jsx-equals-spacing": [2, "never"],           // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md
     "react/jsx-first-prop-new-line": [2, "multiline"],  // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md
-    "react/jsx-handler-names": 2,                       // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
     "react/jsx-indent-props": [2, 2],                   // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md
     "react/jsx-indent": [2, 2],                         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md
     "react/jsx-key": 2,                                 // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-key.md
