@@ -14,6 +14,5 @@ addons:
 before_script:
   - npm rebuild node-sass
 script:
-  - npm run lint
-  - NODE_ENV=test node --require babel-core/register node_modules/karma/bin/karma start --single-run
+  - npm run test
   - npm run build
