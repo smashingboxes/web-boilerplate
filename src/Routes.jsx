@@ -1,11 +1,13 @@
 import React from 'react';
-import { Route, Router, browserHistory } from 'react-router';
-import HelloWorld from './hello-world/HelloWorld';
+import { Route, Router, browserHistory as history } from 'react-router';
+import AppContainer from './containers/AppContainer';
 
-export default () => {
+function Routes() {
   return (
-    <Router history={browserHistory}>
-      <Route path="/" component={HelloWorld} />
+    <Router history={history}>
+      <Route path="/" component={AppContainer} />
     </Router>
   );
-};
+}
+
+export default Routes;

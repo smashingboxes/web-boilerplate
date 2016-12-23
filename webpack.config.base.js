@@ -2,12 +2,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
-// PostCSS plugins
-var autoprefixer = require('autoprefixer');
-var lost = require('lost');
-
-var eslintFriendlyFormatter = require('eslint-friendly-formatter');
-
 module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
@@ -23,10 +17,9 @@ module.exports = {
     ],
     loaders: [
       {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-2', 'react', 'es2015'] }},
-      {test: /\.s(c|a)ss$/, loader: 'style'},
-      {test: /\.s(c|a)ss$/, loader: 'css'},
-      {test: /\.s(c|a)ss$/, loader: 'postcss'},
-      {test: /\.s(c|a)ss$/, loader: 'sass', query: { outputStyle: 'expanded' }},
+      {test: /\.css$/, loader: 'style'},
+      {test: /\.css$/, loader: 'css'},
+      {test: /\.css$/, loader: 'postcss'},
       {test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/, loader: 'url', query: { limit: 25000 }}
     ]
   },
@@ -41,9 +34,23 @@ module.exports = {
     })
   ],
   eslint: {
-    formatter: eslintFriendlyFormatter
+    formatter: require('eslint-friendly-formatter')
   },
-  postcss: function() {
-    return [lost, autoprefixer];
+  postcss: function(webpack) {
+    return [
+      require('postcss-import')({ addDependencyTo: webpack }),
+      require('postcss-apply'),
+      require('postcss-nested'),
+      require('precss'),
+      require('postcss-assets')({
+        "basePath": "src/",
+        "cachebuster": true,
+        "loadPaths": ["img/"],
+        "relative": true
+      }),
+      require('postcss-cssnext'),
+      require('postcss-hexrgba'),
+      require('postcss-reporter')
+    ];
   }
 };

@@ -1,0 +1,94 @@
+:root {
+  --background-color-default: #fff;
+  --background-color-dark: var(--color-dark-grey);
+  --background-color-light: var(--color-light-grey);
+  --border-default: 1px solid var(--theme-color-border);
+  --border-radius-default: 2px;
+  --box-shadow-default: 0 1px 1px rgba(0, 0, 0, 0.25);
+  --box-shadow-inset: var(--box-shadow-default) inset;
+  --box-shadow-elevated: 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 6px 24px rgba(0, 0, 0, 0.1);
+  --color-off-white: #f2f2f2;
+  --color-light-grey: #d8d8d8;
+  --color-med-grey: #666;
+  --color-dark-grey: #4a4a4a;
+  --helvetica-stack: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  --font-family-default: var(--helvetica-stack);
+  --font-family-heading: var(--helvetica-stack);
+  --font-family-accent: var(--helvetica-stack);
+  --font-size-default: var(--font-size-med);
+  --font-size-xxl: 1.875rem;
+  --font-size-xl: 1.375rem;
+  --font-size-lg: 1rem;
+  --font-size-med: 0.875rem;
+  --font-size-sm: 0.75rem;
+  --font-size-xs: 0.625rem;
+  --font-weight-default: var(--font-weight-normal);
+  --font-weight-bold: 700;
+  --font-weight-normal: 400;
+  --font-weight-light: 100;
+  --letter-spacing-med: 0.125em;
+  --letter-spacing-sm: 0.1em;
+  --line-height-default: 1.8;
+  --line-height-sm: 1.3;
+  --screen-width-min: 300px;
+  --screen-width-max: 1200px;
+  --spacing-xxl: 6rem;
+  --spacing-xl: 4rem;
+  --spacing-lg: 2rem;
+  --spacing-med: 1rem;
+  --spacing-sm: 0.5rem;
+  --spacing-xs: 0.25rem;
+  --text-shadow-default: 0 0 5px rgba(0, 0, 0, 0.5);
+  --theme-color-accent: var(--color-dark-grey);
+  --theme-color-border: var(--color-dark-grey);
+  --theme-color-input: var(--color-off-white);
+  --theme-color-text: var(--color-med-grey);
+  --theme-color-text-muted: var(--color-light-grey);
+  --transition-duration-default: 0.2s;
+  --transition-timing-default: ease-in-out;
+  --transition-default: all var(--transition-duration-default) var(--transition-timing-default);
+
+  /* Headings */
+  --heading {
+    &:not(:last-child) {
+      margin-bottom: var(--spacing-med);
+    }
+  }
+
+  --heading-xxl: {
+    font-family: var(--font-family-accent);
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-sm);
+  }
+
+  --heading-xl: {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xl);
+    letter-spacing: var(--letter-spacing-med);
+    line-height: var(--line-height-sm);
+    text-transform: uppercase;
+  }
+
+  --heading-lg: {
+    font-family: var(--font-family-accent);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+  }
+
+  --heading-med: {
+    font-family: var(--font-family-accent);
+    font-size: var(--font-size-med);
+    font-style: italic;
+    font-weight: var(--font-weight-light);
+  }
+
+  --heading-sm: {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-sm);
+    text-transform: uppercase;
+  }
+}

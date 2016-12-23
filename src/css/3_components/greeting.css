@@ -1,0 +1,8 @@
+.c-greeting {
+  &__icon {
+    background-image: inline("smashing-boxes.png");
+    background-size: cover;
+    height: 100px;
+    width: 100px;
+  }
+}

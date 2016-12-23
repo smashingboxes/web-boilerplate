@@ -16,7 +16,7 @@ describe('Greeting', () => {
     const div = wrapper.childAt(0);
 
     expect(div).to.have.tagName('div');
-    expect(div).to.have.className('greeting__icon');
+    expect(div).to.have.className('c-greeting__icon');
 
     expect(wrapper).to.have.text('Hello, World');
   });
