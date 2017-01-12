@@ -1,0 +1,3 @@
+--require support/addons.js
+--require support/loaders.js
+--require support/globals.js

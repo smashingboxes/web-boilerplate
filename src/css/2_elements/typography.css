@@ -1,0 +1,44 @@
+html {
+  @media screen and (min-width: 320px) and (max-width: 1200px) {
+    font-size: calc(14PX + (18 - 14) * ((100vw - 320PX) / (1100 - 320)));
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 18PX;
+  }
+}
+
+body {
+  color: var(--theme-color-text);
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-default);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-weight: var(--font-weight-default);
+  line-height: var(--line-height-default);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-default);
+  line-height: var(--line-height-default);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+
+  &:not(:last-child) {
+    margin-bottom: var(--spacing-med);
+  }
+}
+
+a {
+  color: var(--theme-color-accent);
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--theme-color-accent);
+  color: #fff;
+}

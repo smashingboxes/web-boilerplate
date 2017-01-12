@@ -1,6 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class NameTaker extends Component {
+const propTypes = {
+  name: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired
+};
+
+const defaultProps = {
+  name: 'World',
+  onSubmit() {}
+};
+
+class NameTaker extends Component {
   componentDidMount() {
     this.nameInput.focus();
   }
@@ -30,12 +40,8 @@ export default class NameTaker extends Component {
   }
 }
 
-NameTaker.propTypes = {
-  name: PropTypes.string,
-  onSubmit: PropTypes.func
-};
+NameTaker.propTypes = propTypes;
 
-NameTaker.defaultProps = {
-  name: 'World',
-  onSubmit: () => {}
-};
+NameTaker.defaultProps = defaultProps;
+
+export default NameTaker;

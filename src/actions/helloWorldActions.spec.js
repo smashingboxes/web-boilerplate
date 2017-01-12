@@ -8,8 +8,8 @@ describe('Hello World Actions', () => {
       const name = faker.name.firstName();
       expect(actions.setName(name)).to.eql({
         type: 'SET_NAME',
-        name
-      })
+        payload: { name }
+      });
     });
   });
 });

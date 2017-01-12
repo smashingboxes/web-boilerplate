@@ -1,0 +1,15 @@
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: var(--spacing-med);
+  }
+}
+
+tr,
+td,
+th {
+  vertical-align: middle;
+}
