@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  web:
+    image: web-boilerplate
+    build: .
+    command: bash -c "yarn && yarn start"
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/app:rw
