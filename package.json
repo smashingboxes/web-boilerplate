@@ -11,7 +11,7 @@
     "test": "NODE_ENV=test mocha --compilers jsx:babel-register --opts 'support/mocha.opts' 'src/**/*.spec.*'",
     "test:dev": "npm test -- -w",
     "build": "webpack -d --progress --colors",
-    "build:production": "NODE_ENV=production webpack -p --progress --colors",
+    "build:production": "NODE_ENV=production webpack --progress --colors",
     "start": "webpack-dev-server"
   },
   "repository": {
