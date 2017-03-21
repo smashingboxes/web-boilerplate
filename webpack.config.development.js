@@ -2,6 +2,11 @@ var webpack = require('webpack');
 var config = require('./webpack.config.base');
 
 config.devServer = {
+  historyApiFallback: {
+    rewrites: [
+      { from: /^\/$/, to: 'index.html' }
+    ]
+  },
   hot: true,
   inline: true
 };
