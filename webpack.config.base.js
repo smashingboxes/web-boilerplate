@@ -12,9 +12,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    preLoaders: [
-      {test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/}
-    ],
+    preLoaders: [],
     loaders: [
       {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['stage-2', 'react', 'es2015'] }},
       {test: /\.css$/, loader: 'style'},
@@ -33,9 +31,6 @@ module.exports = {
       template: 'src/index.html'
     })
   ],
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
-  },
   postcss: function(webpack) {
     return [
       require('postcss-import')({ addDependencyTo: webpack }),
