@@ -1,5 +1,6 @@
 # web-boilerplate
-A template for new front-end projects.
+A template for new front-end projects.  
+[Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
 
 ## Using
 1. Clone the repo
