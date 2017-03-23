@@ -1,3 +1,6 @@
 --require support/addons.js
 --require support/loaders.js
 --require support/globals.js
+
+src/**/*.spec.*
+modules/**/*.spec.*
