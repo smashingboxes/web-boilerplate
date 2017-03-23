@@ -10,7 +10,7 @@ const rootEl = document.getElementById('root');
 let render = () => {
   const Routes = require('./Routes').default;
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store.getStore()}>
       <Routes />
     </Provider>,
     rootEl

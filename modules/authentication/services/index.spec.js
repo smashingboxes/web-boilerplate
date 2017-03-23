@@ -1,5 +1,5 @@
 import apiService from '../../../src/services/api';
-import authenticationService from './authentication';
+import authenticationService from './index';
 
 describe('Authentication service', function() {
   beforeEach(function() {
@@ -72,7 +72,7 @@ describe('Authentication service', function() {
           return promise
             .then(expect.fail)
             .catch((err) => {
-              expect(err.message).to.equal('Your credentials could not be verified. Please try again.');
+              expect(err).to.be.an('error');
             });
         });
       });
@@ -93,7 +93,7 @@ describe('Authentication service', function() {
           return promise
             .then(expect.fail)
             .catch((err) => {
-              expect(err.message).to.equal('There was a problem signing in. Please try again.');
+              expect(err).to.be.an('error');
             });
         });
       });

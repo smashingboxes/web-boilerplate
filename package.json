@@ -8,6 +8,7 @@
     "lint:css": "stylelint 'src/css/**/*.css' || true",
     "lint:js": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.jsx ./src ./modules",
     "lint:dev": "npm run lint -- -w",
+    "pretest": "npm run lint:css && npm run lint:js",
     "test": "NODE_ENV=test mocha --compilers jsx:babel-register --opts 'support/mocha.opts'",
     "test:dev": "npm test -- -w",
     "build": "webpack -d --progress --colors",

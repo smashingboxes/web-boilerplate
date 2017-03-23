@@ -31,7 +31,8 @@ class Store {
   }
 
   getHydratedState() {
-    return this.hydrateStore().then(() => this.store.getState());
+    return this.hydrateStore()
+      .then(() => this.store.getState());
   }
 
   getStore() {
@@ -41,7 +42,7 @@ class Store {
   hydrateStore() {
     if (!this.hydratedStore) {
       this.hydratedStore = new Promise((resolve, reject) => {
-        persistStore(
+        return persistStore(
           this.store,
           {
             storage: this.storage,
