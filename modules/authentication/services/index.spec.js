@@ -73,6 +73,7 @@ describe('Authentication service', function() {
             .then(expect.fail)
             .catch((err) => {
               expect(err).to.be.an('error');
+              expect(err.message).to.equal('Your credentials could not be verified. Please try again.');
             });
         });
       });
@@ -94,6 +95,7 @@ describe('Authentication service', function() {
             .then(expect.fail)
             .catch((err) => {
               expect(err).to.be.an('error');
+              expect(err.message).to.equal('There was a problem signing in. Please try again.');
             });
         });
       });

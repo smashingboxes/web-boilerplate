@@ -42,7 +42,7 @@ class Store {
   hydrateStore() {
     if (!this.hydratedStore) {
       this.hydratedStore = new Promise((resolve, reject) => {
-        return persistStore(
+        persistStore(
           this.store,
           {
             storage: this.storage,

@@ -3,12 +3,13 @@ import * as redux from 'redux';
 import * as reduxPersist from 'redux-persist';
 
 describe('Store service', function() {
+  let createStore;
   let expectedStore;
 
   beforeEach(function() {
     this.sandbox = sandbox.create();
     expectedStore = { foo: 'bar' };
-    this.sandbox.stub(redux, 'createStore').returns(expectedStore);
+    createStore = this.sandbox.stub(redux, 'createStore').returns(expectedStore);
   });
 
   afterEach(function() {
@@ -16,17 +17,30 @@ describe('Store service', function() {
   });
 
   describe('constructor', function() {
+    let expectedComposeResult;
+    let expectedReducers;
     let expectedStorage;
     let hydrateStore;
     let storeService;
 
     beforeEach(function() {
+      expectedComposeResult = () => { return 'foo'; };
+      expectedReducers = () => { return 'baz'; };
       expectedStorage = { cookies: ['bar'] };
+
+      this.sandbox.stub(redux, 'compose').returns(expectedComposeResult);
       hydrateStore = this.sandbox.stub(StoreService.prototype, 'hydrateStore');
-      storeService = new StoreService(() => {}, expectedStorage);
+      storeService = new StoreService(expectedReducers, expectedStorage);
     });
 
-    it("sets the store via React's createStore", function() {
+    it("calls React's createStore", function() {
+      expect(createStore.calledOnce).to.be.true;
+      const [reducers, composeResult] = createStore.firstCall.args;
+      expect(reducers).to.equal(expectedReducers);
+      expect(composeResult).to.equal(expectedComposeResult);
+    });
+
+    it('sets the store', function() {
       expect(storeService.store).to.equal(expectedStore);
     });
 
