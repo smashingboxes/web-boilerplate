@@ -77,9 +77,24 @@ function signIn(email, password) {
     });
 }
 
+function signOut() {
+  return apiService
+    .delete('/auth/sign_out')
+    .then(() => {
+      return {
+        response: 'Success.'
+      };
+    })
+    .catch(() => {
+      const errorMessage = 'The user was not found or was not logged in.';
+      throw new Error(errorMessage);
+    });
+}
+
 export default {
   register,
   requestPasswordReset,
   resetPassword,
-  signIn
+  signIn,
+  signOut
 };
