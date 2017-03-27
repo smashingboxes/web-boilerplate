@@ -1,5 +1,6 @@
 import StoreService from './store';
 import * as redux from 'redux';
+import * as reduxDevtoolsExtension from 'redux-devtools-extension/developmentOnly';
 import * as reduxPersist from 'redux-persist';
 
 describe('authentication/storeService', function() {
@@ -27,7 +28,7 @@ describe('authentication/storeService', function() {
       expectedComposeResult = () => { return 'foo'; };
       expectedReducers = () => { return 'baz'; };
       expectedStorage = { cookies: ['bar'] };
-      this.sandbox.stub(redux, 'compose', expectedComposeResult);
+      this.sandbox.stub(reduxDevtoolsExtension, 'composeWithDevTools', expectedComposeResult);
       hydrateStore = this.sandbox.stub(StoreService.prototype, 'hydrateStore');
       storeService = new StoreService(expectedReducers, expectedStorage);
     });

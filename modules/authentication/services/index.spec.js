@@ -292,7 +292,7 @@ describe('authentication/service', function() {
       it('signs the user in', function() {
         expect(post.calledOnce).to.be.true;
         const [endpoint, values] = post.firstCall.args;
-        expect(endpoint).to.equal('/auth/signin');
+        expect(endpoint).to.equal('/auth/sign_in');
         expect(values).to.equal(expectedCredentials);
       });
 

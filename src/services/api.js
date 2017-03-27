@@ -5,7 +5,7 @@ import {
 } from '../../modules/authentication/interceptors';
 
 function init() {
-  const api = axios.create();
+  const api = axios.create({ baseURL: '/api' });
 
   // Transforms and interceptors can go here
   api.interceptors.request.use(addAuthenticationHeaders);
