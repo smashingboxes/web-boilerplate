@@ -1,7 +1,7 @@
 import apiService from '../../../src/services/api';
 import authenticationService from './index';
 
-describe('Authentication service', function() {
+describe('authentication/service', function() {
   beforeEach(function() {
     this.sandbox = sandbox.create();
   });
@@ -259,6 +259,7 @@ describe('Authentication service', function() {
 
   describe('signIn', function() {
     context('a successful sign in', function() {
+      let expectedCredentials;
       let expectedEmail;
       let expectedId;
       let expectedName;
@@ -271,6 +272,10 @@ describe('Authentication service', function() {
         expectedId = faker.random.number();
         expectedName = faker.random.word();
         expectedPassword = faker.internet.password();
+        expectedCredentials = {
+          email: expectedEmail,
+          password: expectedPassword
+        };
         post = this.sandbox.stub(apiService, 'post', () => {
           return Promise.resolve({
             data: {
@@ -281,15 +286,14 @@ describe('Authentication service', function() {
           });
         });
 
-        promise = authenticationService.signIn(expectedEmail, expectedPassword);
+        promise = authenticationService.signIn(expectedCredentials);
       });
 
       it('signs the user in', function() {
         expect(post.calledOnce).to.be.true;
-        const [endpoint, { email, password }] = post.firstCall.args;
+        const [endpoint, values] = post.firstCall.args;
         expect(endpoint).to.equal('/auth/signin');
-        expect(email).to.equal(expectedEmail);
-        expect(password).to.equal(expectedPassword);
+        expect(values).to.equal(expectedCredentials);
       });
 
       it("returns the user's data", function() {

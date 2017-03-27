@@ -2,7 +2,7 @@ import StoreService from './store';
 import * as redux from 'redux';
 import * as reduxPersist from 'redux-persist';
 
-describe('Store service', function() {
+describe('authentication/storeService', function() {
   let createStore;
   let expectedStore;
 

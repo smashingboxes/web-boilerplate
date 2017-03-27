@@ -56,9 +56,9 @@ function resetPassword(params) {
     });
 }
 
-function signIn(email, password) {
+function signIn(credentials) {
   return apiService
-    .post('/auth/signin', { email, password })
+    .post('/auth/signin', credentials)
     .then(({ data }) => {
       return {
         email: data.email,
