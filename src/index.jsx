@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { configureStore } from './stores';
+import store from './store';
 
 import './css/index.css';
 
-const store = configureStore();
 const rootEl = document.getElementById('root');
 
 let render = () => {
   const Routes = require('./Routes').default;
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store.getStore()}>
       <Routes />
     </Provider>,
     rootEl

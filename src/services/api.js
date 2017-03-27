@@ -14,4 +14,8 @@ function init() {
   return api;
 }
 
+export {
+  init
+};
+
 export default init();
