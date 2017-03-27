@@ -10,6 +10,100 @@ describe('Authentication service', function() {
     this.sandbox.restore();
   });
 
+  describe('register', function() {
+    context('a successful request', function() {
+      let expectedEmail;
+      let expectedId;
+      let expectedName;
+      let expectedCredentials;
+      let post;
+      let promise;
+
+      beforeEach(function() {
+        expectedEmail = faker.internet.email();
+        expectedId = faker.random.number();
+        expectedName = faker.name.findName();
+        expectedCredentials = {
+          email: expectedEmail,
+          name: expectedName,
+          password: faker.internet.password()
+        };
+        post = this.sandbox.stub(apiService, 'post', () => {
+          return Promise.resolve({
+            data: {
+              email: expectedEmail,
+              id: expectedId,
+              name: expectedName
+            }
+          });
+        });
+
+        promise = authenticationService.register(expectedCredentials);
+      });
+
+      it('sends a request to register the invited user', function() {
+        expect(post.calledOnce).to.be.true;
+        const [endpoint, credentials, { params }] = post.firstCall.args;
+        expect(endpoint).to.equal('/auth/register');
+        expect(credentials).to.equal(expectedCredentials);
+        expect(params.redirect_url).to.equal('some url');
+      });
+
+      it('returns the token and user info', function() {
+        return promise
+          .then(({ email, id, name }) => {
+            expect(email).to.equal(expectedEmail);
+            expect(id).to.equal(expectedId);
+            expect(name).to.equal(expectedName);
+          });
+      });
+    });
+
+    context('a failed request', function() {
+      context('when it sends a 404 error', function() {
+        let promise;
+
+        beforeEach(function() {
+          this.sandbox.stub(apiService, 'post', () => {
+            const err = new Error();
+            err.response = { status: 404 };
+            return Promise.reject(err);
+          });
+          promise = authenticationService.register();
+        });
+
+        it('throws an error', function() {
+          return promise
+            .then(expect.fail)
+            .catch((err) => {
+              expect(err.message).to.eq('Could not find user to match given registration id');
+            });
+        });
+      });
+
+      context('when it sends a non-404 error', function() {
+        let promise;
+
+        beforeEach(function() {
+          this.sandbox.stub(apiService, 'post', () => {
+            const err = new Error();
+            err.response = { status: 422 };
+            return Promise.reject(err);
+          });
+          promise = authenticationService.register();
+        });
+
+        it('throws the error through down the chain', function() {
+          return promise
+            .then(expect.fail)
+            .catch((err) => {
+              expect(err.message).to.equal('There was a problem registering. Please try again.');
+            });
+        });
+      });
+    });
+  });
+
   describe('requestPasswordReset', function() {
     context('a successful request', function() {
       let expectedParams;

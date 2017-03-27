@@ -1,5 +1,26 @@
 import apiService from '../../../src/services/api';
 
+function register(credentials) {
+  return apiService
+    .post('/auth/register', credentials, { params: { redirect_url: 'some url' } })
+    .then(({ data }) => {
+      return {
+        email: data.email,
+        id: data.id,
+        name: data.name
+      };
+    })
+    .catch((err) => {
+      let errorMessage = 'There was a problem registering. Please try again.';
+
+      if (err.response.status === 404) {
+        errorMessage = 'Could not find user to match given registration id';
+      }
+
+      throw new Error(errorMessage);
+    });
+}
+
 function requestPasswordReset(params) {
   return apiService
     .post('/auth/password', params)
@@ -57,6 +78,7 @@ function signIn(email, password) {
 }
 
 export default {
+  register,
   requestPasswordReset,
   resetPassword,
   signIn
