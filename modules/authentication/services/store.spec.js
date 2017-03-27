@@ -27,8 +27,7 @@ describe('Store service', function() {
       expectedComposeResult = () => { return 'foo'; };
       expectedReducers = () => { return 'baz'; };
       expectedStorage = { cookies: ['bar'] };
-
-      this.sandbox.stub(redux, 'compose').returns(expectedComposeResult);
+      this.sandbox.stub(redux, 'compose', expectedComposeResult);
       hydrateStore = this.sandbox.stub(StoreService.prototype, 'hydrateStore');
       storeService = new StoreService(expectedReducers, expectedStorage);
     });
@@ -37,7 +36,7 @@ describe('Store service', function() {
       expect(createStore.calledOnce).to.be.true;
       const [reducers, composeResult] = createStore.firstCall.args;
       expect(reducers).to.equal(expectedReducers);
-      expect(composeResult).to.equal(expectedComposeResult);
+      expect(composeResult).to.equal('foo');
     });
 
     it('sets the store', function() {
@@ -129,20 +128,36 @@ describe('Store service', function() {
     });
 
     context('when there is not a hydratedStore', function() {
-      let expectedHydratedStore;
+      let expectedState;
+      let expectedStorage;
       let persistStore;
+      let promise;
       let storeService;
 
       beforeEach(function() {
-        expectedHydratedStore = { foo: 'bar' };
-        persistStore = this.sandbox.stub(reduxPersist, 'persistStore').returns(expectedHydratedStore);
+        expectedState = { foo: 'bar' };
+        expectedStorage = { bar: 'foo' };
+        persistStore = this.sandbox.stub(reduxPersist, 'persistStore');
         storeService = new StubbedStoreService();
-        storeService.hydrateStore();
+        storeService.store = expectedStore;
+        storeService.storage = expectedStorage;
+        promise = storeService.hydrateStore();
       });
 
       it('creates a new hydrated instance of the store via persistStore', function() {
         expect(persistStore.calledOnce).to.be.true;
-        expect(storeService.hydratedStore).to.not.be.undefined;
+        const [store, options, callback] = persistStore.firstCall.args;
+        expect(store).to.equal(expectedStore);
+        expect(options).to.deep.equal({
+          storage: expectedStorage,
+          whitelist: ['authentication']
+        });
+        callback(null, expectedState);
+        return promise
+          .then((state) => {
+            expect(state).to.equal(expectedState);
+            expect(storeService.hydratedStore).to.be.an.instanceOf(Promise);
+          });
       });
     });
   });
