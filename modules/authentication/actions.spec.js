@@ -12,10 +12,10 @@ describe('authentication action creators', function() {
 
   describe('requestPasswordReset', function() {
     context('a successful request', function() {
+      let expectedEmail;
       let dispatch;
       let promise;
       let requestPasswordReset;
-      let expectedEmail;
 
       beforeEach(function() {
         expectedEmail = faker.internet.email();

@@ -1,14 +1,6 @@
 import actionTypes from './actionTypes';
 import service from './services';
 
-function requestPasswordResetFailure(err) {
-  return {
-    type: actionTypes.REQUEST_PASSWORD_RESET_FAILURE,
-    error: true,
-    payload: err
-  };
-}
-
 function requestPasswordResetStart() {
   return {
     type: actionTypes.REQUEST_PASSWORD_RESET_START
@@ -18,6 +10,14 @@ function requestPasswordResetStart() {
 function requestPasswordResetSuccess() {
   return {
     type: actionTypes.REQUEST_PASSWORD_RESET_SUCCESS
+  };
+}
+
+function requestPasswordResetFailure(err) {
+  return {
+    type: actionTypes.REQUEST_PASSWORD_RESET_FAILURE,
+    error: true,
+    payload: err
   };
 }
 
