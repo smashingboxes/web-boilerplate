@@ -41,6 +41,16 @@ function authentication(state = INITIAL_STATE, action) {
       isActive: false
     };
 
+  case actionTypes.SIGN_OUT:
+    return {
+      ...state,
+      email: null,
+      id: null,
+      name: null,
+      uid: null,
+      tokenInfo: {}
+    };
+
   case actionTypes.UPDATE_TOKEN_INFO:
     return {
       ...state,

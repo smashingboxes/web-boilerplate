@@ -290,7 +290,62 @@ describe('authentication/actions', function() {
     });
   });
 
-  describe('UPDATE_TOKEN_INFO', function() {
+  describe('signOut', function() {
+    let dispatch;
+
+    beforeEach(function() {
+      dispatch = this.sandbox.stub();
+    });
+
+    context('the user successfully signed out of the server', function() {
+      let promise;
+      let signOut;
+
+      beforeEach(function() {
+        signOut = this.sandbox.stub(service, 'signOut', () => Promise.resolve());
+
+        promise = actions.signOut()(dispatch);
+      });
+
+      it('signs the user out of the server', function() {
+        expect(signOut.calledOnce).to.be.true;
+      });
+
+      it('dispatches a sign out action', function() {
+        return promise.then(() => {
+          expect(dispatch.calledOnce).to.be.true;
+          const [action] = dispatch.firstCall.args;
+          expect(action).to.deep.equal({
+            type: 'SIGN_OUT'
+          });
+        });
+      });
+    });
+
+    context('there was a problem signing out with the server', function() {
+      let promise;
+
+      beforeEach(function() {
+        this.sandbox.stub(service, 'signOut', () => Promise.reject());
+
+        promise = actions.signOut()(dispatch);
+      });
+
+      it('dispatches a sign out action after the request fails so the user is still signed out locally', function() {
+        return promise
+          .then(expect.fail)
+          .catch(() => {
+            expect(dispatch.calledOnce).to.be.true;
+            const [action] = dispatch.firstCall.args;
+            expect(action).to.deep.equal({
+              type: 'SIGN_OUT'
+            });
+          });
+      });
+    });
+  });
+
+  describe('updateTokenInfo', function() {
     let action;
     let expectedTokenInfo;
 

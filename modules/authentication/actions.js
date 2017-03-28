@@ -105,6 +105,19 @@ function signIn(credentials) {
   };
 }
 
+function signOut() {
+  const signOutAction = {
+    type: actionTypes.SIGN_OUT
+  };
+
+  return function(dispatch) {
+    return service
+      .signOut()
+      .then(() => dispatch(signOutAction))
+      .catch(() => dispatch(signOutAction));
+  };
+}
+
 function updateTokenInfo(tokenInfo) {
   return {
     type: actionTypes.UPDATE_TOKEN_INFO,
@@ -116,5 +129,6 @@ export {
   register,
   requestPasswordReset,
   signIn,
+  signOut,
   updateTokenInfo
 };
