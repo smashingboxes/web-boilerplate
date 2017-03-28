@@ -77,9 +77,15 @@ function signIn(email, password) {
     });
 }
 
+function signOut() {
+  return apiService
+    .delete('/auth/sign_out');
+}
+
 export default {
   register,
   requestPasswordReset,
   resetPassword,
-  signIn
+  signIn,
+  signOut
 };

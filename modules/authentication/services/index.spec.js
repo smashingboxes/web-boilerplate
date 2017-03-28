@@ -348,4 +348,21 @@ describe('Authentication service', function() {
       });
     });
   });
+
+  describe('signOut', function() {
+    let deleteRequest;
+
+    beforeEach(function() {
+      deleteRequest = this.sandbox.stub(apiService, 'delete', () => {
+        return Promise.resolve();
+      });
+      authenticationService.signOut();
+    });
+
+    it('sends a DELETE request to sign_out', function() {
+      expect(deleteRequest.calledOnce).to.be.true;
+      const [endpoint] = deleteRequest.firstCall.args;
+      expect(endpoint).to.equal('/auth/sign_out');
+    });
+  });
 });
