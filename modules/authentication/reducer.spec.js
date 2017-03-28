@@ -1,7 +1,7 @@
 import reducer from './reducer';
 import {
-  validTokenInfoFields
-} from './utils';
+  VALID_TOKEN_INFO_FIELDS
+} from './constants';
 
 const initialState = {
   isActive: false,
@@ -138,7 +138,7 @@ describe('authentication/reducer', function() {
     let previousState;
 
     beforeEach(function() {
-      expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+      expectedTokenInfo = VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
         memo[field] = faker.internet.password();
         return memo;
       }, {});

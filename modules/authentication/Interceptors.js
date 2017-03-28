@@ -1,6 +1,9 @@
 import {
   updateTokenInfo
 } from './actions';
+import {
+  VALID_TOKEN_INFO_FIELDS
+} from './constants';
 
 class Interceptors {
   constructor(store) {
@@ -41,9 +44,7 @@ class Interceptors {
   }
 
   parseTokenInfoFromHeaders(headers) {
-    const validFields = ['access-token', 'client', 'expiry', 'token-type', 'uid'];
-
-    return validFields.reduce((memo, header) => {
+    return VALID_TOKEN_INFO_FIELDS.reduce((memo, header) => {
       if (headers[header]) {
         memo[header] = headers[header];
       }

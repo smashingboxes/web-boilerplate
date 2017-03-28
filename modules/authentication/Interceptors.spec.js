@@ -1,8 +1,8 @@
 import * as actions from './actions';
 import Interceptors from './Interceptors';
 import {
-  validTokenInfoFields
-} from './utils';
+  VALID_TOKEN_INFO_FIELDS
+} from './constants';
 
 describe('authentication/Interceptors', function() {
   beforeEach(function() {
@@ -37,7 +37,7 @@ describe('authentication/Interceptors', function() {
       beforeEach(function() {
         state = {
           authentication: {
-            tokenInfo: validTokenInfoFields.reduce((memo, field) => {
+            tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
               memo[field] = faker.internet.password();
               return memo;
             }, {})
@@ -187,7 +187,7 @@ describe('authentication/Interceptors', function() {
     });
 
     it('includes the valid token info fields', function() {
-      validTokenInfoFields.forEach((field) => {
+      VALID_TOKEN_INFO_FIELDS.forEach((field) => {
         expect(tokenInfo[field]).to.be.ok;
         expect(tokenInfo[field]).to.equal(headers[field]);
       });
@@ -214,7 +214,7 @@ describe('authentication/Interceptors', function() {
         expectedResponse = {
           headers: {}
         };
-        expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+        expectedTokenInfo = VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
           memo[field] = faker.internet.password();
           return memo;
         }, {});
@@ -290,7 +290,7 @@ describe('authentication/Interceptors', function() {
         expectedResponse = {
           headers: {}
         };
-        expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+        expectedTokenInfo = VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
           memo[field] = faker.internet.password();
           return memo;
         }, {});

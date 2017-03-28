@@ -1,8 +1,8 @@
 import * as actions from './actions';
 import service from './services';
 import {
-  validTokenInfoFields
-} from './utils';
+  VALID_TOKEN_INFO_FIELDS
+} from './constants';
 
 describe('authentication/actions', function() {
   beforeEach(function() {
@@ -290,7 +290,7 @@ describe('authentication/actions', function() {
     let expectedTokenInfo;
 
     beforeEach(function() {
-      expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+      expectedTokenInfo = VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
         memo[field] = faker.internet.password();
         return memo;
       }, {});

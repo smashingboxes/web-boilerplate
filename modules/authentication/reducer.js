@@ -1,4 +1,4 @@
-import actionTypes from './actionTypes';
+import actionTypes from './constants/actionTypes';
 
 const INITIAL_STATE = {
   isActive: false,
