@@ -9,7 +9,7 @@ describe('<SignIn />', function() {
     props = {
       actions: {
         authentication: {
-          signIn: this.sandbox.stub()
+          signIn: this.sandbox.spy(() => Promise.resolve())
         }
       },
       location: {
@@ -19,6 +19,10 @@ describe('<SignIn />', function() {
         replace: this.sandbox.stub()
       }
     };
+  });
+
+  afterEach(function() {
+    this.sandbox.restore();
   });
 
   describe('constructor', function() {
@@ -33,76 +37,19 @@ describe('<SignIn />', function() {
     });
   });
 
-  describe('componentWillReceiveProps', function() {
-    it('navigates to the main dashboard when sign in is complete', function() {
-      const signIn = shallow(<SignIn {...props} isActive />);
-      signIn.setProps({ isActive: false });
-
-      expect(props.router.replace.calledOnce).to.be.true;
-      const [{ pathname }] = props.router.replace.firstCall.args;
-      expect(pathname).to.equal('/');
-    });
-
-    it('navigates to the page the user wanted to see after sign in', function() {
-      const expectedUrl = `/user/${faker.random.number()}/edit`;
-      const location = {
-        query: {
-          next: expectedUrl
-        }
-      };
-      const signIn = shallow(<SignIn {...props} isActive location={location} />);
-      signIn.setProps({ isActive: false });
-
-      expect(props.router.replace.calledOnce).to.be.true;
-      const [{ pathname }] = props.router.replace.firstCall.args;
-      expect(pathname).to.equal(expectedUrl);
-    });
-
-    it('carries on query parameters that are not the next path to the next path', function() {
-      const expectedUrl = `/user/${faker.random.number()}/edit`;
-      const expectedQuery = {
-        [faker.hacker.noun()]: faker.hacker.phrase(),
-        [faker.hacker.noun()]: faker.hacker.phrase()
-      };
-      const location = {
-        query: {
-          ...expectedQuery,
-          next: expectedUrl
-        }
-      };
-      const signIn = shallow(<SignIn {...props} isActive location={location} />);
-      signIn.setProps({ isActive: false });
-
-      expect(props.router.replace.calledOnce).to.be.true;
-      const [{ query }] = props.router.replace.firstCall.args;
-      expect(query).to.deep.equal(expectedQuery);
-    });
-
-    it('does not navigate to the main dashboard if the request was not previously active', function() {
-      const signIn = shallow(<SignIn {...props} />);
-      signIn.setProps({ isActive: false });
-
-      expect(props.router.replace.called).to.be.false;
-    });
-
-    it('does not navigate to the main dashboard if sign in is still occurring', function() {
-      const signIn = shallow(<SignIn {...props} isActive />);
-      signIn.setProps({ [faker.hacker.noun()]: faker.hacker.phrase() });
-
-      expect(props.router.replace.called).to.be.false;
-    });
-  });
-
   describe('handleSubmit', function() {
     let preventDefault;
+    let transitionToNextPage;
 
     beforeEach(function() {
       preventDefault = this.sandbox.stub();
+      transitionToNextPage = this.sandbox.stub(SignIn.prototype, 'transitionToNextPage');
     });
 
     context('all form fields filled out', function() {
       let elements;
       let expectedCredentials;
+      let promise;
 
       beforeEach(function() {
         expectedCredentials = {
@@ -118,7 +65,7 @@ describe('<SignIn />', function() {
 
         const signIn = shallow(<SignIn {...props} />);
         signIn.instance().signInForm = { elements };
-        signIn.instance().handleSubmit({ preventDefault });
+        promise = signIn.instance().handleSubmit({ preventDefault });
       });
 
       it('prevents the default browser form submission from occurring', function() {
@@ -132,6 +79,12 @@ describe('<SignIn />', function() {
       it('sends all credentials included in the form when signing in', function() {
         const [credentials] = props.actions.authentication.signIn.firstCall.args;
         expect(credentials).to.deep.equal(expectedCredentials);
+      });
+
+      it('transitions to the next page after the request completes', function() {
+        return promise.then(() => {
+          expect(transitionToNextPage.calledOnce).to.be.true;
+        });
       });
     });
 
@@ -173,6 +126,52 @@ describe('<SignIn />', function() {
         const [credentials] = props.actions.authentication.signIn.firstCall.args;
         expect(credentials).to.deep.equal(expectedCredentials);
       });
+    });
+  });
+
+  describe('transitionToNextPage', function() {
+    it('navigates to the main dashboard', function() {
+      const signIn = shallow(<SignIn {...props} />);
+      signIn.instance().transitionToNextPage();
+
+      expect(props.router.replace.calledOnce).to.be.true;
+      const [{ pathname }] = props.router.replace.firstCall.args;
+      expect(pathname).to.equal('/');
+    });
+
+    it('navigates to the page the user wanted to see after sign in', function() {
+      const expectedUrl = `/user/${faker.random.number()}/edit`;
+      const location = {
+        query: {
+          next: expectedUrl
+        }
+      };
+      const signIn = shallow(<SignIn {...props} location={location} />);
+      signIn.instance().transitionToNextPage();
+
+      expect(props.router.replace.calledOnce).to.be.true;
+      const [{ pathname }] = props.router.replace.firstCall.args;
+      expect(pathname).to.equal(expectedUrl);
+    });
+
+    it('carries on query parameters that are not the next path to the next path', function() {
+      const expectedUrl = `/user/${faker.random.number()}/edit`;
+      const expectedQuery = {
+        [faker.hacker.noun()]: faker.hacker.phrase(),
+        [faker.hacker.noun()]: faker.hacker.phrase()
+      };
+      const location = {
+        query: {
+          ...expectedQuery,
+          next: expectedUrl
+        }
+      };
+      const signIn = shallow(<SignIn {...props} location={location} />);
+      signIn.instance().transitionToNextPage();
+
+      expect(props.router.replace.calledOnce).to.be.true;
+      const [{ query }] = props.router.replace.firstCall.args;
+      expect(query).to.deep.equal(expectedQuery);
     });
   });
 });

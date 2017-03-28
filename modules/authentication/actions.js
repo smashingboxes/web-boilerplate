@@ -105,8 +105,16 @@ function signIn(credentials) {
   };
 }
 
+function updateTokenInfo(tokenInfo) {
+  return {
+    type: actionTypes.UPDATE_TOKEN_INFO,
+    payload: tokenInfo
+  };
+}
+
 export {
   register,
   requestPasswordReset,
-  signIn
+  signIn,
+  updateTokenInfo
 };

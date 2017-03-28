@@ -1,7 +1,8 @@
 import actionTypes from './actionTypes';
 
 const INITIAL_STATE = {
-  isActive: false
+  isActive: false,
+  tokenInfo: {}
 };
 
 function authentication(state = INITIAL_STATE, action) {
@@ -9,8 +10,12 @@ function authentication(state = INITIAL_STATE, action) {
   case actionTypes.SIGN_IN_START:
     return {
       ...state,
+      email: undefined, // eslint-disable-line no-undefined
       error: undefined, // eslint-disable-line no-undefined
-      isActive: true
+      id: undefined, // eslint-disable-line no-undefined
+      isActive: true,
+      name: undefined, // eslint-disable-line no-undefined
+      tokenInfo: {}
     };
 
   case actionTypes.SIGN_IN_SUCCESS:
@@ -27,6 +32,12 @@ function authentication(state = INITIAL_STATE, action) {
       ...state,
       error: action.payload,
       isActive: false
+    };
+
+  case actionTypes.UPDATE_TOKEN_INFO:
+    return {
+      ...state,
+      tokenInfo: action.payload
     };
 
   default:

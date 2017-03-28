@@ -1,7 +1,11 @@
 import reducer from './reducer';
+import {
+  validTokenInfoFields
+} from './utils';
 
 const initialState = {
-  isActive: false
+  isActive: false,
+  tokenInfo: {}
 };
 
 describe('authentication/reducer', function() {
@@ -27,6 +31,13 @@ describe('authentication/reducer', function() {
 
     it('sets the activity state to be true', function() {
       expect(nextState.isActive).to.be.true;
+    });
+
+    it('clears any existing user info', function() {
+      expect(nextState.email).to.be.undefined;
+      expect(nextState.id).to.be.undefined;
+      expect(nextState.name).to.be.undefined;
+      expect(nextState.tokenInfo).to.deep.equal({});
     });
 
     it('creates a new object and transfers the old properties', function() {
@@ -117,6 +128,40 @@ describe('authentication/reducer', function() {
     it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
       expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState.password).to.equal(previousState.password);
+    });
+  });
+
+  describe('UPDATE_TOKEN_INFO', function() {
+    let expectedTokenInfo;
+    let nextState;
+    let previousState;
+
+    beforeEach(function() {
+      expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+        memo[field] = faker.internet.password();
+        return memo;
+      }, {});
+
+      previousState = {
+        avatar: faker.internet.avatar(),
+        isActive: faker.random.boolean(),
+        password: faker.internet.password()
+      };
+      nextState = reducer(previousState, {
+        type: 'UPDATE_TOKEN_INFO',
+        payload: expectedTokenInfo
+      });
+    });
+
+    it('sets the new token info', function() {
+      expect(nextState.tokenInfo).to.equal(expectedTokenInfo);
+    });
+
+    it('creates a new object and transfers the old properties', function() {
+      expect(nextState).to.not.equal(previousState);
+      expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState.isActive).to.equal(previousState.isActive);
       expect(nextState.password).to.equal(previousState.password);
     });
   });

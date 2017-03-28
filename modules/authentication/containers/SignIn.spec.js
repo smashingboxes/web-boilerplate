@@ -4,6 +4,9 @@ import {
   mapDispatchToProps,
   mapStateToProps
 } from './SignIn';
+import {
+  validTokenInfoFields
+} from '../utils';
 
 describe('SignIn container', function() {
   beforeEach(function() {
@@ -20,7 +23,11 @@ describe('SignIn container', function() {
 
     beforeEach(function() {
       authenticationState = {
-        isActive: faker.random.boolean()
+        isActive: faker.random.boolean(),
+        tokenInfo: validTokenInfoFields.reduce((memo, field) => {
+          memo[field] = faker.internet.password();
+          return memo;
+        }, {})
       };
       props = mapStateToProps({
         authentication: authenticationState
@@ -29,6 +36,10 @@ describe('SignIn container', function() {
 
     it('maps the sign in activity state to the props', function() {
       expect(props.isActive).to.equal(authenticationState.isActive);
+    });
+
+    it('maps the token info to the props', function() {
+      expect(props.tokenInfo).to.equal(authenticationState.tokenInfo);
     });
   });
 

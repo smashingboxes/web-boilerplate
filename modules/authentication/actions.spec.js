@@ -1,5 +1,8 @@
 import * as actions from './actions';
 import service from './services';
+import {
+  validTokenInfoFields
+} from './utils';
 
 describe('authentication/actions', function() {
   beforeEach(function() {
@@ -278,6 +281,27 @@ describe('authentication/actions', function() {
           .catch((error) => {
             expect(error).to.equal(expectedError);
           });
+      });
+    });
+  });
+
+  describe('UPDATE_TOKEN_INFO', function() {
+    let action;
+    let expectedTokenInfo;
+
+    beforeEach(function() {
+      expectedTokenInfo = validTokenInfoFields.reduce((memo, field) => {
+        memo[field] = faker.internet.password();
+        return memo;
+      }, {});
+
+      action = actions.updateTokenInfo(expectedTokenInfo);
+    });
+
+    it('dispatches an update token info action', function() {
+      expect(action).to.deep.equal({
+        type: 'UPDATE_TOKEN_INFO',
+        payload: expectedTokenInfo
       });
     });
   });

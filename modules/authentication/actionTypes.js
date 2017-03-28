@@ -10,6 +10,7 @@ export default keyMirror({
 
   SIGN_IN_START: null,
   SIGN_IN_SUCCESS: null,
-  SIGN_IN_FAILURE: null
+  SIGN_IN_FAILURE: null,
 
+  UPDATE_TOKEN_INFO: null
 });

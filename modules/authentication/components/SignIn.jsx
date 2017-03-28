@@ -12,30 +12,25 @@ const propTypes = {
   }).isRequired,
   children: PropTypes.node,
   isActive: PropTypes.bool,
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      next: PropTypes.string
+    }).isRequired
+  }).isRequired,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired
-  })
+  }),
+  tokenInfo: PropTypes.object
+};
+
+const defaultProps = {
+  tokenInfo: {}
 };
 
 class SignIn extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.isActive && !nextProps.isActive) {
-      const query = { ...nextProps.location.query };
-
-      if (query.next) {
-        delete query.next;
-      }
-
-      this.props.router.replace({
-        query,
-        pathname: nextProps.location.query.next ? nextProps.location.query.next : '/'
-      });
-    }
   }
 
   handleSubmit(event) {
@@ -49,7 +44,22 @@ class SignIn extends Component {
       return memo;
     }, {});
 
-    this.props.actions.authentication.signIn(values);
+    return this.props.actions.authentication
+      .signIn(values)
+      .then(() => this.transitionToNextPage());
+  }
+
+  transitionToNextPage() {
+    const query = { ...this.props.location.query };
+
+    if (query.next) {
+      delete query.next;
+    }
+
+    this.props.router.replace({
+      query,
+      pathname: this.props.location.query.next || '/'
+    });
   }
 
   render() {
@@ -72,5 +82,6 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = propTypes;
+SignIn.defaultProps = defaultProps;
 
 export default SignIn;
