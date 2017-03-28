@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import authenticationService from './services';
+import service from './services';
 
 describe('authentication action creators', function() {
   beforeEach(function() {
@@ -11,7 +11,7 @@ describe('authentication action creators', function() {
   });
 
   describe('requestPasswordReset', function() {
-    context.only('a successful request', function() {
+    context('a successful request', function() {
       let dispatch;
       let promise;
       let requestPasswordReset;
@@ -20,7 +20,7 @@ describe('authentication action creators', function() {
       beforeEach(function() {
         expectedEmail = faker.internet.email();
         dispatch = this.sandbox.stub();
-        requestPasswordReset = this.sandbox.stub(authenticationService, 'requestPasswordReset', () => {
+        requestPasswordReset = this.sandbox.stub(service, 'requestPasswordReset', () => {
           return Promise.resolve();
         });
         promise = actions.requestPasswordReset(expectedEmail)(dispatch);
@@ -30,7 +30,7 @@ describe('authentication action creators', function() {
         expect(dispatch.calledOnce).to.be.true;
         const [action] = dispatch.firstCall.args;
         expect(action).to.deep.equal({
-          type: 'REQUEST_PASSWORD_REQUEST_START'
+          type: 'REQUEST_PASSWORD_RESET_START'
         });
       });
 
@@ -45,7 +45,7 @@ describe('authentication action creators', function() {
           expect(dispatch.calledTwice).to.be.true;
           const [action] = dispatch.secondCall.args;
           expect(action).to.deep.equal({
-            type: 'REQUEST_PASSWORD_REQUEST_SUCCESS'
+            type: 'REQUEST_PASSWORD_RESET_SUCCESS'
           });
         });
       });
@@ -59,7 +59,7 @@ describe('authentication action creators', function() {
 
       beforeEach(function() {
         dispatch = this.sandbox.stub();
-        this.sandbox.stub(authenticationService, 'requestPasswordReset').returns(Promise.reject(expectedError));
+        this.sandbox.stub(service, 'requestPasswordReset').returns(Promise.reject(expectedError));
         promise = actions.requestPasswordReset(expectedEmail)(dispatch);
       });
 
@@ -70,7 +70,7 @@ describe('authentication action creators', function() {
             expect(dispatch.calledTwice).to.be.true;
             const [action] = dispatch.secondCall.args;
             expect(action).to.deep.equal({
-              type: 'REQUEST_PASSWORD_REQUEST_FAILURE',
+              type: 'REQUEST_PASSWORD_RESET_FAILURE',
               error: true,
               payload: expectedError
             });
