@@ -350,49 +350,19 @@ describe('Authentication service', function() {
   });
 
   describe('signOut', function() {
-    context('a successful request', function() {
-      let post;
-      let promise;
+    let deleteRequest;
 
-      beforeEach(function() {
-        post = this.sandbox.stub(apiService, 'delete', () => {
-          return Promise.resolve();
-        });
-        promise = authenticationService.signOut();
+    beforeEach(function() {
+      deleteRequest = this.sandbox.stub(apiService, 'delete', () => {
+        return Promise.resolve();
       });
-
-      it('requests a token for that user based upon email', function() {
-        expect(post.calledOnce).to.be.true;
-        const [endpoint] = post.firstCall.args;
-        expect(endpoint).to.equal('/auth/sign_out');
-      });
-
-      it('returns a successful message', function() {
-        return promise
-          .then(({ response }) => {
-            expect(response).to.eq('Success.');
-          });
-      });
+      authenticationService.signOut();
     });
 
-    context('a failed request', function() {
-      let promise;
-
-      beforeEach(function() {
-        this.sandbox.stub(apiService, 'delete', () => {
-          const err = new Error();
-          return Promise.reject(err);
-        });
-        promise = authenticationService.signOut();
-      });
-
-      it('throws an error', function() {
-        return promise
-          .then(expect.fail)
-          .catch((err) => {
-            expect(err.message).to.eq('The user was not found or was not logged in.');
-          });
-      });
+    it('sends a DELETE request to sign_out', function() {
+      expect(deleteRequest.calledOnce).to.be.true;
+      const [endpoint] = deleteRequest.firstCall.args;
+      expect(endpoint).to.equal('/auth/sign_out');
     });
   });
 });
