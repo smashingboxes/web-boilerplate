@@ -10,6 +10,124 @@ describe('authentication/service', function() {
     this.sandbox.restore();
   });
 
+  describe('checkAuth', function() {
+    context('when there is stored token info', function() {
+      let callback;
+      let getHydratedState;
+      let promise;
+      let replace;
+
+      beforeEach(function() {
+        const state = {
+          authentication: {
+            tokenInfo: {
+              'access-token': faker.internet.password(),
+              client: faker.internet.password(),
+              expiry: Date.now().toString(),
+              'token-type': faker.random.word(),
+              uid: faker.internet.email()
+            }
+          }
+        };
+
+        callback = this.sandbox.stub();
+        replace = this.sandbox.stub();
+        getHydratedState = this.sandbox.spy(() => Promise.resolve(state));
+        promise = authenticationService.checkAuth({ getHydratedState })(null, replace, callback);
+      });
+
+      it('gets the hydrated state from the store', function() {
+        expect(getHydratedState.calledOnce).to.be.true;
+      });
+
+      it('invokes the callback to continue on to the selected route', function() {
+        return promise.then(() => {
+          expect(callback.calledOnce).to.be.true;
+        });
+      });
+    });
+
+    const failingTestCases = [
+      {
+        description: 'when there is not stored token info',
+        state: { authentication: { tokenInfo: {} } }
+      },
+      {
+        description: 'when there is stored token info but it does not have valid info fields',
+        state: {
+          authentication: {
+            tokenInfo: {
+              [faker.random.word()]: faker.hacker.phrase(),
+              [faker.random.word()]: faker.hacker.phrase(),
+              [faker.random.word()]: faker.hacker.phrase(),
+              [faker.random.word()]: faker.hacker.phrase(),
+              [faker.random.word()]: faker.hacker.phrase()
+            }
+          }
+        }
+      }
+    ];
+
+    failingTestCases.forEach(function(testCase) {
+      context(testCase.description, function() {
+        let callback;
+        let getHydratedState;
+        let replace;
+
+        beforeEach(function() {
+          callback = this.sandbox.stub();
+          replace = this.sandbox.stub();
+          getHydratedState = this.sandbox.spy(() => Promise.resolve(testCase.state));
+        });
+
+        it('redirects to the sign in page', function() {
+          const nextState = { location: { query: {} } };
+
+          return authenticationService
+            .checkAuth({ getHydratedState })(nextState, replace, callback)
+            .then(() => {
+              expect(replace.called).to.be.true;
+              const [{ pathname }] = replace.firstCall.args;
+              expect(pathname).to.deep.equal('/sign-in');
+              expect(callback.calledOnce).to.be.true;
+            });
+        });
+
+        it('carries along the query params to the sign in page', function() {
+          const nextState = {
+            location: {
+              query: {
+                q: faker.hacker.phrase()
+              }
+            }
+          };
+
+          return authenticationService
+            .checkAuth({ getHydratedState })(nextState, replace, callback)
+            .then(() => {
+              const [{ query }] = replace.firstCall.args;
+              expect(query).to.deep.equal(nextState.location.query);
+            });
+        });
+
+        it('passes along the url the user was trying to visit', function() {
+          const nextState = {
+            location: {
+              pathname: faker.random.word()
+            }
+          };
+
+          return authenticationService
+            .checkAuth({ getHydratedState })(nextState, replace, callback)
+            .then(() => {
+              const [{ query }] = replace.firstCall.args;
+              expect(query.next).to.equal(nextState.location.pathname);
+            });
+        });
+      });
+    });
+  });
+
   describe('register', function() {
     context('a successful request', function() {
       let expectedEmail;

@@ -11,7 +11,7 @@ let render = () => {
   const Routes = require('./Routes').default;
   ReactDOM.render(
     <Provider store={store.getStore()}>
-      <Routes />
+      <Routes store={store} />
     </Provider>,
     rootEl
   );

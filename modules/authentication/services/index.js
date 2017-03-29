@@ -1,4 +1,37 @@
 import apiService from '../../../src/services/api';
+import {
+  VALID_TOKEN_INFO_FIELDS
+} from '../constants';
+
+function checkAuth(store) {
+  return function(nextState, replace, callback) {
+    return store.getHydratedState()
+      .then((state) => {
+        const hasAllTokenInfoKeys = VALID_TOKEN_INFO_FIELDS.filter((field) => {
+          return state.authentication.tokenInfo[field];
+        }).length === VALID_TOKEN_INFO_FIELDS.length;
+
+        if (!hasAllTokenInfoKeys) {
+          throw new Error();
+        }
+
+        callback();
+      })
+      .catch(() => {
+        const query = { ...nextState.location.query };
+
+        if (nextState.location.pathname && nextState.location.pathname !== '/') {
+          query.next = nextState.location.pathname;
+        }
+
+        replace({
+          query,
+          pathname: '/sign-in'
+        });
+        callback();
+      });
+  };
+}
 
 function register(credentials) {
   return apiService
@@ -84,6 +117,7 @@ function signOut() {
 }
 
 export default {
+  checkAuth,
   register,
   requestPasswordReset,
   resetPassword,
