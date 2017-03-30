@@ -77,7 +77,7 @@ describe('authentication action creators', function() {
       beforeEach(function() {
         expectedError = new Error();
         dispatch = this.sandbox.stub();
-        this.sandbox.stub(service, 'register').returns(Promise.reject(expectedError));
+        this.sandbox.stub(service, 'register', () => Promise.reject(expectedError));
         promise = actions.register()(dispatch);
       });
 
