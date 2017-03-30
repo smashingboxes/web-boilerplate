@@ -12,6 +12,41 @@ const INITIAL_STATE = {
 
 function authentication(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case actionTypes.REGISTER_START:
+  case actionTypes.RESET_PASSWORD_START:
+  case actionTypes.SIGN_IN_START:
+    return {
+      ...state,
+      email: null,
+      error: null,
+      id: null,
+      isActive: true,
+      name: null,
+      uid: null,
+      tokenInfo: {}
+    };
+
+  case actionTypes.REGISTER_SUCCESS:
+  case actionTypes.RESET_PASSWORD_SUCCESS:
+  case actionTypes.SIGN_IN_SUCCESS:
+    return {
+      ...state,
+      email: action.payload.userInfo.email,
+      id: action.payload.userInfo.id,
+      isActive: false,
+      name: action.payload.userInfo.name,
+      uid: action.payload.userInfo.uid
+    };
+
+  case actionTypes.REGISTER_FAILURE:
+  case actionTypes.RESET_PASSWORD_FAILURE:
+  case actionTypes.SIGN_IN_FAILURE:
+    return {
+      ...state,
+      error: action.payload,
+      isActive: false
+    };
+
   case actionTypes.REQUEST_PASSWORD_RESET_START:
     return {
       ...state,
@@ -26,35 +61,6 @@ function authentication(state = INITIAL_STATE, action) {
     };
 
   case actionTypes.REQUEST_PASSWORD_RESET_FAILURE:
-    return {
-      ...state,
-      error: action.payload,
-      isActive: false
-    };
-
-  case actionTypes.SIGN_IN_START:
-    return {
-      ...state,
-      email: null,
-      error: null,
-      id: null,
-      isActive: true,
-      name: null,
-      uid: null,
-      tokenInfo: {}
-    };
-
-  case actionTypes.SIGN_IN_SUCCESS:
-    return {
-      ...state,
-      email: action.payload.userInfo.email,
-      id: action.payload.userInfo.id,
-      isActive: false,
-      name: action.payload.userInfo.name,
-      uid: action.payload.userInfo.uid
-    };
-
-  case actionTypes.SIGN_IN_FAILURE:
     return {
       ...state,
       error: action.payload,

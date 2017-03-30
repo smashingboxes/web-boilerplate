@@ -14,6 +14,150 @@ const initialState = {
 };
 
 describe('authentication/reducer', function() {
+  const testCases = ['REGISTER', 'RESET_PASSWORD', 'SIGN_IN'];
+
+  testCases.forEach(function(testCase) {
+    describe(`${testCase}_START`, function() {
+      let nextState;
+      let previousState;
+
+      beforeEach(function() {
+        previousState = {
+          avatar: faker.internet.avatar(),
+          email: faker.internet.email(),
+          error: new Error(),
+          id: faker.random.number().toString(),
+          isActive: false,
+          password: faker.internet.password(),
+          name: faker.name.findName(),
+          uid: faker.internet.email(),
+          tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
+            memo[field] = faker.internet.password();
+            return memo;
+          }, {})
+        };
+        nextState = reducer(previousState, {
+          type: `${testCase}_START`
+        });
+      });
+
+      it('clears any existing errors', function() {
+        expect(nextState.error).to.be.null;
+      });
+
+      it('sets the activity state to be true', function() {
+        expect(nextState.isActive).to.be.true;
+      });
+
+      it('clears any existing user info', function() {
+        expect(nextState.email).to.be.null;
+        expect(nextState.id).to.be.null;
+        expect(nextState.name).to.be.null;
+        expect(nextState.uid).to.be.null;
+        expect(nextState.tokenInfo).to.deep.equal({});
+      });
+
+      it('creates a new object and transfers the old properties', function() {
+        expect(nextState).to.not.equal(previousState);
+        expect(nextState.avatar).to.equal(previousState.avatar);
+        expect(nextState.password).to.equal(previousState.password);
+      });
+    });
+
+    describe(`${testCase}_SUCCESS`, function() {
+      let expectedUserInfo;
+      let nextState;
+      let previousState;
+
+      beforeEach(function() {
+        expectedUserInfo = {
+          email: faker.internet.email(),
+          id: faker.random.number(),
+          name: faker.name.findName(),
+          uid: faker.internet.email()
+        };
+
+        previousState = {
+          avatar: faker.internet.avatar(),
+          isActive: true,
+          password: faker.internet.password()
+        };
+        nextState = reducer(previousState, {
+          type: `${testCase}_SUCCESS`,
+          payload: {
+            userInfo: {
+              email: expectedUserInfo.email,
+              id: expectedUserInfo.id,
+              name: expectedUserInfo.name,
+              uid: expectedUserInfo.uid
+            }
+          }
+        });
+      });
+
+      it("sets the user's email", function() {
+        expect(nextState.email).to.equal(expectedUserInfo.email);
+      });
+
+      it("sets the user's id", function() {
+        expect(nextState.id).to.equal(expectedUserInfo.id);
+      });
+
+      it('sets the activity state to be false', function() {
+        expect(nextState.isActive).to.false;
+      });
+
+      it("sets the user's name", function() {
+        expect(nextState.name).to.equal(expectedUserInfo.name);
+      });
+
+      it("sets the user's uid", function() {
+        expect(nextState.uid).to.equal(expectedUserInfo.uid);
+      });
+
+      it('creates a new object and transfers the old properties', function() {
+        expect(nextState).to.not.equal(previousState);
+        expect(nextState.avatar).to.equal(previousState.avatar);
+        expect(nextState.password).to.equal(previousState.password);
+      });
+    });
+
+    describe(`${testCase}_FAILURE`, function() {
+      let expectedError;
+      let nextState;
+      let previousState;
+
+      beforeEach(function() {
+        expectedError = new Error();
+
+        previousState = {
+          avatar: faker.internet.avatar(),
+          isActive: true,
+          password: faker.internet.password()
+        };
+        nextState = reducer(previousState, {
+          type: `${testCase}_FAILURE`,
+          error: true,
+          payload: expectedError
+        });
+      });
+
+      it('sets the activity state to be false', function() {
+        expect(nextState.isActive).to.be.false;
+      });
+
+      it('sets the error message', function() {
+        expect(nextState.error).to.equal(expectedError);
+      });
+
+      it('creates a new object and transfers the old properties', function() {
+        expect(nextState).to.not.equal(previousState);
+        expect(nextState.avatar).to.equal(previousState.avatar);
+        expect(nextState.password).to.equal(previousState.password);
+      });
+    });
+  });
+
   describe('REQUEST_PASSWORD_RESET_START', function() {
     let nextState;
     let previousState;
@@ -99,146 +243,6 @@ describe('authentication/reducer', function() {
     it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
       expect(nextState.avatar).to.equal(previousState.avatar);
-    });
-  });
-
-  describe('SIGN_IN_START', function() {
-    let nextState;
-    let previousState;
-
-    beforeEach(function() {
-      previousState = {
-        avatar: faker.internet.avatar(),
-        email: faker.internet.email(),
-        error: new Error(),
-        id: faker.random.number().toString(),
-        isActive: false,
-        password: faker.internet.password(),
-        name: faker.name.findName(),
-        uid: faker.internet.email(),
-        tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
-          memo[field] = faker.internet.password();
-          return memo;
-        }, {})
-      };
-      nextState = reducer(previousState, {
-        type: 'SIGN_IN_START'
-      });
-    });
-
-    it('clears any existing errors', function() {
-      expect(nextState.error).to.be.null;
-    });
-
-    it('sets the activity state to be true', function() {
-      expect(nextState.isActive).to.be.true;
-    });
-
-    it('clears any existing user info', function() {
-      expect(nextState.email).to.be.null;
-      expect(nextState.id).to.be.null;
-      expect(nextState.name).to.be.null;
-      expect(nextState.uid).to.be.null;
-      expect(nextState.tokenInfo).to.deep.equal({});
-    });
-
-    it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
-      expect(nextState.password).to.equal(previousState.password);
-    });
-  });
-
-  describe('SIGN_IN_SUCCESS', function() {
-    let expectedUserInfo;
-    let nextState;
-    let previousState;
-
-    beforeEach(function() {
-      expectedUserInfo = {
-        email: faker.internet.email(),
-        id: faker.random.number(),
-        name: faker.name.findName(),
-        uid: faker.internet.email()
-      };
-
-      previousState = {
-        avatar: faker.internet.avatar(),
-        isActive: true,
-        password: faker.internet.password()
-      };
-      nextState = reducer(previousState, {
-        type: 'SIGN_IN_SUCCESS',
-        payload: {
-          userInfo: {
-            email: expectedUserInfo.email,
-            id: expectedUserInfo.id,
-            name: expectedUserInfo.name,
-            uid: expectedUserInfo.uid
-          }
-        }
-      });
-    });
-
-    it("sets the user's email", function() {
-      expect(nextState.email).to.equal(expectedUserInfo.email);
-    });
-
-    it("sets the user's id", function() {
-      expect(nextState.id).to.equal(expectedUserInfo.id);
-    });
-
-    it('sets the activity state to be false', function() {
-      expect(nextState.isActive).to.false;
-    });
-
-    it("sets the user's name", function() {
-      expect(nextState.name).to.equal(expectedUserInfo.name);
-    });
-
-    it("sets the user's uid", function() {
-      expect(nextState.uid).to.equal(expectedUserInfo.uid);
-    });
-
-    it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
-      expect(nextState.password).to.equal(previousState.password);
-    });
-  });
-
-  describe('SIGN_IN_FAILURE', function() {
-    let expectedError;
-    let nextState;
-    let previousState;
-
-    beforeEach(function() {
-      expectedError = new Error();
-
-      previousState = {
-        avatar: faker.internet.avatar(),
-        isActive: true,
-        password: faker.internet.password()
-      };
-      nextState = reducer(previousState, {
-        type: 'SIGN_IN_FAILURE',
-        error: true,
-        payload: expectedError
-      });
-    });
-
-    it('sets the activity state to be false', function() {
-      expect(nextState.isActive).to.be.false;
-    });
-
-    it('sets the error message', function() {
-      expect(nextState.error).to.equal(expectedError);
-    });
-
-    it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
-      expect(nextState.password).to.equal(previousState.password);
     });
   });
 
