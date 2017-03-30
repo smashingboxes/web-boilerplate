@@ -1,8 +1,10 @@
 import {
   applyMiddleware,
-  compose,
   createStore
 } from 'redux';
+import {
+  composeWithDevTools
+} from 'redux-devtools-extension/developmentOnly';
 import {
   autoRehydrate,
   persistStore
@@ -14,7 +16,7 @@ class Store {
     this.storage = storage;
     this.store = createStore(
       reducers,
-      compose(
+      composeWithDevTools(
         applyMiddleware(thunk),
         autoRehydrate()
       )

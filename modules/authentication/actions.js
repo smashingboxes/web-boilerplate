@@ -1,4 +1,4 @@
-import actionTypes from './actionTypes';
+import actionTypes from './constants/actionTypes';
 import service from './services';
 
 function registerStart() {
@@ -22,6 +22,20 @@ function registerFailure(err) {
   };
 }
 
+function register(credentials) {
+  return function(dispatch) {
+    dispatch(registerStart());
+
+    return service
+      .register(credentials)
+      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
+      .catch((err) => {
+        dispatch(registerFailure(err));
+        throw err;
+      });
+  };
+}
+
 function requestPasswordResetStart() {
   return {
     type: actionTypes.REQUEST_PASSWORD_RESET_START
@@ -42,17 +56,24 @@ function requestPasswordResetFailure(err) {
   };
 }
 
-function register(credentials) {
-  return function(dispatch) {
-    dispatch(registerStart());
+function signInStart() {
+  return {
+    type: actionTypes.SIGN_IN_START
+  };
+}
 
-    return service
-      .register(credentials)
-      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
-      .catch((err) => {
-        dispatch(registerFailure(err));
-        throw err;
-      });
+function signInSuccess(userInfo) {
+  return {
+    type: actionTypes.SIGN_IN_SUCCESS,
+    payload: { userInfo }
+  };
+}
+
+function signInFailure(err) {
+  return {
+    type: actionTypes.SIGN_IN_FAILURE,
+    error: true,
+    payload: err
   };
 }
 
@@ -70,7 +91,30 @@ function requestPasswordReset(params) {
   };
 }
 
+function signIn(credentials) {
+  return function(dispatch) {
+    dispatch(signInStart());
+
+    return service
+      .signIn(credentials)
+      .then((userInfo) => dispatch(signInSuccess(userInfo)))
+      .catch((err) => {
+        dispatch(signInFailure(err));
+        throw err;
+      });
+  };
+}
+
+function updateTokenInfo(tokenInfo) {
+  return {
+    type: actionTypes.UPDATE_TOKEN_INFO,
+    payload: tokenInfo
+  };
+}
+
 export {
   register,
-  requestPasswordReset
+  requestPasswordReset,
+  signIn,
+  updateTokenInfo
 };

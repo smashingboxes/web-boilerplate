@@ -7,9 +7,10 @@ import {
 import * as authenticationActions from '../actions';
 import SignIn from '../components/SignIn';
 
-function mapStateToProps(/* state */) {
+function mapStateToProps(state) {
   return {
-
+    isActive: state.authentication.isActive,
+    tokenInfo: state.authentication.tokenInfo
   };
 }
 

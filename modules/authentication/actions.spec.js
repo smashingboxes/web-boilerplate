@@ -1,7 +1,10 @@
 import * as actions from './actions';
 import service from './services';
+import {
+  VALID_TOKEN_INFO_FIELDS
+} from './constants';
 
-describe('authentication action creators', function() {
+describe('authentication/actions', function() {
   beforeEach(function() {
     this.sandbox = sandbox.create();
   });
@@ -178,6 +181,132 @@ describe('authentication action creators', function() {
           .catch((err) => {
             expect(err).to.equal(expectedError);
           });
+      });
+    });
+  });
+
+  describe('signIn', function() {
+    context('a successful request', function() {
+      let dispatch;
+      let expectedCredentials;
+      let expectedUserInfo;
+      let promise;
+      let signIn;
+
+      beforeEach(function() {
+        expectedUserInfo = {
+          email: faker.internet.email(),
+          id: faker.random.number(),
+          name: faker.name.findName(),
+          password: faker.internet.password(),
+          uid: faker.internet.email()
+        };
+        expectedCredentials = {
+          email: expectedUserInfo.email,
+          password: expectedUserInfo.password
+        };
+
+        dispatch = this.sandbox.stub();
+        signIn = this.sandbox.stub(service, 'signIn', () => {
+          return Promise.resolve({
+            email: expectedUserInfo.email,
+            id: expectedUserInfo.id,
+            name: expectedUserInfo.name,
+            uid: expectedUserInfo.uid
+          });
+        });
+        promise = actions.signIn(expectedCredentials)(dispatch);
+      });
+
+      it('dispatches a sign in start action', function() {
+        expect(dispatch.calledOnce).to.be.true;
+        const [action] = dispatch.firstCall.args;
+        expect(action).to.deep.equal({
+          type: 'SIGN_IN_START'
+        });
+      });
+
+      it('signs the user in', function() {
+        expect(signIn.calledOnce).to.be.true;
+        const [credentials] = signIn.firstCall.args;
+        expect(credentials).to.equal(expectedCredentials);
+      });
+
+      it('dispatches a sign in success action', function() {
+        return promise.then(() => {
+          expect(dispatch.calledTwice).to.be.true;
+          const [action] = dispatch.secondCall.args;
+          expect(action).to.deep.equal({
+            type: 'SIGN_IN_SUCCESS',
+            payload: {
+              userInfo: {
+                email: expectedUserInfo.email,
+                id: expectedUserInfo.id,
+                name: expectedUserInfo.name,
+                uid: expectedUserInfo.uid
+              }
+            }
+          });
+        });
+      });
+    });
+
+    context('a failed request', function() {
+      let dispatch;
+      let expectedError;
+      let promise;
+
+      beforeEach(function() {
+        expectedError = new Error();
+
+        this.sandbox.stub(service, 'signIn', () => {
+          return Promise.reject(expectedError);
+        });
+        dispatch = this.sandbox.stub();
+        promise = actions.signIn(faker.internet.email(), faker.internet.password())(dispatch);
+      });
+
+      it('dispatches a sign in failure action', function() {
+        return promise
+          .then(expect.fail)
+          .catch(() => {
+            expect(dispatch.calledTwice).to.be.true;
+            const [action] = dispatch.secondCall.args;
+            expect(action).to.deep.equal({
+              type: 'SIGN_IN_FAILURE',
+              error: true,
+              payload: expectedError
+            });
+          });
+      });
+
+      it('throws the error farther down the promise chain', function() {
+        return promise
+          .then(expect.fail)
+          .catch((error) => {
+            expect(error).to.equal(expectedError);
+          });
+      });
+    });
+  });
+
+  describe('UPDATE_TOKEN_INFO', function() {
+    let action;
+    let expectedTokenInfo;
+
+    beforeEach(function() {
+      expectedTokenInfo = VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
+        memo[field] = faker.internet.password();
+        return memo;
+      }, {});
+
+      action = actions.updateTokenInfo(expectedTokenInfo);
+    });
+
+    it('dispatches an update token info action', function() {
+      expect(action).to.deep.equal({
+        type: 'UPDATE_TOKEN_INFO',
+        payload: expectedTokenInfo
       });
     });
   });
