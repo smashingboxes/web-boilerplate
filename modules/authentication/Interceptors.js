@@ -14,16 +14,12 @@ class Interceptors {
     return this.store
       .getHydratedState()
       .then((state) => {
-        const tokenInfo = Object.keys(state.authentication.tokenInfo).map((key) => {
-          return { key, value: state.authentication.tokenInfo[key] };
-        });
+        const tokenInfoFields = Object.keys(state.authentication.tokenInfo);
 
-        if (tokenInfo && tokenInfo.length > 0) {
-          tokenInfo.reduce((memo, field) => {
-            memo[field.key] = field.value;
-            return memo;
-          }, config.headers.common);
-        }
+        tokenInfoFields.reduce((memo, field) => {
+          memo[field] = state.authentication.tokenInfo[field];
+          return memo;
+        }, config.headers.common);
 
         return config;
       });
