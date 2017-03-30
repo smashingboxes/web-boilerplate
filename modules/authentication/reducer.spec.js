@@ -4,8 +4,13 @@ import {
 } from './constants';
 
 const initialState = {
+  email: null,
+  error: null,
+  id: null,
   isActive: false,
-  tokenInfo: {}
+  name: null,
+  tokenInfo: {},
+  uid: null
 };
 
 describe('authentication/reducer', function() {
@@ -16,9 +21,17 @@ describe('authentication/reducer', function() {
     beforeEach(function() {
       previousState = {
         avatar: faker.internet.avatar(),
+        email: faker.internet.email(),
         error: new Error(),
+        id: faker.random.number().toString(),
         isActive: false,
-        password: faker.internet.password()
+        password: faker.internet.password(),
+        name: faker.name.findName(),
+        uid: faker.internet.email(),
+        tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
+          memo[field] = faker.internet.password();
+          return memo;
+        }, {})
       };
       nextState = reducer(previousState, {
         type: 'SIGN_IN_START'
@@ -26,7 +39,7 @@ describe('authentication/reducer', function() {
     });
 
     it('clears any existing errors', function() {
-      expect(nextState.error).to.be.undefined;
+      expect(nextState.error).to.be.null;
     });
 
     it('sets the activity state to be true', function() {
@@ -34,9 +47,10 @@ describe('authentication/reducer', function() {
     });
 
     it('clears any existing user info', function() {
-      expect(nextState.email).to.be.undefined;
-      expect(nextState.id).to.be.undefined;
-      expect(nextState.name).to.be.undefined;
+      expect(nextState.email).to.be.null;
+      expect(nextState.id).to.be.null;
+      expect(nextState.name).to.be.null;
+      expect(nextState.uid).to.be.null;
       expect(nextState.tokenInfo).to.deep.equal({});
     });
 
@@ -56,7 +70,8 @@ describe('authentication/reducer', function() {
       expectedUserInfo = {
         email: faker.internet.email(),
         id: faker.random.number(),
-        name: faker.name.findName()
+        name: faker.name.findName(),
+        uid: faker.internet.email()
       };
 
       previousState = {
@@ -67,9 +82,12 @@ describe('authentication/reducer', function() {
       nextState = reducer(previousState, {
         type: 'SIGN_IN_SUCCESS',
         payload: {
-          email: expectedUserInfo.email,
-          id: expectedUserInfo.id,
-          name: expectedUserInfo.name
+          userInfo: {
+            email: expectedUserInfo.email,
+            id: expectedUserInfo.id,
+            name: expectedUserInfo.name,
+            uid: expectedUserInfo.uid
+          }
         }
       });
     });
@@ -88,6 +106,10 @@ describe('authentication/reducer', function() {
 
     it("sets the user's name", function() {
       expect(nextState.name).to.equal(expectedUserInfo.name);
+    });
+
+    it("sets the user's uid", function() {
+      expect(nextState.uid).to.equal(expectedUserInfo.uid);
     });
 
     it('creates a new object and transfers the old properties', function() {

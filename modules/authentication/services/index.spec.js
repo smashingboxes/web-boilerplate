@@ -264,6 +264,7 @@ describe('authentication/service', function() {
       let expectedId;
       let expectedName;
       let expectedPassword;
+      let expectedUid;
       let post;
       let promise;
 
@@ -272,6 +273,7 @@ describe('authentication/service', function() {
         expectedId = faker.random.number();
         expectedName = faker.random.word();
         expectedPassword = faker.internet.password();
+        expectedUid = faker.internet.email();
         expectedCredentials = {
           email: expectedEmail,
           password: expectedPassword
@@ -279,9 +281,12 @@ describe('authentication/service', function() {
         post = this.sandbox.stub(apiService, 'post', () => {
           return Promise.resolve({
             data: {
-              email: expectedEmail,
-              id: expectedId,
-              name: expectedName
+              data: {
+                email: expectedEmail,
+                id: expectedId,
+                name: expectedName,
+                uid: expectedUid
+              }
             }
           });
         });
@@ -298,10 +303,11 @@ describe('authentication/service', function() {
 
       it("returns the user's data", function() {
         return promise
-          .then(({ email, id, name }) => {
+          .then(({ email, id, name, uid }) => {
             expect(email).to.equal(expectedEmail);
             expect(id).to.equal(expectedId);
             expect(name).to.equal(expectedName);
+            expect(uid).to.equal(expectedUid);
           });
       });
     });

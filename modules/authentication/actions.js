@@ -65,7 +65,7 @@ function signInStart() {
 function signInSuccess(userInfo) {
   return {
     type: actionTypes.SIGN_IN_SUCCESS,
-    payload: { ...userInfo }
+    payload: { userInfo }
   };
 }
 

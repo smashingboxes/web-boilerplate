@@ -1,7 +1,12 @@
 import actionTypes from './constants/actionTypes';
 
 const INITIAL_STATE = {
+  email: null,
+  error: null,
+  id: null,
   isActive: false,
+  name: null,
+  uid: null,
   tokenInfo: {}
 };
 
@@ -10,21 +15,23 @@ function authentication(state = INITIAL_STATE, action) {
   case actionTypes.SIGN_IN_START:
     return {
       ...state,
-      email: undefined, // eslint-disable-line no-undefined
-      error: undefined, // eslint-disable-line no-undefined
-      id: undefined, // eslint-disable-line no-undefined
+      email: null,
+      error: null,
+      id: null,
       isActive: true,
-      name: undefined, // eslint-disable-line no-undefined
+      name: null,
+      uid: null,
       tokenInfo: {}
     };
 
   case actionTypes.SIGN_IN_SUCCESS:
     return {
       ...state,
-      email: action.payload.email,
-      id: action.payload.id,
+      email: action.payload.userInfo.email,
+      id: action.payload.userInfo.id,
       isActive: false,
-      name: action.payload.name
+      name: action.payload.userInfo.name,
+      uid: action.payload.userInfo.uid
     };
 
   case actionTypes.SIGN_IN_FAILURE:

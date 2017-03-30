@@ -198,7 +198,8 @@ describe('authentication/actions', function() {
           email: faker.internet.email(),
           id: faker.random.number(),
           name: faker.name.findName(),
-          password: faker.internet.password()
+          password: faker.internet.password(),
+          uid: faker.internet.email()
         };
         expectedCredentials = {
           email: expectedUserInfo.email,
@@ -210,7 +211,8 @@ describe('authentication/actions', function() {
           return Promise.resolve({
             email: expectedUserInfo.email,
             id: expectedUserInfo.id,
-            name: expectedUserInfo.name
+            name: expectedUserInfo.name,
+            uid: expectedUserInfo.uid
           });
         });
         promise = actions.signIn(expectedCredentials)(dispatch);
@@ -237,9 +239,12 @@ describe('authentication/actions', function() {
           expect(action).to.deep.equal({
             type: 'SIGN_IN_SUCCESS',
             payload: {
-              email: expectedUserInfo.email,
-              id: expectedUserInfo.id,
-              name: expectedUserInfo.name
+              userInfo: {
+                email: expectedUserInfo.email,
+                id: expectedUserInfo.id,
+                name: expectedUserInfo.name,
+                uid: expectedUserInfo.uid
+              }
             }
           });
         });
