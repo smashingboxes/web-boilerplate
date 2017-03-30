@@ -56,6 +56,27 @@ function requestPasswordResetFailure(err) {
   };
 }
 
+function resetPasswordStart() {
+  return {
+    type: actionTypes.RESET_PASSWORD_START
+  };
+}
+
+function resetPasswordSuccess(userInfo) {
+  return {
+    type: actionTypes.RESET_PASSWORD_SUCCESS,
+    payload: { userInfo }
+  };
+}
+
+function resetPasswordFailure(err) {
+  return {
+    type: actionTypes.RESET_PASSWORD_FAILURE,
+    error: true,
+    payload: err
+  };
+}
+
 function signInStart() {
   return {
     type: actionTypes.SIGN_IN_START
@@ -77,15 +98,29 @@ function signInFailure(err) {
   };
 }
 
-function requestPasswordReset(params) {
+function requestPasswordReset(credentials) {
   return function(dispatch) {
     dispatch(requestPasswordResetStart());
 
     return service
-      .requestPasswordReset(params)
+      .requestPasswordReset(credentials)
       .then(() => dispatch(requestPasswordResetSuccess()))
       .catch((err) => {
         dispatch(requestPasswordResetFailure(err));
+        throw err;
+      });
+  };
+}
+
+function resetPassword(credentials) {
+  return function(dispatch) {
+    dispatch(resetPasswordStart());
+
+    return service
+      .resetPassword(credentials)
+      .then((userInfo) => dispatch(resetPasswordSuccess(userInfo)))
+      .catch((err) => {
+        dispatch(resetPasswordFailure(err));
         throw err;
       });
   };
@@ -128,6 +163,7 @@ function updateTokenInfo(tokenInfo) {
 export {
   register,
   requestPasswordReset,
+  resetPassword,
   signIn,
   signOut,
   updateTokenInfo
