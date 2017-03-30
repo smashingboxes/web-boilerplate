@@ -14,6 +14,94 @@ const initialState = {
 };
 
 describe('authentication/reducer', function() {
+  describe('REQUEST_PASSWORD_RESET_START', function() {
+    let nextState;
+    let previousState;
+
+    beforeEach(function() {
+      previousState = {
+        avatar: faker.internet.avatar(),
+        error: new Error(),
+        isActive: false
+      };
+      nextState = reducer(previousState, {
+        type: 'REQUEST_PASSWORD_RESET_START'
+      });
+    });
+
+    it('clears any existing errors', function() {
+      expect(nextState.error).to.be.null;
+    });
+
+    it('sets the activity state to be true', function() {
+      expect(nextState.isActive).to.be.true;
+    });
+
+    it('creates a new object', function() {
+      expect(nextState).to.not.equal(previousState);
+      expect(nextState.avatar).to.equal(previousState.avatar);
+    });
+  });
+
+  describe('REQUEST_PASSWORD_RESET_SUCCESS', function() {
+    let nextState;
+    let previousState;
+
+    beforeEach(function() {
+      previousState = {
+        avatar: faker.internet.avatar(),
+        error: new Error(),
+        isActive: true
+      };
+      nextState = reducer(previousState, {
+        type: 'REQUEST_PASSWORD_RESET_SUCCESS'
+      });
+    });
+
+    it('sets the activity state to be false', function() {
+      expect(nextState.isActive).to.be.false;
+    });
+
+    it('creates a new object and transfer the old properties', function() {
+      expect(nextState).to.not.equal(previousState);
+      expect(nextState.avatar).to.equal(previousState.avatar);
+    });
+  });
+
+  describe('REQUEST_PASSWORD_RESET_FAILURE', function() {
+    let expectedError;
+    let nextState;
+    let previousState;
+
+    beforeEach(function() {
+      expectedError = new Error();
+
+      previousState = {
+        avatar: faker.internet.avatar(),
+        error: null,
+        isActive: true
+      };
+      nextState = reducer(previousState, {
+        type: 'REQUEST_PASSWORD_RESET_FAILURE',
+        error: true,
+        payload: expectedError
+      });
+    });
+
+    it('sets the activity state to be false', function() {
+      expect(nextState.isActive).to.be.false;
+    });
+
+    it('sets the error message', function() {
+      expect(nextState.error).to.equal(expectedError);
+    });
+
+    it('creates a new object and transfers the old properties', function() {
+      expect(nextState).to.not.equal(previousState);
+      expect(nextState.avatar).to.equal(previousState.avatar);
+    });
+  });
+
   describe('SIGN_IN_START', function() {
     let nextState;
     let previousState;

@@ -12,6 +12,27 @@ const INITIAL_STATE = {
 
 function authentication(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case actionTypes.REQUEST_PASSWORD_RESET_START:
+    return {
+      ...state,
+      error: null,
+      isActive: true
+    };
+
+  case actionTypes.REQUEST_PASSWORD_RESET_SUCCESS:
+    return {
+      ...state,
+      error: null,
+      isActive: false
+    };
+
+  case actionTypes.REQUEST_PASSWORD_RESET_FAILURE:
+    return {
+      ...state,
+      error: action.payload,
+      isActive: false
+    };
+
   case actionTypes.SIGN_IN_START:
     return {
       ...state,
