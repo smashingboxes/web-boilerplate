@@ -185,6 +185,94 @@ describe('authentication/actions', function() {
     });
   });
 
+  describe('resetPassword', function() {
+    context('a successful request', function() {
+      let dispatch;
+      let expectedCredentials;
+      let expectedUserInfo;
+      let newPassword;
+      let promise;
+      let resetPassword;
+
+      beforeEach(function() {
+        newPassword = faker.internet.password();
+        expectedCredentials = { password: newPassword };
+        expectedUserInfo = {
+          email: faker.internet.email(),
+          id: faker.random.number(),
+          name: faker.random.word()
+        };
+        dispatch = this.sandbox.stub();
+        resetPassword = this.sandbox.stub(service, 'resetPassword', () => {
+          return Promise.resolve(expectedUserInfo);
+        });
+        promise = actions.resetPassword(expectedCredentials)(dispatch);
+      });
+
+      it('dispatches a reset password start action', function() {
+        expect(dispatch.calledOnce).to.be.true;
+        const [action] = dispatch.firstCall.args;
+        expect(action).to.deep.equal({
+          type: 'RESET_PASSWORD_START'
+        });
+      });
+
+      it('resets the password', function() {
+        expect(resetPassword.calledOnce).to.be.true;
+        const [credentials] = resetPassword.firstCall.args;
+        expect(credentials).to.equal(expectedCredentials);
+      });
+
+      it('dispatches a reset password success action', function() {
+        return promise.then(() => {
+          expect(dispatch.calledTwice).to.be.true;
+          const [action] = dispatch.secondCall.args;
+          expect(action).to.deep.equal({
+            type: 'RESET_PASSWORD_SUCCESS',
+            payload: {
+              userInfo: expectedUserInfo
+            }
+          });
+        });
+      });
+    });
+
+    context('a failed request', function() {
+      let expectedError;
+      let dispatch;
+      let promise;
+
+      beforeEach(function() {
+        expectedError = new Error();
+        dispatch = this.sandbox.stub();
+        this.sandbox.stub(service, 'resetPassword').returns(Promise.reject(expectedError));
+        promise = actions.resetPassword()(dispatch);
+      });
+
+      it('dispatches a reset password failure action', function() {
+        return promise
+          .then(expect.fail)
+          .catch(() => {
+            expect(dispatch.calledTwice).to.be.true;
+            const [action] = dispatch.secondCall.args;
+            expect(action).to.deep.equal({
+              type: 'RESET_PASSWORD_FAILURE',
+              error: true,
+              payload: expectedError
+            });
+          });
+      });
+
+      it('throws the error down the promise chain', function() {
+        return promise
+          .then(expect.fail)
+          .catch((err) => {
+            expect(err).to.equal(expectedError);
+          });
+      });
+    });
+  });
+
   describe('signIn', function() {
     context('a successful request', function() {
       let dispatch;
