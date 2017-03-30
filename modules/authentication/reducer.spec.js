@@ -154,6 +154,43 @@ describe('authentication/reducer', function() {
     });
   });
 
+  describe('SIGN_OUT', function() {
+    let nextState;
+    let previousState;
+
+    beforeEach(function() {
+      previousState = {
+        avatar: faker.internet.avatar(),
+        email: faker.internet.email(),
+        id: faker.random.number().toString(),
+        password: faker.internet.password(),
+        name: faker.name.findName(),
+        uid: faker.internet.email(),
+        tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
+          memo[field] = faker.internet.password();
+          return memo;
+        }, {})
+      };
+      nextState = reducer(previousState, {
+        type: 'SIGN_OUT'
+      });
+    });
+
+    it('clears any existing user info', function() {
+      expect(nextState.email).to.be.null;
+      expect(nextState.id).to.be.null;
+      expect(nextState.name).to.be.null;
+      expect(nextState.uid).to.be.null;
+      expect(nextState.tokenInfo).to.deep.equal({});
+    });
+
+    it('creates a new object and transfers the old properties', function() {
+      expect(nextState).to.not.equal(previousState);
+      expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState.password).to.equal(previousState.password);
+    });
+  });
+
   describe('UPDATE_TOKEN_INFO', function() {
     let expectedTokenInfo;
     let nextState;
