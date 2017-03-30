@@ -22,7 +22,6 @@ function authentication(state = INITIAL_STATE, action) {
   case actionTypes.REQUEST_PASSWORD_RESET_SUCCESS:
     return {
       ...state,
-      error: null,
       isActive: false
     };
 

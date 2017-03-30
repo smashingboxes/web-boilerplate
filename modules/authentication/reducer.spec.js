@@ -37,7 +37,7 @@ describe('authentication/reducer', function() {
       expect(nextState.isActive).to.be.true;
     });
 
-    it('creates a new object', function() {
+    it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
       expect(nextState.avatar).to.equal(previousState.avatar);
     });
@@ -62,7 +62,7 @@ describe('authentication/reducer', function() {
       expect(nextState.isActive).to.be.false;
     });
 
-    it('creates a new object and transfer the old properties', function() {
+    it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
       expect(nextState.avatar).to.equal(previousState.avatar);
     });
