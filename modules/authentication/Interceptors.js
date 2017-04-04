@@ -1,4 +1,5 @@
 import {
+  signOutSuccess,
   updateTokenInfo
 } from './actions';
 import {
@@ -26,6 +27,11 @@ class Interceptors {
   }
 
   invalidateHeaders(error) {
+    if (error.response.status === 401) {
+      const store = this.store.getStore();
+      store.dispatch(signOutSuccess());
+    }
+
     throw error;
   }
 

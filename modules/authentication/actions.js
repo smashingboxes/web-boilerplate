@@ -98,6 +98,12 @@ function signInFailure(err) {
   };
 }
 
+function signOutSuccess() {
+  return {
+    type: actionTypes.SIGN_OUT
+  };
+}
+
 function requestPasswordReset(credentials) {
   return function(dispatch) {
     dispatch(requestPasswordResetStart());
@@ -141,15 +147,11 @@ function signIn(credentials) {
 }
 
 function signOut() {
-  const signOutAction = {
-    type: actionTypes.SIGN_OUT
-  };
-
   return function(dispatch) {
     return service
       .signOut()
-      .then(() => dispatch(signOutAction))
-      .catch(() => dispatch(signOutAction));
+      .then(() => dispatch(signOutSuccess()))
+      .catch(() => dispatch(signOutSuccess()));
   };
 }
 
@@ -166,5 +168,6 @@ export {
   resetPassword,
   signIn,
   signOut,
+  signOutSuccess,
   updateTokenInfo
 };
