@@ -115,7 +115,7 @@ describe('authentication/Interceptors', function() {
 
       expect(dispatch.calledOnce).to.be.true;
       expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: 'SIGN_OUT'
+        type: 'CLEAR_HEADERS'
       });
     });
 

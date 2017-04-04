@@ -1,6 +1,12 @@
 import actionTypes from './constants/actionTypes';
 import service from './services';
 
+function clearHeaders() {
+  return {
+    type: actionTypes.CLEAR_HEADERS
+  };
+}
+
 function registerStart() {
   return {
     type: actionTypes.REGISTER_START
@@ -98,12 +104,6 @@ function signInFailure(err) {
   };
 }
 
-function signOutSuccess() {
-  return {
-    type: actionTypes.SIGN_OUT
-  };
-}
-
 function requestPasswordReset(credentials) {
   return function(dispatch) {
     dispatch(requestPasswordResetStart());
@@ -147,11 +147,15 @@ function signIn(credentials) {
 }
 
 function signOut() {
+  const signOutAction = {
+    type: actionTypes.SIGN_OUT
+  };
+
   return function(dispatch) {
     return service
       .signOut()
-      .then(() => dispatch(signOutSuccess()))
-      .catch(() => dispatch(signOutSuccess()));
+      .then(() => dispatch(signOutAction))
+      .catch(() => dispatch(signOutAction));
   };
 }
 
@@ -163,11 +167,11 @@ function updateTokenInfo(tokenInfo) {
 }
 
 export {
+  clearHeaders,
   register,
   requestPasswordReset,
   resetPassword,
   signIn,
   signOut,
-  signOutSuccess,
   updateTokenInfo
 };
