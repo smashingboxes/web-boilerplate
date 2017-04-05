@@ -16,7 +16,7 @@ describe('authentication/actions', function() {
   describe('register', function() {
     context('a successful request', function() {
       let dispatch;
-      let expectedAuthenticationInfo;
+      let expectedUserInfo;
       let expectedCredentials;
       let expectedEmail;
       let expectedName;
@@ -33,13 +33,13 @@ describe('authentication/actions', function() {
           password: expectedPassword,
           name: expectedName
         };
-        expectedAuthenticationInfo = {
+        expectedUserInfo = {
           email: expectedEmail,
           name: expectedName
         };
         dispatch = this.sandbox.stub();
         register = this.sandbox.stub(service, 'register', () => {
-          return Promise.resolve(expectedAuthenticationInfo);
+          return Promise.resolve(expectedUserInfo);
         });
         promise = actions.register(expectedCredentials)(dispatch);
       });
@@ -65,7 +65,7 @@ describe('authentication/actions', function() {
           expect(action).to.deep.equal({
             type: 'REGISTER_SUCCESS',
             payload: {
-              authenticationInfo: expectedAuthenticationInfo
+              userInfo: expectedUserInfo
             }
           });
         });

@@ -35,12 +35,12 @@ function checkAuth(store) {
 
 function register(credentials) {
   return apiService
-    .post('/auth/register', credentials, { params: { redirect_url: 'some url' } })
+    .post('/auth', credentials)
     .then(({ data }) => {
       return {
-        email: data.email,
-        id: data.id,
-        name: data.name
+        email: data.data.email,
+        id: data.data.id,
+        name: data.data.name
       };
     })
     .catch((err) => {

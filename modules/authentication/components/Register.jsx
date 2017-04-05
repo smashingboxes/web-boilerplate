@@ -3,18 +3,14 @@ import React, {
   Component,
   PropTypes
 } from 'react';
-import {
-  Link
-} from 'react-router';
 
 const propTypes = {
   actions: PropTypes.shape({
     authentication: PropTypes.shape({
-      signIn: PropTypes.func.isRequired
+      register: PropTypes.func.isRequired
     }).isRequired
   }).isRequired,
   children: PropTypes.node,
-  isActive: PropTypes.bool,
   location: PropTypes.shape({
     query: PropTypes.shape({
       next: PropTypes.string
@@ -22,15 +18,10 @@ const propTypes = {
   }).isRequired,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired
-  }),
-  tokenInfo: PropTypes.object
+  })
 };
 
-const defaultProps = {
-  tokenInfo: {}
-};
-
-class SignIn extends Component {
+class Register extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,16 +30,17 @@ class SignIn extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const values = Array.prototype.reduce.call(this.signInForm.elements, (memo, element) => {
+    const values = Array.prototype.reduce.call(this.registerForm.elements, (memo, element) => {
       if (element.name && element.value) {
         memo[element.name] = element.value;
       }
 
       return memo;
     }, {});
+    values.confirm_success_url = window.location.origin;
 
     return this.props.actions.authentication
-      .signIn(values)
+      .register(values)
       .then(() => this.transitionToNextPage());
   }
 
@@ -67,27 +59,27 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div>
-        <form ref={(form) => { this.signInForm = form; }} onSubmit={this.handleSubmit}>
-          <label htmlFor="email">
-            Email
-            <input name="email" type="text" />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input name="password" type="password" />
-          </label>
-          {this.props.children &&
-            cloneElement(this.props.children, this.props)}
-          <input type="submit" value="Sign In" />
-        </form>
-        <Link to="/register">Register</Link>
-      </div>
+      <form ref={(form) => { this.registerForm = form; }} onSubmit={this.handleSubmit}>
+        <label htmlFor="email">
+          Email
+          <input name="email" type="text" />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input name="password" type="password" />
+        </label>
+        <label htmlFor="password_confirmation">
+          Password Confirmation
+          <input name="password_confirmation" type="password" />
+        </label>
+        {this.props.children &&
+          cloneElement(this.props.children, this.props)}
+        <input type="submit" value="Submit" />
+      </form>
     );
   }
 }
 
-SignIn.propTypes = propTypes;
-SignIn.defaultProps = defaultProps;
+Register.propTypes = propTypes;
 
-export default SignIn;
+export default Register;

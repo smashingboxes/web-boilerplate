@@ -142,6 +142,7 @@ describe('authentication/service', function() {
         expectedId = faker.random.number();
         expectedName = faker.name.findName();
         expectedCredentials = {
+          confirm_success_url: 'some url',
           email: expectedEmail,
           name: expectedName,
           password: faker.internet.password()
@@ -149,9 +150,11 @@ describe('authentication/service', function() {
         post = this.sandbox.stub(apiService, 'post', () => {
           return Promise.resolve({
             data: {
-              email: expectedEmail,
-              id: expectedId,
-              name: expectedName
+              data: {
+                email: expectedEmail,
+                id: expectedId,
+                name: expectedName
+              }
             }
           });
         });
@@ -161,10 +164,9 @@ describe('authentication/service', function() {
 
       it('sends a request to register the invited user', function() {
         expect(post.calledOnce).to.be.true;
-        const [endpoint, credentials, { params }] = post.firstCall.args;
-        expect(endpoint).to.equal('/auth/register');
+        const [endpoint, credentials] = post.firstCall.args;
+        expect(endpoint).to.equal('/auth');
         expect(credentials).to.equal(expectedCredentials);
-        expect(params.redirect_url).to.equal('some url');
       });
 
       it('returns the token and user info', function() {

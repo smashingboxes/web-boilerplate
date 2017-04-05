@@ -7,10 +7,10 @@ function registerStart() {
   };
 }
 
-function registerSuccess(authenticationInfo) {
+function registerSuccess(userInfo) {
   return {
     type: actionTypes.REGISTER_SUCCESS,
-    payload: { authenticationInfo }
+    payload: { userInfo }
   };
 }
 
@@ -19,20 +19,6 @@ function registerFailure(err) {
     type: actionTypes.REGISTER_FAILURE,
     error: true,
     payload: err
-  };
-}
-
-function register(credentials) {
-  return function(dispatch) {
-    dispatch(registerStart());
-
-    return service
-      .register(credentials)
-      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
-      .catch((err) => {
-        dispatch(registerFailure(err));
-        throw err;
-      });
   };
 }
 
@@ -95,6 +81,20 @@ function signInFailure(err) {
     type: actionTypes.SIGN_IN_FAILURE,
     error: true,
     payload: err
+  };
+}
+
+function register(credentials) {
+  return function(dispatch) {
+    dispatch(registerStart());
+
+    return service
+      .register(credentials)
+      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
+      .catch((err) => {
+        dispatch(registerFailure(err));
+        throw err;
+      });
   };
 }
 

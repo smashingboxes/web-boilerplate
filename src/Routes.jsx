@@ -8,6 +8,7 @@ import {
   Router
 } from 'react-router';
 import AppContainer from './containers/AppContainer';
+import Register from '../modules/authentication/containers/Register';
 import SignIn from '../modules/authentication/containers/SignIn';
 import authenticationService from '../modules/authentication/services';
 
@@ -21,6 +22,7 @@ function Routes({ store }) {
       <Route path="/" onEnter={authenticationService.checkAuth(store)}>
         <IndexRoute component={AppContainer} />
       </Route>
+      <Route path="/register" component={Register} />
       <Route path="/sign-in" component={SignIn} />
     </Router>
   );
