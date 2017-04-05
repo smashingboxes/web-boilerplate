@@ -11,11 +11,6 @@ const propTypes = {
     }).isRequired
   }).isRequired,
   children: PropTypes.node,
-  location: PropTypes.shape({
-    query: PropTypes.shape({
-      next: PropTypes.string
-    }).isRequired
-  }).isRequired,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired
   })
