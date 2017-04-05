@@ -51,7 +51,8 @@ function authentication(state = INITIAL_STATE, action) {
     return {
       ...state,
       error: null,
-      isActive: true
+      isActive: true,
+      tokenInfo: {}
     };
 
   case actionTypes.REQUEST_PASSWORD_RESET_SUCCESS:
