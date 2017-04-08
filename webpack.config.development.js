@@ -13,9 +13,6 @@ config.devServer = {
 };
 config.devtool = 'inline-source-map';
 
-config.entry.unshift('webpack/hot/only-dev-server');
-config.entry.unshift('webpack-dev-server/client?http://localhost:8080');
-
 config.module.rules = config.module.rules.concat([{
   enforce: 'pre',
   test: /\.jsx?$/,

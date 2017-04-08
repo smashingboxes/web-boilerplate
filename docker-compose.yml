@@ -1,8 +1,8 @@
-version: "3"
+version: '3'
 
 services:
   web:
-    image: web-boilerplate
+    tty: true
     build: .
     command: bash -c "yarn && yarn start"
     ports:
