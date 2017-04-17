@@ -13,7 +13,7 @@ config.plugins = config.plugins.concat([
   }),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
-    minChunks: (module) => {
+    minChunks: function(module) {
       return module.context && module.context.indexOf('node_modules') !== -1;
     }
   }),
