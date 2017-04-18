@@ -8,7 +8,13 @@ config.devServer = {
     ]
   },
   hot: true,
-  inline: true
+  inline: true,
+  proxy: {
+    '/api': {
+      changeOrigin: true,
+      target: 'http://localhost:3000'
+    }
+  }
 };
 
 config.entry.unshift('webpack/hot/only-dev-server');
