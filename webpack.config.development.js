@@ -7,9 +7,15 @@ config.devServer = {
       { from: /^\/$/, to: 'index.html' }
     ]
   },
+  host: '0.0.0.0',
   hot: true,
   inline: true,
-  host: '0.0.0.0'
+  proxy: {
+    '/api': {
+      changeOrigin: true,
+      target: 'http://localhost:3000'
+    }
+  }
 };
 config.devtool = 'inline-source-map';
 
