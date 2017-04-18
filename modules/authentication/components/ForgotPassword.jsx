@@ -32,7 +32,6 @@ class ForgotPassword extends Component {
 
       return memo;
     }, {});
-    values.redirect_url = window.location.origin;
 
     return this.props.actions.authentication
       .requestPasswordReset(values)
