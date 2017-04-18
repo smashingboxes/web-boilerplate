@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/smashingboxes/web-boilerplate.png?label=ready&title=Ready)](https://waffle.io/smashingboxes/web-boilerplate)
 # web-boilerplate
 A template for new front-end projects.  
 [Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
@@ -34,13 +35,30 @@ git push origin master
 
 Run your tests with:
 ```
-npm test
+yarn test
 ```
 Run the server with:
 ```
-npm start
+yarn start
 ```
 Run a build with:
 ```
-npm run build
+yarn build
+```
+
+## Docker Commands
+
+Build and start the server:
+```
+docker-compose up
+```
+
+Run your tests with:
+```
+docker-compose exec web yarn test
+```
+
+Run a build with:
+```
+docker-compose exec web yarn build
 ```
