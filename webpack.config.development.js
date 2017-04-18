@@ -7,22 +7,33 @@ config.devServer = {
       { from: /^\/$/, to: 'index.html' }
     ]
   },
+  host: '0.0.0.0',
   hot: true,
-  inline: true
+  inline: true,
+  proxy: {
+    '/api': {
+      changeOrigin: true,
+      target: 'http://localhost:3000'
+    }
+  }
 };
+config.devtool = 'inline-source-map';
 
-config.entry.unshift('webpack/hot/only-dev-server');
-config.entry.unshift('webpack-dev-server/client?http://localhost:8080');
-
-config.eslint = {
-  emitWarning: true,
-  formatter: require('eslint-friendly-formatter')
-};
-
-config.module.preLoaders = config.module.preLoaders.concat([
-  { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ }
-]);
+config.module.rules = config.module.rules.concat([{
+  enforce: 'pre',
+  test: /\.jsx?$/,
+  exclude: /node_modules/,
+  use: 'eslint-loader'
+}]);
 
 config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+config.plugins.unshift(new webpack.LoaderOptionsPlugin({
+  options: {
+    eslint: {
+      emitWarning: true,
+      formatter: require('eslint-friendly-formatter')
+    }
+  }
+}));
 
 module.exports = config;

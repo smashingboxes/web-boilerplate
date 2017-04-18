@@ -2,11 +2,13 @@ var webpack = require('webpack');
 var config = require('./webpack.config.base');
 
 config.bail = true;
-config.debug = false;
 config.profile = false;
 config.devtool = 'source-map';
 
 config.plugins = config.plugins.concat([
+  new webpack.LoaderOptionsPlugin({
+    debug: true
+  }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
