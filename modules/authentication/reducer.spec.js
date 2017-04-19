@@ -14,9 +14,46 @@ const initialState = {
 };
 
 describe('authentication/reducer', function() {
-  const testCases = ['REGISTER', 'RESET_PASSWORD', 'SIGN_IN'];
+  ['CLEAR_HEADERS', 'SIGN_OUT'].forEach(function(testCase) {
+    describe(testCase, function() {
+      let nextState;
+      let previousState;
 
-  testCases.forEach(function(testCase) {
+      beforeEach(function() {
+        previousState = {
+          avatar: faker.internet.avatar(),
+          email: faker.internet.email(),
+          id: faker.random.number().toString(),
+          password: faker.internet.password(),
+          name: faker.name.findName(),
+          uid: faker.internet.email(),
+          tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
+            memo[field] = faker.internet.password();
+            return memo;
+          }, {})
+        };
+        nextState = reducer(previousState, {
+          type: testCase
+        });
+      });
+
+      it('clears any existing user info', function() {
+        expect(nextState.email).to.be.null;
+        expect(nextState.id).to.be.null;
+        expect(nextState.name).to.be.null;
+        expect(nextState.uid).to.be.null;
+        expect(nextState.tokenInfo).to.deep.equal({});
+      });
+
+      it('creates a new object and transfers the old properties', function() {
+        expect(nextState).to.not.equal(previousState);
+        expect(nextState.avatar).to.equal(previousState.avatar);
+        expect(nextState.password).to.equal(previousState.password);
+      });
+    });
+  });
+
+  ['REGISTER', 'RESET_PASSWORD', 'SIGN_IN'].forEach(function(testCase) {
     describe(`${testCase}_START`, function() {
       let nextState;
       let previousState;
@@ -243,43 +280,6 @@ describe('authentication/reducer', function() {
     it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
       expect(nextState.avatar).to.equal(previousState.avatar);
-    });
-  });
-
-  describe('SIGN_OUT', function() {
-    let nextState;
-    let previousState;
-
-    beforeEach(function() {
-      previousState = {
-        avatar: faker.internet.avatar(),
-        email: faker.internet.email(),
-        id: faker.random.number().toString(),
-        password: faker.internet.password(),
-        name: faker.name.findName(),
-        uid: faker.internet.email(),
-        tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
-          memo[field] = faker.internet.password();
-          return memo;
-        }, {})
-      };
-      nextState = reducer(previousState, {
-        type: 'SIGN_OUT'
-      });
-    });
-
-    it('clears any existing user info', function() {
-      expect(nextState.email).to.be.null;
-      expect(nextState.id).to.be.null;
-      expect(nextState.name).to.be.null;
-      expect(nextState.uid).to.be.null;
-      expect(nextState.tokenInfo).to.deep.equal({});
-    });
-
-    it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
-      expect(nextState.password).to.equal(previousState.password);
     });
   });
 
