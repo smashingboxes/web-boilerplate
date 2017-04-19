@@ -37,7 +37,7 @@ class Register extends Component {
 
       return memo;
     }, {});
-    values.confirm_success_url = window.location.origin;
+    values.confirm_success_url = `${window.location.origin}/registration-confirmed`;
 
     return this.props.actions.authentication
       .register(values)

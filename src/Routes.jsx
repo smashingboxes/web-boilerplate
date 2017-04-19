@@ -9,6 +9,7 @@ import {
 } from 'react-router';
 import AppContainer from './containers/AppContainer';
 import Register from '../modules/authentication/containers/Register';
+import RegistrationConfirmed from '../modules/authentication/containers/RegistrationConfirmed';
 import SignIn from '../modules/authentication/containers/SignIn';
 import authenticationService from '../modules/authentication/services';
 
@@ -23,6 +24,7 @@ function Routes({ store }) {
         <IndexRoute component={AppContainer} />
       </Route>
       <Route path="/register" component={Register} />
+      <Route path="/registration-confirmed" component={RegistrationConfirmed} />
       <Route path="/sign-in" component={SignIn} />
     </Router>
   );

@@ -58,7 +58,7 @@ describe('<Register />', function() {
         expectedCredentials = {
           email: faker.internet.email(),
           password: faker.internet.password(),
-          confirm_success_url: expectedOrigin,
+          confirm_success_url: `${expectedOrigin}/registration-confirmed`,
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase()
@@ -97,7 +97,7 @@ describe('<Register />', function() {
         const expectedCredentials = {
           email: faker.internet.email(),
           password: faker.internet.password(),
-          confirm_success_url: expectedOrigin
+          confirm_success_url: `${expectedOrigin}/registration-confirmed`
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },
@@ -117,7 +117,7 @@ describe('<Register />', function() {
         const expectedCredentials = {
           email: faker.internet.email(),
           password: faker.internet.password(),
-          confirm_success_url: expectedOrigin
+          confirm_success_url: `${expectedOrigin}/registration-confirmed`
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },
