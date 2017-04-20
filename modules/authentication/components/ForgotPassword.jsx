@@ -3,6 +3,7 @@ import React, {
   Component,
   PropTypes
 } from 'react';
+import mapFormValues from '../utils/mapFormValues';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -24,14 +25,7 @@ class ForgotPassword extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const values = Array.prototype.reduce.call(this.forgotPasswordForm.elements, (memo, element) => {
-      if (element.name && element.value) {
-        memo[element.name] = element.value;
-      }
-
-      return memo;
-    }, {});
+    const values = mapFormValues(this.forgotPasswordForm.elements);
 
     return this.props.actions.authentication
       .requestPasswordReset(values)
