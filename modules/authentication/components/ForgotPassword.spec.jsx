@@ -40,7 +40,6 @@ describe('<ForgotPassword />', function() {
 
     beforeEach(function() {
       expectedOrigin = 'foo.com';
-      global.window = { location: { origin: expectedOrigin } };
       preventDefault = this.sandbox.stub();
     });
 
@@ -91,8 +90,7 @@ describe('<ForgotPassword />', function() {
     context('form fields are missing information', function() {
       it('does not include the form field in the credentials when there is no name for the field', function() {
         const expectedCredentials = {
-          email: faker.internet.email(),
-          redirect_url: `${expectedOrigin}/reset-password`
+          email: faker.internet.email()
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },
@@ -109,8 +107,7 @@ describe('<ForgotPassword />', function() {
 
       it('does not include the form field in the credentials when there is no value for the field', function() {
         const expectedCredentials = {
-          email: faker.internet.email(),
-          redirect_url: `${expectedOrigin}/reset-password`
+          email: faker.internet.email()
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },

@@ -92,7 +92,42 @@ describe('authentication/Interceptors', function() {
   });
 
   describe('invalidateHeaders', function() {
-    it('invalidates');
+    let dispatch;
+    let interceptors;
+    let store;
+
+    beforeEach(function() {
+      dispatch = this.sandbox.stub();
+      store = {
+        getStore: this.sandbox.spy(() => {
+          return { dispatch };
+        })
+      };
+      interceptors = new Interceptors(store);
+    });
+
+    it('dispatches a sign out action on a 401 error', function() {
+      const expectedError = new Error();
+      expectedError.response = { status: 401 };
+      expect(() => {
+        interceptors.invalidateHeaders(expectedError);
+      }).to.throw(expectedError);
+
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: 'CLEAR_HEADERS'
+      });
+    });
+
+    it('does not dispatch a sign out action on a non-401 error', function() {
+      const expectedError = new Error();
+      expectedError.response = {};
+      expect(() => {
+        interceptors.invalidateHeaders(expectedError);
+      }).to.throw(expectedError);
+
+      expect(dispatch.called).to.be.false;
+    });
   });
 
   describe('isNewToken', function() {

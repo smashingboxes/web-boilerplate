@@ -3,6 +3,7 @@ import React, {
   Component,
   PropTypes
 } from 'react';
+import mapFormValues from '../utils/mapFormValues';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -27,17 +28,10 @@ class ResetPassword extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const values = Array.prototype.reduce.call(this.resetPasswordForm.elements, (memo, element) => {
-      if (element.name && element.value) {
-        memo[element.name] = element.value;
-      }
-
-      return memo;
-    }, {});
+    const values = mapFormValues(this.resetPasswordForm.elements);
 
     const resetPasswordOptions = {
-      ['access-token']: this.props.location.query.token,
+      'access-token': this.props.location.query.token,
       client: this.props.location.query.client_id,
       password: values.password,
       password_confirmation: values.password_confirmation,

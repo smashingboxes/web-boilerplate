@@ -12,6 +12,17 @@ const INITIAL_STATE = {
 
 function authentication(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case actionTypes.CLEAR_HEADERS:
+  case actionTypes.SIGN_OUT:
+    return {
+      ...state,
+      email: null,
+      id: null,
+      name: null,
+      uid: null,
+      tokenInfo: {}
+    };
+
   case actionTypes.REGISTER_START:
   case actionTypes.RESET_PASSWORD_START:
   case actionTypes.SIGN_IN_START:
@@ -66,16 +77,6 @@ function authentication(state = INITIAL_STATE, action) {
       ...state,
       error: action.payload,
       isActive: false
-    };
-
-  case actionTypes.SIGN_OUT:
-    return {
-      ...state,
-      email: null,
-      id: null,
-      name: null,
-      uid: null,
-      tokenInfo: {}
     };
 
   case actionTypes.UPDATE_TOKEN_INFO:

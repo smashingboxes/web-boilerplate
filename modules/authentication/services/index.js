@@ -54,7 +54,11 @@ function register(credentials) {
     });
 }
 
-function requestPasswordReset(params) {
+function requestPasswordReset(params = {}) {
+  const host = window.location.host;
+  const protocol = window.location.protocol;
+  params.redirect_url = `${protocol}//${host}`;
+
   return apiService
     .post('/auth/password', params)
     .then(({ data }) => {
