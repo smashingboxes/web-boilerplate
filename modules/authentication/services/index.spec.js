@@ -225,6 +225,18 @@ describe('authentication/service', function() {
   });
 
   describe('requestPasswordReset', function() {
+    let expectedOrigin;
+
+    beforeEach(function() {
+      expectedOrigin = faker.internet.url();
+      global.window = {
+        location: {
+          host: expectedOrigin.split('//')[1],
+          protocol: expectedOrigin.split('//')[0]
+        }
+      };
+    });
+
     context('a successful request', function() {
       let expectedParams;
       let message;
@@ -233,8 +245,7 @@ describe('authentication/service', function() {
 
       beforeEach(function() {
         expectedParams = {
-          email: faker.internet.email(),
-          redirect_url: faker.internet.url()
+          email: faker.internet.email()
         };
         message = faker.random.word();
         post = this.sandbox.stub(apiService, 'post', () => {
@@ -249,7 +260,10 @@ describe('authentication/service', function() {
         expect(post.calledOnce).to.be.true;
         const [endpoint, params] = post.firstCall.args;
         expect(endpoint).to.equal('/auth/password');
-        expect(params).to.equal(expectedParams);
+        expect(params).to.deep.equal({
+          email: expectedParams.email,
+          redirect_url: expectedOrigin
+        });
       });
 
       it('returns a successful message', function() {

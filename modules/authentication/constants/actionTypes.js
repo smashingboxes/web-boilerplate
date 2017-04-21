@@ -1,6 +1,8 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
+  CLEAR_HEADERS: null,
+
   REGISTER_FAILURE: null,
   REGISTER_START: null,
   REGISTER_SUCCESS: null,

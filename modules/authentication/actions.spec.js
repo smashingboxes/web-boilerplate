@@ -13,6 +13,20 @@ describe('authentication/actions', function() {
     this.sandbox.restore();
   });
 
+  describe('clearHeaders', function() {
+    let clearHeaders;
+
+    beforeEach(function() {
+      clearHeaders = actions.clearHeaders();
+    });
+
+    it('returns a clear headers action', function() {
+      expect(clearHeaders).to.deep.equal({
+        type: 'CLEAR_HEADERS'
+      });
+    });
+  });
+
   describe('register', function() {
     context('a successful request', function() {
       let dispatch;

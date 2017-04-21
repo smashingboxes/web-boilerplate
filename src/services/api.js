@@ -9,7 +9,6 @@ function init() {
 
   // Transforms and interceptors can go here
   api.interceptors.request.use(interceptors.addAuthenticationHeaders.bind(interceptors));
-  api.interceptors.request.use(interceptors.addAuthenticationHeaders.bind(interceptors));
   api.interceptors.response.use(
     interceptors.saveTokenInfo.bind(interceptors),
     interceptors.invalidateHeaders.bind(interceptors)

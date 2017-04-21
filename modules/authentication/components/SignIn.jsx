@@ -6,6 +6,7 @@ import React, {
 import {
   Link
 } from 'react-router';
+import mapFormValues from '../utils/mapFormValues';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -38,14 +39,7 @@ class SignIn extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const values = Array.prototype.reduce.call(this.signInForm.elements, (memo, element) => {
-      if (element.name && element.value) {
-        memo[element.name] = element.value;
-      }
-
-      return memo;
-    }, {});
+    const values = mapFormValues(this.signInForm.elements);
 
     return this.props.actions.authentication
       .signIn(values)

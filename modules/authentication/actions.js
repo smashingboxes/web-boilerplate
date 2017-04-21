@@ -1,6 +1,12 @@
 import actionTypes from './constants/actionTypes';
 import service from './services';
 
+function clearHeaders() {
+  return {
+    type: actionTypes.CLEAR_HEADERS
+  };
+}
+
 function registerStart() {
   return {
     type: actionTypes.REGISTER_START
@@ -161,6 +167,7 @@ function updateTokenInfo(tokenInfo) {
 }
 
 export {
+  clearHeaders,
   register,
   requestPasswordReset,
   resetPassword,
