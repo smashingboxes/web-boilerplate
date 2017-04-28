@@ -6,10 +6,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json']
   },
-  entry: ['./src/index.jsx'],
+  entry: {
+    bundle: './src/index.jsx'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   module: {
     rules: [{
