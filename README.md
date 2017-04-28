@@ -33,14 +33,16 @@ git push origin master
 
 ## Commands
 
-Run your tests with:
-```
-yarn test
-```
 Run the server with:
 ```
 yarn start
 ```
+
+Run your tests with:
+```
+yarn test
+```
+
 Run a build with:
 ```
 yarn build
@@ -50,7 +52,7 @@ yarn build
 
 Build and start the server:
 ```
-docker-compose up
+docker-compose up --build
 ```
 
 Run your tests with:
@@ -61,4 +63,9 @@ docker-compose exec web yarn test
 Run a build with:
 ```
 docker-compose exec web yarn build
+```
+
+If your terminal closes run:
+```
+docker-compose logs --follow
 ```
