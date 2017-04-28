@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/smashingboxes/web-boilerplate.png?label=ready&title=Ready)](https://waffle.io/smashingboxes/web-boilerplate)
+[![Stories in Ready](https://badge.waffle.io/smashingboxes/web-boilerplate.png?label=ready&title=Ready)](https://waffle.io/smashingboxes/web-boilerplate) [![Build Status](https://travis-ci.com/smashingboxes/web-boilerplate.svg?branch=master)](https://travis-ci.com/smashingboxes/web-boilerplate)
 # web-boilerplate
 A template for new front-end projects.  
 [Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
