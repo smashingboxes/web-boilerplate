@@ -11,10 +11,15 @@ const propTypes = {
       requestPasswordReset: PropTypes.func.isRequired
     }).isRequired
   }).isRequired,
+  baseClassName: PropTypes.string,
   children: PropTypes.node,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired
   })
+};
+
+const defaultProps = {
+  baseClassName: 'c-form'
 };
 
 class ForgotPassword extends Component {
@@ -36,19 +41,24 @@ class ForgotPassword extends Component {
 
   render() {
     return (
-      <form ref={(form) => { this.forgotPasswordForm = form; }} onSubmit={this.handleSubmit}>
-        <label htmlFor="email">
+      <form
+        className={this.props.baseClassName}
+        ref={(form) => { this.forgotPasswordForm = form; }}
+        onSubmit={this.handleSubmit}
+      >
+        <label className={`${this.props.baseClassName}__title`} htmlFor="email">
           Email
-          <input name="email" type="text" />
+          <input className={`${this.props.baseClassName}__field`} name="email" type="text" />
         </label>
         {this.props.children &&
           cloneElement(this.props.children, this.props)}
-        <input type="submit" value="Reset Password" />
+        <input className={`${this.props.baseClassName}__button`} type="submit" value="Reset Password" />
       </form>
     );
   }
 }
 
 ForgotPassword.propTypes = propTypes;
+ForgotPassword.defaultProps = defaultProps;
 
 export default ForgotPassword;
