@@ -51,7 +51,7 @@ describe('<ForgotPassword />', function() {
       beforeEach(function() {
         expectedCredentials = {
           email: faker.internet.email(),
-          redirect_url: expectedOrigin,
+          redirect_url: `${expectedOrigin}/reset-password`,
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase()
