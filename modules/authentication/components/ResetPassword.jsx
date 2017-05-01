@@ -31,10 +31,9 @@ class ResetPassword extends Component {
     const values = mapFormValues(this.resetPasswordForm.elements);
 
     const resetPasswordOptions = {
+      ...values,
       'access-token': this.props.location.query.token,
       client: this.props.location.query.client_id,
-      password: values.password,
-      password_confirmation: values.password_confirmation,
       uid: this.props.location.query.uid
     };
 

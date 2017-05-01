@@ -1,6 +1,3 @@
 {
-  "extends": "smashing-boxes/react",
-  "rules": {
-    "no-useless-computed-key": 0           // http://eslint.org/docs/rules/no-useless-computed-key
-  }
+  "extends": "smashing-boxes/react"
 }

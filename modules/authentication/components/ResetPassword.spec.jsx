@@ -97,7 +97,7 @@ describe('<ResetPassword />', function() {
         const expectedCredentials = {
           password: faker.internet.password(),
           password_confirmation: faker.internet.password(),
-          ['access-token']: props.location.query.token,
+          'access-token': props.location.query.token,
           client: props.location.query.client_id,
           uid: props.location.query.uid
         };
@@ -119,7 +119,7 @@ describe('<ResetPassword />', function() {
         const expectedCredentials = {
           password: faker.internet.password(),
           password_confirmation: faker.internet.password(),
-          ['access-token']: props.location.query.token,
+          'access-token': props.location.query.token,
           client: props.location.query.client_id,
           uid: props.location.query.uid
         };
