@@ -11,6 +11,7 @@ const propTypes = {
       signIn: PropTypes.func.isRequired
     }).isRequired
   }).isRequired,
+  baseClassName: PropTypes.string,
   children: PropTypes.node,
   isActive: PropTypes.bool,
   location: PropTypes.shape({
@@ -25,6 +26,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  baseClassName: 'c-form',
   tokenInfo: {}
 };
 
@@ -58,18 +60,22 @@ class SignIn extends Component {
 
   render() {
     return (
-      <form ref={(form) => { this.signInForm = form; }} onSubmit={this.handleSubmit}>
-        <label htmlFor="email">
+      <form
+        className={this.props.baseClassName}
+        ref={(form) => { this.signInForm = form; }}
+        onSubmit={this.handleSubmit}
+      >
+        <label className={`${this.props.baseClassName}__title`} htmlFor="email">
           Email
-          <input name="email" type="text" />
+          <input className={`${this.props.baseClassName}__field`} name="email" type="text" />
         </label>
-        <label htmlFor="password">
+        <label className={`${this.props.baseClassName}__title`} htmlFor="password">
           Password
-          <input name="password" type="password" />
+          <input className={`${this.props.baseClassName}__field`} name="password" type="password" />
         </label>
         {this.props.children &&
           cloneElement(this.props.children, this.props)}
-        <input type="submit" value="Sign In" />
+        <input className={`${this.props.baseClassName}__button`} type="submit" value="Sign In" />
       </form>
     );
   }
