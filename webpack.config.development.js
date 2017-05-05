@@ -30,7 +30,13 @@ config.module.rules = config.module.rules.concat([
     test: /\.css$/,
     use: [
       'style-loader',
-      'css-loader?importLoaders=1',
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          sourceMap: true
+        }
+      },
       'postcss-loader'
     ]
   }
