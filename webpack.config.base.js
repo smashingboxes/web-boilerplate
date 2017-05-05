@@ -22,13 +22,6 @@ module.exports = {
         options: { presets: ['stage-2', 'react', 'es2015'] }
       }
     }, {
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        'css-loader?importLoaders=1',
-        'postcss-loader'
-      ]
-    }, {
       test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/,
       use: {
         loader: 'url-loader',
