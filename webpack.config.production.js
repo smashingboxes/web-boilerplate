@@ -1,3 +1,4 @@
+var CompressionPlugin = require('compression-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 var webpack = require('webpack');
@@ -30,6 +31,7 @@ config.plugins = config.plugins.concat([
   new webpack.LoaderOptionsPlugin({
     debug: true
   }),
+  new CompressionPlugin(),
   new ExtractTextPlugin('styles.[contenthash].css'),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
