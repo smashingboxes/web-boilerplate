@@ -48,7 +48,7 @@
     "chai-enzyme": "^0.6.1",
     "cheerio": "^0.22.0",
     "clean-webpack-plugin": "^0.1.14",
-    "css-loader": "^0.26.1",
+    "css-loader": "^0.28.1",
     "enzyme": "^2.7.0",
     "es6-promise": "^4.0.5",
     "eslint": "^3.12.2",
