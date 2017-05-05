@@ -13,7 +13,13 @@ config.module.rules = config.module.rules.concat([
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: [
-        'css-loader?importLoaders=1',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            minimize: true
+          }
+        },
         'postcss-loader'
       ]
     })
