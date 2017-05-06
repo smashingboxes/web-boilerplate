@@ -33,6 +33,19 @@ function checkAuth(store) {
   };
 }
 
+function prehydrateStore(store) {
+  return function(nextState, replace, callback) {
+    return store
+      .hydrateStore()
+      .then(() => callback())
+      .catch(() => {
+        const errorMessage = 'The store failed to prehydrate. This will prevent the user from logging in upon a confirmed registration.';
+
+        throw new Error(errorMessage);
+      });
+  };
+}
+
 function register(credentials) {
   return apiService
     .post('/auth', credentials)
@@ -122,6 +135,7 @@ function signOut() {
 
 export default {
   checkAuth,
+  prehydrateStore,
   register,
   requestPasswordReset,
   resetPassword,

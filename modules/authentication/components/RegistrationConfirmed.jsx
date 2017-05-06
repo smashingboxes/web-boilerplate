@@ -27,18 +27,21 @@ const propTypes = {
   })
 };
 
-class Register extends Component {
+class RegistrationConfirmed extends Component {
   componentWillMount() {
+    const { query } = this.props.location;
     const tokenInfo = {
-      ['access-token']: this.props.location.query.token,
-      client: this.props.location.query.client_id,
-      expiry: this.props.location.query.expiry,
-      ['token-type']: 'Bearer',
-      uid: this.props.location.query.uid
+      'access-token': query.token,
+      client: query.client_id,
+      expiry: query.expiry,
+      'token-type': 'Bearer',
+      uid: query.uid
     };
 
-    this.props.actions.authentication.updateTokenInfo(tokenInfo);
-    this.props.router.push('/');
+    return Promise.resolve(this.props.actions.authentication.updateTokenInfo(tokenInfo))
+      .then(() => {
+        this.props.router.push('/');
+      });
   }
 
   render() {
@@ -52,6 +55,6 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = propTypes;
+RegistrationConfirmed.propTypes = propTypes;
 
-export default Register;
+export default RegistrationConfirmed;

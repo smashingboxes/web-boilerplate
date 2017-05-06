@@ -24,9 +24,15 @@ function Routes({ store }) {
       <Route path="/" onEnter={authenticationService.checkAuth(store)}>
         <IndexRoute component={AppContainer} />
       </Route>
-      <Route path="/registration-confirmed" component={RegistrationConfirmed} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/register" component={Register} />
+      <Route
+        path="/registration-confirmed"
+        component={RegistrationConfirmed}
+        onEnter={(nextState, replace, callback) => {
+          return authenticationService.prehydrateStore(store)(null, null, callback);
+        }}
+      />
       <Route path="/sign-in" component={SignIn} />
     </Router>
   );

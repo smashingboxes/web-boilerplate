@@ -90,6 +90,13 @@ function signInFailure(err) {
   };
 }
 
+function updateTokenInfo(tokenInfo) {
+  return {
+    type: actionTypes.UPDATE_TOKEN_INFO,
+    payload: tokenInfo
+  };
+}
+
 function register(credentials) {
   return function(dispatch) {
     dispatch(registerStart());
@@ -156,13 +163,6 @@ function signOut() {
       .signOut()
       .then(() => dispatch(signOutAction))
       .catch(() => dispatch(signOutAction));
-  };
-}
-
-function updateTokenInfo(tokenInfo) {
-  return {
-    type: actionTypes.UPDATE_TOKEN_INFO,
-    payload: tokenInfo
   };
 }
 

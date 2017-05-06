@@ -224,6 +224,54 @@ describe('authentication/service', function() {
     });
   });
 
+  describe('prehydrateStore', function() {
+    context('a successful hydration', function() {
+      let callback;
+      let hydrateStore;
+      let promise;
+      let store;
+
+      beforeEach(function() {
+        callback = this.sandbox.spy();
+        hydrateStore = this.sandbox.stub().returns(Promise.resolve());
+        store = { hydrateStore };
+        promise = authenticationService.prehydrateStore(store)(null, null, callback);
+      });
+
+      it('calls hydrateStore', function() {
+        expect(hydrateStore.calledOnce).to.be.true;
+      });
+
+      it('calls the callback', function() {
+        return promise
+          .then(() => {
+            expect(callback.calledOnce).to.be.true;
+          });
+      });
+    });
+
+    context('a failed hydration', function() {
+      let hydrateStore;
+      let promise;
+      let store;
+
+      beforeEach(function() {
+        hydrateStore = this.sandbox.stub().returns(Promise.reject());
+        store = { hydrateStore };
+        promise = authenticationService.prehydrateStore(store)();
+      });
+
+      it('throws an error', function() {
+        return promise
+          .then(expect.fail)
+          .catch((err) => {
+            expect(hydrateStore.calledOnce).to.be.true;
+            expect(err.message).to.equal('The store failed to prehydrate. This will prevent the user from logging in upon a confirmed registration.');
+          });
+      });
+    });
+  });
+
   describe('requestPasswordReset', function() {
     let expectedOrigin;
 

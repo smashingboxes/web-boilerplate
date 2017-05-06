@@ -41,10 +41,11 @@ describe('<RegistrationConfirmed />', function() {
         ['token-type']: 'Bearer',
         uid: props.location.query.uid
       };
-      shallow(<RegistrationConfirmed {...props} />);
     });
 
     it('calls updateTokenInfo', function() {
+      shallow(<RegistrationConfirmed {...props} />);
+
       const updateTokenInfo = props.actions.authentication.updateTokenInfo;
       expect(updateTokenInfo.calledOnce).to.be.true;
       const [tokenInfo] = updateTokenInfo.firstCall.args;
@@ -52,10 +53,15 @@ describe('<RegistrationConfirmed />', function() {
     });
 
     it('pushes to the homepage', function() {
-      const push = props.router.push;
-      expect(push.calledOnce).to.be.true;
-      const [url] = push.firstCall.args;
-      expect(url).to.eq('/');
+      const componentWillMount = shallow(<RegistrationConfirmed {...props} />).instance().componentWillMount();
+
+      return componentWillMount
+        .then(() => {
+          const push = props.router.push;
+          expect(push.called).to.be.true;
+          const [url] = push.firstCall.args;
+          expect(url).to.eq('/');
+        });
     });
   });
 });
