@@ -273,18 +273,6 @@ describe('authentication/service', function() {
   });
 
   describe('requestPasswordReset', function() {
-    let expectedOrigin;
-
-    beforeEach(function() {
-      expectedOrigin = faker.internet.url();
-      global.window = {
-        location: {
-          host: expectedOrigin.split('//')[1],
-          protocol: expectedOrigin.split('//')[0]
-        }
-      };
-    });
-
     context('a successful request', function() {
       let expectedParams;
       let message;
@@ -308,10 +296,7 @@ describe('authentication/service', function() {
         expect(post.calledOnce).to.be.true;
         const [endpoint, params] = post.firstCall.args;
         expect(endpoint).to.equal('/auth/password');
-        expect(params).to.deep.equal({
-          email: expectedParams.email,
-          redirect_url: expectedOrigin
-        });
+        expect(params).to.deep.equal(expectedParams);
       });
 
       it('returns a successful message', function() {

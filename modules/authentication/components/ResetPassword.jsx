@@ -8,68 +8,54 @@ import mapFormValues from '../utils/mapFormValues';
 const propTypes = {
   actions: PropTypes.shape({
     authentication: PropTypes.shape({
-      register: PropTypes.func.isRequired
+      resetPassword: PropTypes.func.isRequired
     }).isRequired
   }).isRequired,
   baseClassName: PropTypes.string,
   children: PropTypes.node,
   location: PropTypes.shape({
-    query: PropTypes.shape({
-      next: PropTypes.string
-    }).isRequired
+    query: PropTypes.object.isRequired
   }).isRequired,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired
   })
 };
 
-class Register extends Component {
-  constructor() {
-    super();
+const defaultProps = {
+  baseClassName: 'c-form'
+};
+
+class ResetPassword extends Component {
+  constructor(props) {
+    super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const values = mapFormValues(this.registerForm.elements);
+    const values = mapFormValues(this.resetPasswordForm.elements);
 
-    const host = window.location.host;
-    const protocol = window.location.protocol;
-
-    const params = {
+    const resetPasswordOptions = {
       ...values,
-      confirm_success_url: `${protocol}//${host}/registration-confirmed`
+      'access-token': this.props.location.query.token,
+      client: this.props.location.query.client_id,
+      uid: this.props.location.query.uid
     };
 
     return this.props.actions.authentication
-      .register(params)
-      .then(() => this.transitionToNextPage());
-  }
-
-  transitionToNextPage() {
-    const query = { ...this.props.location.query };
-
-    if (query.next) {
-      delete query.next;
-    }
-
-    this.props.router.replace({
-      query,
-      pathname: this.props.location.query.next || '/'
-    });
+      .resetPassword(resetPasswordOptions)
+      .then(() => {
+        this.props.router.replace({ pathname: '/' });
+      });
   }
 
   render() {
     return (
       <form
         className={this.props.baseClassName}
-        ref={(form) => { this.registerForm = form; }}
+        ref={(form) => { this.resetPasswordForm = form; }}
         onSubmit={this.handleSubmit}
       >
-        <label className={`${this.props.baseClassName}__title`} htmlFor="email">
-          Email
-          <input className={`${this.props.baseClassName}__field`} name="email" type="text" />
-        </label>
         <label className={`${this.props.baseClassName}__title`} htmlFor="password">
           Password
           <input className={`${this.props.baseClassName}__field`} name="password" type="password" />
@@ -86,6 +72,7 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = propTypes;
+ResetPassword.propTypes = propTypes;
+ResetPassword.defaultProps = defaultProps;
 
-export default Register;
+export default ResetPassword;

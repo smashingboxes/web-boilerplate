@@ -35,10 +35,10 @@ describe('<RegistrationConfirmed />', function() {
 
     beforeEach(function() {
       expectedTokenInfo = {
-        ['access-token']: props.location.query.token,
+        'access-token': props.location.query.token,
         client: props.location.query.client_id,
         expiry: props.location.query.expiry,
-        ['token-type']: 'Bearer',
+        'token-type': 'Bearer',
         uid: props.location.query.uid
       };
     });

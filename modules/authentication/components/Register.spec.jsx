@@ -43,8 +43,13 @@ describe('<Register />', function() {
     let transitionToNextPage;
 
     beforeEach(function() {
-      expectedOrigin = 'foo.com';
-      global.window = { location: { origin: expectedOrigin } };
+      expectedOrigin = faker.internet.url();
+      global.window = {
+        location: {
+          host: expectedOrigin.split('//')[1],
+          protocol: expectedOrigin.split('//')[0]
+        }
+      };
       preventDefault = this.sandbox.stub();
       transitionToNextPage = this.sandbox.stub(Register.prototype, 'transitionToNextPage');
     });

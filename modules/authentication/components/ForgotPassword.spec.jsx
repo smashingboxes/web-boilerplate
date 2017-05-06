@@ -39,7 +39,13 @@ describe('<ForgotPassword />', function() {
     let expectedOrigin;
 
     beforeEach(function() {
-      expectedOrigin = 'foo.com';
+      expectedOrigin = faker.internet.url();
+      global.window = {
+        location: {
+          host: expectedOrigin.split('//')[1],
+          protocol: expectedOrigin.split('//')[0]
+        }
+      };
       preventDefault = this.sandbox.stub();
     });
 
@@ -51,7 +57,7 @@ describe('<ForgotPassword />', function() {
       beforeEach(function() {
         expectedCredentials = {
           email: faker.internet.email(),
-          redirect_url: expectedOrigin,
+          redirect_url: `${expectedOrigin}/reset-password`,
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase(),
           [faker.hacker.noun()]: faker.hacker.phrase()
@@ -90,7 +96,8 @@ describe('<ForgotPassword />', function() {
     context('form fields are missing information', function() {
       it('does not include the form field in the credentials when there is no name for the field', function() {
         const expectedCredentials = {
-          email: faker.internet.email()
+          email: faker.internet.email(),
+          redirect_url: `${expectedOrigin}/reset-password`
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },
@@ -107,7 +114,8 @@ describe('<ForgotPassword />', function() {
 
       it('does not include the form field in the credentials when there is no value for the field', function() {
         const expectedCredentials = {
-          email: faker.internet.email()
+          email: faker.internet.email(),
+          redirect_url: `${expectedOrigin}/reset-password`
         };
         const elements = [
           { name: 'email', value: expectedCredentials.email },

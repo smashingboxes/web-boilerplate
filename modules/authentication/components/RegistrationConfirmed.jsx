@@ -13,6 +13,7 @@ const propTypes = {
       updateTokenInfo: PropTypes.func.isRequired
     }).isRequired
   }).isRequired,
+  baseClassName: PropTypes.string,
   children: PropTypes.node,
   location: PropTypes.shape({
     query: PropTypes.shape({
@@ -46,8 +47,8 @@ class RegistrationConfirmed extends Component {
 
   render() {
     return (
-      <div>
-        <p>Registration Finished! You will now be directed to the <Link to="/">home page</Link>.</p>
+      <div className={this.props.baseClassName}>
+        <p className={`${this.props.baseClassName}__title`}>Registration Finished! You will now be directed to the <Link to="/">home page</Link>.</p>
         {this.props.children &&
           cloneElement(this.props.children, this.props)}
       </div>
