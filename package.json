@@ -4,8 +4,8 @@
   "description": "A template for new front-end projects.",
   "main": "index.js",
   "scripts": {
-    "lint": "npm run lint:css && npm run lint:js",
-    "lint:css": "stylelint 'src/css/**/*.css' || true",
+    "lint": "npm run lint:css ; npm run lint:js",
+    "lint:css": "stylelint 'src/css/**/*.css'",
     "lint:js": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.jsx ./src",
     "lint:dev": "npm run lint -- -w",
     "test": "NODE_ENV=test mocha --compilers jsx:babel-register --opts 'support/mocha.opts' 'src/**/*.spec.*'",
