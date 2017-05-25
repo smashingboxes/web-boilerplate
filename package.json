@@ -4,8 +4,8 @@
   "description": "A template for new front-end projects.",
   "main": "index.js",
   "scripts": {
-    "lint": "npm run lint:css && npm run lint:js",
-    "lint:css": "stylelint 'src/css/**/*.css' || true",
+    "lint": "npm run lint:css ; npm run lint:js",
+    "lint:css": "stylelint 'src/css/**/*.css'",
     "lint:js": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.jsx ./src",
     "lint:dev": "npm run lint -- -w",
     "test": "NODE_ENV=test mocha --compilers jsx:babel-register --opts 'support/mocha.opts' 'src/**/*.spec.*'",
@@ -27,6 +27,8 @@
   "homepage": "https://github.com/smashingboxes/web-boilerplate#readme",
   "dependencies": {
     "axios": "^0.15.3",
+    "compression-webpack-plugin": "^0.4.0",
+    "extract-text-webpack-plugin": "^2.1.0",
     "normalize.css": "^5.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -47,7 +49,7 @@
     "chai-enzyme": "^0.6.1",
     "cheerio": "^0.22.0",
     "clean-webpack-plugin": "^0.1.14",
-    "css-loader": "^0.26.1",
+    "css-loader": "^0.28.1",
     "enzyme": "^2.7.0",
     "es6-promise": "^4.0.5",
     "eslint": "^3.12.2",

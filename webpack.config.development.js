@@ -19,12 +19,28 @@ config.devServer = {
 };
 config.devtool = 'inline-source-map';
 
-config.module.rules = config.module.rules.concat([{
-  enforce: 'pre',
-  test: /\.jsx?$/,
-  exclude: /node_modules/,
-  use: 'eslint-loader'
-}]);
+config.module.rules = config.module.rules.concat([
+  {
+    enforce: 'pre',
+    test: /\.jsx?$/,
+    exclude: /node_modules/,
+    use: 'eslint-loader'
+  },
+  {
+    test: /\.css$/,
+    use: [
+      'style-loader',
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          sourceMap: true
+        }
+      },
+      'postcss-loader'
+    ]
+  }
+]);
 
 config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 config.plugins.unshift(new webpack.LoaderOptionsPlugin({
