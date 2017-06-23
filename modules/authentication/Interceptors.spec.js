@@ -121,11 +121,18 @@ describe('authentication/Interceptors', function() {
 
     it('does not dispatch a sign out action on a non-401 error', function() {
       const expectedError = new Error();
-      expectedError.response = {};
+      expectedError.response = { status: 422 };
+
+      const saveTokenInfo = this.sandbox.stub(
+        Interceptors.prototype,
+        'saveTokenInfo'
+      ).callsFake(() => {});
+
       expect(() => {
         interceptors.invalidateHeaders(expectedError);
       }).to.throw(expectedError);
 
+      expect(saveTokenInfo.calledOnce).to.be.true;
       expect(dispatch.called).to.be.false;
     });
   });
