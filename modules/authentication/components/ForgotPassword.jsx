@@ -32,8 +32,16 @@ class ForgotPassword extends Component {
     event.preventDefault();
     const values = mapFormValues(this.forgotPasswordForm.elements);
 
+    const host = window.location.host;
+    const protocol = window.location.protocol;
+
+    const params = {
+      ...values,
+      redirect_url: `${protocol}//${host}/reset-password`
+    };
+
     return this.props.actions.authentication
-      .requestPasswordReset(values)
+      .requestPasswordReset(params)
       .then(() => {
         this.props.router.replace({ pathname: '/' });
       });

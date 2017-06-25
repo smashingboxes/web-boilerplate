@@ -33,14 +33,27 @@ function checkAuth(store) {
   };
 }
 
+function prehydrateStore(store) {
+  return function(nextState, replace, callback) {
+    return store
+      .hydrateStore()
+      .then(() => callback())
+      .catch(() => {
+        const errorMessage = 'The store failed to prehydrate. This will prevent the user from logging in upon a confirmed registration.';
+
+        throw new Error(errorMessage);
+      });
+  };
+}
+
 function register(credentials) {
   return apiService
-    .post('/auth/register', credentials, { params: { redirect_url: 'some url' } })
+    .post('/auth', credentials)
     .then(({ data }) => {
       return {
-        email: data.email,
-        id: data.id,
-        name: data.name
+        email: data.data.email,
+        id: data.data.id,
+        name: data.data.name
       };
     })
     .catch((err) => {
@@ -54,11 +67,7 @@ function register(credentials) {
     });
 }
 
-function requestPasswordReset(params = {}) {
-  const host = window.location.host;
-  const protocol = window.location.protocol;
-  params.redirect_url = `${protocol}//${host}`;
-
+function requestPasswordReset(params) {
   return apiService
     .post('/auth/password', params)
     .then(({ data }) => {
@@ -120,11 +129,17 @@ function signOut() {
     .delete('/auth/sign_out');
 }
 
+function updateTokenInfo(tokenInfo, props) {
+  return Promise.resolve(props.actions.authentication.updateTokenInfo(tokenInfo));
+}
+
 export default {
   checkAuth,
+  prehydrateStore,
   register,
   requestPasswordReset,
   resetPassword,
   signIn,
-  signOut
+  signOut,
+  updateTokenInfo
 };

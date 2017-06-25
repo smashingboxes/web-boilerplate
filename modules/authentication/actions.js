@@ -13,10 +13,10 @@ function registerStart() {
   };
 }
 
-function registerSuccess(authenticationInfo) {
+function registerSuccess(userInfo) {
   return {
     type: actionTypes.REGISTER_SUCCESS,
-    payload: { authenticationInfo }
+    payload: { userInfo }
   };
 }
 
@@ -25,20 +25,6 @@ function registerFailure(err) {
     type: actionTypes.REGISTER_FAILURE,
     error: true,
     payload: err
-  };
-}
-
-function register(credentials) {
-  return function(dispatch) {
-    dispatch(registerStart());
-
-    return service
-      .register(credentials)
-      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
-      .catch((err) => {
-        dispatch(registerFailure(err));
-        throw err;
-      });
   };
 }
 
@@ -104,6 +90,27 @@ function signInFailure(err) {
   };
 }
 
+function updateTokenInfo(tokenInfo) {
+  return {
+    type: actionTypes.UPDATE_TOKEN_INFO,
+    payload: tokenInfo
+  };
+}
+
+function register(credentials) {
+  return function(dispatch) {
+    dispatch(registerStart());
+
+    return service
+      .register(credentials)
+      .then((authenticationInfo) => dispatch(registerSuccess(authenticationInfo)))
+      .catch((err) => {
+        dispatch(registerFailure(err));
+        throw err;
+      });
+  };
+}
+
 function requestPasswordReset(credentials) {
   return function(dispatch) {
     dispatch(requestPasswordResetStart());
@@ -156,13 +163,6 @@ function signOut() {
       .signOut()
       .then(() => dispatch(signOutAction))
       .catch(() => dispatch(signOutAction));
-  };
-}
-
-function updateTokenInfo(tokenInfo) {
-  return {
-    type: actionTypes.UPDATE_TOKEN_INFO,
-    payload: tokenInfo
   };
 }
 

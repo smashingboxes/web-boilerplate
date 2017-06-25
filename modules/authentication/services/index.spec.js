@@ -142,6 +142,7 @@ describe('authentication/service', function() {
         expectedId = faker.random.number();
         expectedName = faker.name.findName();
         expectedCredentials = {
+          confirm_success_url: 'some url',
           email: expectedEmail,
           name: expectedName,
           password: faker.internet.password()
@@ -149,9 +150,11 @@ describe('authentication/service', function() {
         post = this.sandbox.stub(apiService, 'post', () => {
           return Promise.resolve({
             data: {
-              email: expectedEmail,
-              id: expectedId,
-              name: expectedName
+              data: {
+                email: expectedEmail,
+                id: expectedId,
+                name: expectedName
+              }
             }
           });
         });
@@ -161,10 +164,9 @@ describe('authentication/service', function() {
 
       it('sends a request to register the invited user', function() {
         expect(post.calledOnce).to.be.true;
-        const [endpoint, credentials, { params }] = post.firstCall.args;
-        expect(endpoint).to.equal('/auth/register');
+        const [endpoint, credentials] = post.firstCall.args;
+        expect(endpoint).to.equal('/auth');
         expect(credentials).to.equal(expectedCredentials);
-        expect(params.redirect_url).to.equal('some url');
       });
 
       it('returns the token and user info', function() {
@@ -222,19 +224,55 @@ describe('authentication/service', function() {
     });
   });
 
-  describe('requestPasswordReset', function() {
-    let expectedOrigin;
+  describe('prehydrateStore', function() {
+    context('a successful hydration', function() {
+      let callback;
+      let hydrateStore;
+      let promise;
+      let store;
 
-    beforeEach(function() {
-      expectedOrigin = faker.internet.url();
-      global.window = {
-        location: {
-          host: expectedOrigin.split('//')[1],
-          protocol: expectedOrigin.split('//')[0]
-        }
-      };
+      beforeEach(function() {
+        callback = this.sandbox.spy();
+        hydrateStore = this.sandbox.stub().returns(Promise.resolve());
+        store = { hydrateStore };
+        promise = authenticationService.prehydrateStore(store)(null, null, callback);
+      });
+
+      it('calls hydrateStore', function() {
+        expect(hydrateStore.calledOnce).to.be.true;
+      });
+
+      it('calls the callback', function() {
+        return promise
+          .then(() => {
+            expect(callback.calledOnce).to.be.true;
+          });
+      });
     });
 
+    context('a failed hydration', function() {
+      let hydrateStore;
+      let promise;
+      let store;
+
+      beforeEach(function() {
+        hydrateStore = this.sandbox.stub().returns(Promise.reject());
+        store = { hydrateStore };
+        promise = authenticationService.prehydrateStore(store)();
+      });
+
+      it('throws an error', function() {
+        return promise
+          .then(expect.fail)
+          .catch((err) => {
+            expect(hydrateStore.calledOnce).to.be.true;
+            expect(err.message).to.equal('The store failed to prehydrate. This will prevent the user from logging in upon a confirmed registration.');
+          });
+      });
+    });
+  });
+
+  describe('requestPasswordReset', function() {
     context('a successful request', function() {
       let expectedParams;
       let message;
@@ -258,10 +296,7 @@ describe('authentication/service', function() {
         expect(post.calledOnce).to.be.true;
         const [endpoint, params] = post.firstCall.args;
         expect(endpoint).to.equal('/auth/password');
-        expect(params).to.deep.equal({
-          email: expectedParams.email,
-          redirect_url: expectedOrigin
-        });
+        expect(params).to.deep.equal(expectedParams);
       });
 
       it('returns a successful message', function() {
