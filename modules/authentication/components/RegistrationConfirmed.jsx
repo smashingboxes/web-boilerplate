@@ -6,6 +6,7 @@ import React, {
 import {
   Link
 } from 'react-router';
+import services from '../services';
 
 const propTypes = {
   actions: PropTypes.shape({
@@ -39,7 +40,7 @@ class RegistrationConfirmed extends Component {
       uid: query.uid
     };
 
-    return Promise.resolve(this.props.actions.authentication.updateTokenInfo(tokenInfo))
+    return services.updateTokenInfo(tokenInfo, this.props)
       .then(() => {
         this.props.router.push('/');
       });

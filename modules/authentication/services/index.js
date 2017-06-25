@@ -129,6 +129,10 @@ function signOut() {
     .delete('/auth/sign_out');
 }
 
+function updateTokenInfo(tokenInfo, props) {
+  return Promise.resolve(props.actions.authentication.updateTokenInfo(tokenInfo));
+}
+
 export default {
   checkAuth,
   prehydrateStore,
@@ -136,5 +140,6 @@ export default {
   requestPasswordReset,
   resetPassword,
   signIn,
-  signOut
+  signOut,
+  updateTokenInfo
 };
