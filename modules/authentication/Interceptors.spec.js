@@ -125,8 +125,9 @@ describe('authentication/Interceptors', function() {
 
       const saveTokenInfo = this.sandbox.stub(
         Interceptors.prototype,
-        'saveTokenInfo'
-      ).callsFake(() => {});
+        'saveTokenInfo',
+        () => {}
+      );
 
       expect(() => {
         interceptors.invalidateHeaders(expectedError);
