@@ -1,5 +1,7 @@
+[![Stories in Ready](https://badge.waffle.io/smashingboxes/web-boilerplate.png?label=ready&title=Ready)](https://waffle.io/smashingboxes/web-boilerplate)
 # web-boilerplate
-A template for new front-end projects.
+A template for new front-end projects.  
+[Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
 
 ## Using
 1. Clone the repo
@@ -31,15 +33,39 @@ git push origin master
 
 ## Commands
 
-Run your tests with:
-```
-npm test
-```
 Run the server with:
 ```
-npm start
+yarn start
 ```
+
+Run your tests with:
+```
+yarn test
+```
+
 Run a build with:
 ```
-npm run build
+yarn build
+```
+
+## Docker Commands
+
+Build and start the server:
+```
+docker-compose up --build
+```
+
+Run your tests with:
+```
+docker-compose exec web yarn test
+```
+
+Run a build with:
+```
+docker-compose exec web yarn build
+```
+
+If your terminal closes run:
+```
+docker-compose logs --follow
 ```
