@@ -30,6 +30,8 @@ class Interceptors {
     if (error.response.status === 401) {
       const store = this.store.getStore();
       store.dispatch(clearHeaders());
+    } else {
+      this.saveTokenInfo(error.response);
     }
 
     throw error;
