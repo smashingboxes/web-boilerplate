@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var babelConfig = require('./.babelrc');
 
 module.exports = {
   resolve: {
@@ -19,7 +20,7 @@ module.exports = {
       exclude: /node_modules/,
       use: {
         loader: 'babel-loader',
-        options: { presets: ['stage-2', 'react', 'es2015'] }
+        options: babelConfig
       }
     }, {
       test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/,

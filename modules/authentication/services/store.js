@@ -6,7 +6,6 @@ import {
   composeWithDevTools
 } from 'redux-devtools-extension/developmentOnly';
 import {
-  autoRehydrate,
   persistStore
 } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -17,8 +16,7 @@ class Store {
     this.store = createStore(
       reducers,
       composeWithDevTools(
-        applyMiddleware(thunk),
-        autoRehydrate()
+        applyMiddleware(thunk)
       )
     );
 
@@ -41,19 +39,17 @@ class Store {
     return this.store;
   }
 
+  getStorage() {
+    return this.storage;
+  }
+
   hydrateStore() {
     if (!this.hydratedStore) {
-      this.hydratedStore = new Promise((resolve, reject) => {
+      this.hydratedStore = new Promise(() => {
         persistStore(
           this.store,
-          {
-            storage: this.storage,
-            whitelist: ['authentication']
-          },
-          (err, state) => {
-            if (err) { reject(err); }
-            resolve(state);
-          }
+          null,
+          () => this.store.getState()
         );
       });
     }
