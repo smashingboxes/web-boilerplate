@@ -4,6 +4,8 @@ A template for new front-end projects.
 [Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
 
 ## Using
+*NOTE: There are some additional steps for setting up a new project that are documented [here](https://github.com/smashingboxes/development-wiki/blob/master/technobabble/setting_up_a_new_project.md). The steps documented here are just the ones needed to set up the code for the repo.*
+
 1. Clone the repo
 ```
 git clone https://github.com/smashingboxes/web-boilerplate
@@ -23,13 +25,18 @@ git init
 ```
 5. Change the package.json file to information about your project
 6. Delete this README and create a new one for your project
-7. Commit all the files as an initial commit and push to your origin
+7. Create a new branch titled `initial-setup`
+```
+git checkout -b initial-setup
+```
+8. Commit all the files as an initial commit and push to your origin
 ```
 git remote set-url origin https://github.com/smashingboxes/*PROJECT_NAME*.git
 git add .
 git commit -m "Initial commit"
-git push origin master
+git push origin initial-setup
 ```
+7. [Create a pull request](https://github.com/smashingboxes/development-wiki/blob/master/technobabble/code_quality/code_review_policy.md)
 
 ## Commands
 
