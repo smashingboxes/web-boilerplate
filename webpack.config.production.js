@@ -1,8 +1,7 @@
-var CompressionPlugin = require('compression-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
-var webpack = require('webpack');
-var config = require('./webpack.config.base');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+const webpack = require('webpack');
+const config = require('./webpack.config.base');
 
 config.bail = true;
 config.profile = false;
@@ -31,11 +30,10 @@ config.plugins = config.plugins.concat([
   new webpack.LoaderOptionsPlugin({
     debug: true
   }),
-  new CompressionPlugin(),
   new ExtractTextPlugin('styles.[contenthash].css'),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
-    minChunks: function(module) {
+    minChunks(module) {
       return module.context && module.context.indexOf('node_modules') !== -1;
     }
   }),

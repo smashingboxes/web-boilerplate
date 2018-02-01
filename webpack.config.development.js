@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-var config = require('./webpack.config.base');
+const webpack = require('webpack');
+const config = require('./webpack.config.base');
 
 config.devServer = {
   historyApiFallback: {
