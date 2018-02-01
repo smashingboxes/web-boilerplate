@@ -1,4 +1,5 @@
 import helloWorldReducer from './helloWorldReducer';
+import actionTypes from '../constants/actionTypes';
 
 describe('helloWorldReducer', function() {
   const INITIAL_STATE = { name: 'World' };
@@ -18,7 +19,7 @@ describe('helloWorldReducer', function() {
   describe('SET_NAME action', function() {
     const name = faker.name.firstName();
     const action = {
-      type: 'SET_NAME',
+      type: actionTypes.SET_NAME,
       payload: { name }
     };
     const expected = { name };
