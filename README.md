@@ -3,6 +3,11 @@
 A template for new front-end projects.  
 [Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
 
+## Info
+
+- Yarn 1.3.2
+- Node 8.9.4
+
 ## Using
 *NOTE: There are some additional steps for setting up a new project that are documented [here](https://github.com/smashingboxes/development-wiki/blob/master/technobabble/setting_up_a_new_project.md). The steps documented here are just the ones needed to set up the code for the repo.*
 
@@ -56,6 +61,8 @@ yarn build
 ```
 
 ## Docker Commands
+
+### Docker is not needed to run the boilerplate
 
 Build and start the server:
 ```
