@@ -1,8 +1,8 @@
 import React, {
   cloneElement,
-  Component,
-  PropTypes
+  Component
 } from 'react';
+import PropTypes from 'prop-types';
 import mapFormValues from '../utils/mapFormValues';
 
 const propTypes = {
