@@ -6,13 +6,13 @@ import {
   Route,
   Router
 } from 'react-router';
-import AppContainer from './containers/AppContainer';
-import ForgotPassword from '../modules/authentication/containers/ForgotPassword';
-import Register from '../modules/authentication/containers/Register';
-import RegistrationConfirmed from '../modules/authentication/containers/RegistrationConfirmed';
-import ResetPassword from '../modules/authentication/containers/ResetPassword';
-import SignIn from '../modules/authentication/containers/SignIn';
-import authenticationService from '../modules/authentication/services';
+import AppContainer from '../containers/AppContainer';
+import ForgotPassword from '../../modules/authentication/containers/ForgotPassword';
+import Register from '../../modules/authentication/containers/Register';
+import RegistrationConfirmed from '../../modules/authentication/containers/RegistrationConfirmed';
+import ResetPassword from '../../modules/authentication/containers/ResetPassword';
+import SignIn from '../../modules/authentication/containers/SignIn';
+import authenticationService from '../../modules/authentication/services';
 
 const propTypes = {
   store: PropTypes.object.isRequired

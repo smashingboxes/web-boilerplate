@@ -8,7 +8,7 @@ import './css/index.css';
 const rootEl = document.getElementById('root');
 
 function render() {
-  const Routes = require('./Routes').default;
+  const Routes = require('./routes').default;
   ReactDOM.render(
     <Provider store={store.getStore()}>
       <Routes store={store} />
@@ -18,7 +18,7 @@ function render() {
 }
 
 if (module.hot) {
-  module.hot.accept('./Routes', render);
+  module.hot.accept('./routes', render);
 }
 
 render();
