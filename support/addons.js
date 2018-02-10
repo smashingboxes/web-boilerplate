@@ -1,4 +1,9 @@
 const chai = require('chai');
-const chaiEnzyme = require('chai-enzyme');
+const chaiImmutable = require('chai-immutable');
 
-chai.use(chaiEnzyme());
+const Enzyme = require('enzyme');
+const Adapter = require('enzyme-adapter-react-16');
+
+chai.use(chaiImmutable);
+
+Enzyme.configure({ adapter: new Adapter() });
