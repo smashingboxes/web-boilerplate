@@ -15,22 +15,24 @@ module.exports = {
     publicPath: '/'
   },
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: { presets: ['stage-2', 'react', 'es2015'] }
-      }
-    }, {
-      test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 25000
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(gif|png|jpg|svg|woff|woff2|ttf|eot)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 25000
+          }
         }
       }
-    }]
+    ]
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
