@@ -1,8 +1,9 @@
+import Immutable from 'immutable';
 import helloWorldReducer from './helloWorldReducer';
 import actionTypes from '../constants/actionTypes';
 
 describe('helloWorldReducer', function() {
-  const INITIAL_STATE = { name: 'World' };
+  const INITIAL_STATE = Immutable.fromJS({ name: 'World' });
 
   it('defaults to returning the initial state', function() {
     expect(helloWorldReducer(undefined, {})).to.eql(INITIAL_STATE); // eslint-disable-line no-undefined
@@ -13,7 +14,7 @@ describe('helloWorldReducer', function() {
       type: 'BOGUS',
       payload: { fakeData: 1234 }
     };
-    expect(helloWorldReducer(INITIAL_STATE, bogusAction)).to.eql(INITIAL_STATE);
+    expect(helloWorldReducer(INITIAL_STATE, bogusAction)).to.deep.equal(INITIAL_STATE);
   });
 
   describe('SET_NAME action', function() {
@@ -22,10 +23,10 @@ describe('helloWorldReducer', function() {
       type: actionTypes.SET_NAME,
       payload: { name }
     };
-    const expected = { name };
+    const expected = Immutable.fromJS({ name });
 
     it('sets the name', function() {
-      expect(helloWorldReducer(INITIAL_STATE, action)).to.eql(expected);
+      expect(helloWorldReducer(INITIAL_STATE, action)).to.deep.equal(expected);
     });
   });
 });

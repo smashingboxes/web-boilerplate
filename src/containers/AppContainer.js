@@ -4,7 +4,7 @@ import App from '../components/App';
 
 function mapStateToProps(state) {
   return {
-    ...state.helloWorld,
+    helloWorld: state.get('helloWorld'),
     tokenInfo: state.authentication.tokenInfo
   };
 }
