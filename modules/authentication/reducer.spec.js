@@ -1,9 +1,10 @@
+import Immutable from 'immutable';
 import reducer from './reducer';
 import {
   VALID_TOKEN_INFO_FIELDS
 } from './constants';
 
-const initialState = {
+const initialState = Immutable.fromJS({
   email: null,
   error: null,
   id: null,
@@ -11,7 +12,7 @@ const initialState = {
   name: null,
   tokenInfo: {},
   uid: null
-};
+});
 
 describe('authentication/reducer', function() {
   ['CLEAR_HEADERS', 'SIGN_OUT'].forEach(function(testCase) {
@@ -20,7 +21,7 @@ describe('authentication/reducer', function() {
       let previousState;
 
       beforeEach(function() {
-        previousState = {
+        previousState = Immutable.fromJS({
           avatar: faker.internet.avatar(),
           email: faker.internet.email(),
           id: faker.random.number().toString(),
@@ -31,24 +32,24 @@ describe('authentication/reducer', function() {
             memo[field] = faker.internet.password();
             return memo;
           }, {})
-        };
+        });
         nextState = reducer(previousState, {
           type: testCase
         });
       });
 
       it('clears any existing user info', function() {
-        expect(nextState.email).to.be.null;
-        expect(nextState.id).to.be.null;
-        expect(nextState.name).to.be.null;
-        expect(nextState.uid).to.be.null;
-        expect(nextState.tokenInfo).to.deep.equal({});
+        expect(nextState.get('email')).to.be.null;
+        expect(nextState.get('id')).to.be.null;
+        expect(nextState.get('name')).to.be.null;
+        expect(nextState.get('uid')).to.be.null;
+        expect(nextState.get('tokenInfo')).to.deep.equal(Immutable.fromJS({}));
       });
 
       it('creates a new object and transfers the old properties', function() {
-        expect(nextState).to.not.equal(previousState);
-        expect(nextState.avatar).to.equal(previousState.avatar);
-        expect(nextState.password).to.equal(previousState.password);
+        expect(nextState).to.not.deep.equal(previousState);
+        expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
+        expect(nextState.get('password')).to.equal(previousState.get('password'));
       });
     });
   });
@@ -59,7 +60,7 @@ describe('authentication/reducer', function() {
       let previousState;
 
       beforeEach(function() {
-        previousState = {
+        previousState = Immutable.fromJS({
           avatar: faker.internet.avatar(),
           email: faker.internet.email(),
           error: new Error(),
@@ -72,32 +73,32 @@ describe('authentication/reducer', function() {
             memo[field] = faker.internet.password();
             return memo;
           }, {})
-        };
+        });
         nextState = reducer(previousState, {
           type: `${testCase}_START`
         });
       });
 
       it('clears any existing errors', function() {
-        expect(nextState.error).to.be.null;
+        expect(nextState.get('error')).to.be.null;
       });
 
       it('sets the activity state to be true', function() {
-        expect(nextState.isActive).to.be.true;
+        expect(nextState.get('isActive')).to.be.true;
       });
 
       it('clears any existing user info', function() {
-        expect(nextState.email).to.be.null;
-        expect(nextState.id).to.be.null;
-        expect(nextState.name).to.be.null;
-        expect(nextState.uid).to.be.null;
-        expect(nextState.tokenInfo).to.deep.equal({});
+        expect(nextState.get('email')).to.be.null;
+        expect(nextState.get('id')).to.be.null;
+        expect(nextState.get('name')).to.be.null;
+        expect(nextState.get('uid')).to.be.null;
+        expect(nextState.get('tokenInfo')).to.deep.equal(Immutable.fromJS({}));
       });
 
       it('creates a new object and transfers the old properties', function() {
-        expect(nextState).to.not.equal(previousState);
-        expect(nextState.avatar).to.equal(previousState.avatar);
-        expect(nextState.password).to.equal(previousState.password);
+        expect(nextState).to.not.deep.equal(previousState);
+        expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
+        expect(nextState.get('password')).to.equal(previousState.get('password'));
       });
     });
 
@@ -114,11 +115,11 @@ describe('authentication/reducer', function() {
           uid: faker.internet.email()
         };
 
-        previousState = {
+        previousState = Immutable.fromJS({
           avatar: faker.internet.avatar(),
           isActive: true,
           password: faker.internet.password()
-        };
+        });
         nextState = reducer(previousState, {
           type: `${testCase}_SUCCESS`,
           payload: {
@@ -133,29 +134,29 @@ describe('authentication/reducer', function() {
       });
 
       it("sets the user's email", function() {
-        expect(nextState.email).to.equal(expectedUserInfo.email);
+        expect(nextState.get('email')).to.equal(expectedUserInfo.email);
       });
 
       it("sets the user's id", function() {
-        expect(nextState.id).to.equal(expectedUserInfo.id);
+        expect(nextState.get('id')).to.equal(expectedUserInfo.id);
       });
 
       it('sets the activity state to be false', function() {
-        expect(nextState.isActive).to.false;
+        expect(nextState.get('isActive')).to.false;
       });
 
       it("sets the user's name", function() {
-        expect(nextState.name).to.equal(expectedUserInfo.name);
+        expect(nextState.get('name')).to.equal(expectedUserInfo.name);
       });
 
       it("sets the user's uid", function() {
-        expect(nextState.uid).to.equal(expectedUserInfo.uid);
+        expect(nextState.get('uid')).to.equal(expectedUserInfo.uid);
       });
 
       it('creates a new object and transfers the old properties', function() {
-        expect(nextState).to.not.equal(previousState);
-        expect(nextState.avatar).to.equal(previousState.avatar);
-        expect(nextState.password).to.equal(previousState.password);
+        expect(nextState).to.not.deep.equal(previousState);
+        expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
+        expect(nextState.get('password')).to.equal(previousState.get('password'));
       });
     });
 
@@ -167,11 +168,11 @@ describe('authentication/reducer', function() {
       beforeEach(function() {
         expectedError = new Error();
 
-        previousState = {
+        previousState = Immutable.fromJS({
           avatar: faker.internet.avatar(),
           isActive: true,
           password: faker.internet.password()
-        };
+        });
         nextState = reducer(previousState, {
           type: `${testCase}_FAILURE`,
           error: true,
@@ -180,17 +181,17 @@ describe('authentication/reducer', function() {
       });
 
       it('sets the activity state to be false', function() {
-        expect(nextState.isActive).to.be.false;
+        expect(nextState.get('isActive')).to.be.false;
       });
 
       it('sets the error message', function() {
-        expect(nextState.error).to.equal(expectedError);
+        expect(nextState.get('error')).to.equal(expectedError);
       });
 
       it('creates a new object and transfers the old properties', function() {
-        expect(nextState).to.not.equal(previousState);
-        expect(nextState.avatar).to.equal(previousState.avatar);
-        expect(nextState.password).to.equal(previousState.password);
+        expect(nextState).to.not.deep.equal(previousState);
+        expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
+        expect(nextState.get('password')).to.equal(previousState.get('password'));
       });
     });
   });
@@ -200,27 +201,27 @@ describe('authentication/reducer', function() {
     let previousState;
 
     beforeEach(function() {
-      previousState = {
+      previousState = Immutable.fromJS({
         avatar: faker.internet.avatar(),
         error: new Error(),
         isActive: false
-      };
+      });
       nextState = reducer(previousState, {
         type: 'REQUEST_PASSWORD_RESET_START'
       });
     });
 
     it('clears any existing errors', function() {
-      expect(nextState.error).to.be.null;
+      expect(nextState.get('error')).to.be.null;
     });
 
     it('sets the activity state to be true', function() {
-      expect(nextState.isActive).to.be.true;
+      expect(nextState.get('isActive')).to.be.true;
     });
 
     it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState).to.not.deep.equal(previousState);
+      expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
     });
   });
 
@@ -229,23 +230,23 @@ describe('authentication/reducer', function() {
     let previousState;
 
     beforeEach(function() {
-      previousState = {
+      previousState = Immutable.fromJS({
         avatar: faker.internet.avatar(),
         error: new Error(),
         isActive: true
-      };
+      });
       nextState = reducer(previousState, {
         type: 'REQUEST_PASSWORD_RESET_SUCCESS'
       });
     });
 
     it('sets the activity state to be false', function() {
-      expect(nextState.isActive).to.be.false;
+      expect(nextState.get('isActive')).to.be.false;
     });
 
     it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState).to.not.deep.equal(previousState);
+      expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
     });
   });
 
@@ -257,11 +258,11 @@ describe('authentication/reducer', function() {
     beforeEach(function() {
       expectedError = new Error();
 
-      previousState = {
+      previousState = Immutable.fromJS({
         avatar: faker.internet.avatar(),
         error: null,
         isActive: true
-      };
+      });
       nextState = reducer(previousState, {
         type: 'REQUEST_PASSWORD_RESET_FAILURE',
         error: true,
@@ -270,16 +271,16 @@ describe('authentication/reducer', function() {
     });
 
     it('sets the activity state to be false', function() {
-      expect(nextState.isActive).to.be.false;
+      expect(nextState.get('isActive')).to.be.false;
     });
 
     it('sets the error message', function() {
-      expect(nextState.error).to.equal(expectedError);
+      expect(nextState.get('error')).to.equal(expectedError);
     });
 
     it('creates a new object and transfers the old properties', function() {
       expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
+      expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
     });
   });
 
@@ -294,11 +295,11 @@ describe('authentication/reducer', function() {
         return memo;
       }, {});
 
-      previousState = {
+      previousState = Immutable.fromJS({
         avatar: faker.internet.avatar(),
         isActive: faker.random.boolean(),
         password: faker.internet.password()
-      };
+      });
       nextState = reducer(previousState, {
         type: 'UPDATE_TOKEN_INFO',
         payload: expectedTokenInfo
@@ -306,14 +307,14 @@ describe('authentication/reducer', function() {
     });
 
     it('sets the new token info', function() {
-      expect(nextState.tokenInfo).to.equal(expectedTokenInfo);
+      expect(nextState.get('tokenInfo')).to.equal(Immutable.fromJS(expectedTokenInfo));
     });
 
     it('creates a new object and transfers the old properties', function() {
-      expect(nextState).to.not.equal(previousState);
-      expect(nextState.avatar).to.equal(previousState.avatar);
-      expect(nextState.isActive).to.equal(previousState.isActive);
-      expect(nextState.password).to.equal(previousState.password);
+      expect(nextState).to.not.deep.equal(previousState);
+      expect(nextState.get('avatar')).to.equal(previousState.get('avatar'));
+      expect(nextState.get('isActive')).to.equal(previousState.get('isActive'));
+      expect(nextState.get('password')).to.equal(previousState.get('password'));
     });
   });
 

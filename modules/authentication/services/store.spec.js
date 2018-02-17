@@ -1,7 +1,7 @@
 import StoreService from './store';
 import * as redux from 'redux';
 import * as reduxDevtoolsExtension from 'redux-devtools-extension/developmentOnly';
-import * as reduxPersist from 'redux-persist-immutablet';
+import * as reduxPersist from 'redux-persist-immutable';
 
 describe('authentication/storeService', function() {
   let createStore;
