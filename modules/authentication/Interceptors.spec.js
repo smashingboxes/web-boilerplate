@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import * as actions from './actions';
 import Interceptors from './Interceptors';
 import {
@@ -18,12 +19,12 @@ describe('authentication/Interceptors', function() {
     let store;
 
     beforeEach(function() {
-      store = {};
+      store = Immutable.fromJS({});
       interceptors = new Interceptors(store);
     });
 
     it('assigns the store argument to the instance', function() {
-      expect(interceptors.store).to.equal(store);
+      expect(interceptors.store).to.deep.equal(store);
     });
   });
 
@@ -35,14 +36,14 @@ describe('authentication/Interceptors', function() {
       let store;
 
       beforeEach(function() {
-        state = {
+        state = Immutable.fromJS({
           authentication: {
             tokenInfo: VALID_TOKEN_INFO_FIELDS.reduce((memo, field) => {
               memo[field] = faker.internet.password();
               return memo;
             }, {})
           }
-        };
+        });
         store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
         originalConfig = { headers: { common: {} } };
 
@@ -56,13 +57,13 @@ describe('authentication/Interceptors', function() {
 
       it('returns the Axios config object', function() {
         return promise.then((config) => {
-          expect(config).to.equal(originalConfig);
+          expect(config).to.deep.equal(originalConfig);
         });
       });
 
       it('applies the stored token info to the common request headers', function() {
         return promise.then((config) => {
-          expect(config.headers.common).to.deep.equal(state.authentication.tokenInfo);
+          expect(config.headers.common).to.deep.equal(state.getIn(['authentication', 'tokenInfo']).toJS());
         });
       });
     });
@@ -74,7 +75,7 @@ describe('authentication/Interceptors', function() {
       let store;
 
       beforeEach(function() {
-        state = { authentication: { tokenInfo: {} } };
+        state = Immutable.fromJS({ authentication: { tokenInfo: {} } });
         store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
         originalConfig = { headers: { common: {} } };
 
@@ -84,7 +85,6 @@ describe('authentication/Interceptors', function() {
 
       it('returns the Axios config object without any changes', function() {
         return promise.then((config) => {
-          expect(config).to.equal(originalConfig);
           expect(config).to.deep.equal(originalConfig);
         });
       });
@@ -140,7 +140,7 @@ describe('authentication/Interceptors', function() {
 
   describe('isNewToken', function() {
     it('returns true when there is no previous expiry/token', function() {
-      const state = { authentication: { tokenInfo: {} } };
+      const state = Immutable.fromJS({ authentication: { tokenInfo: {} } });
       const store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
 
       const interceptors = new Interceptors(store);
@@ -152,13 +152,13 @@ describe('authentication/Interceptors', function() {
     });
 
     it('returns true when the new token is newer than the previous token', function() {
-      const state = {
+      const state = Immutable.fromJS({
         authentication: {
           tokenInfo: {
             expiry: faker.date.past().getTime().toString()
           }
         }
-      };
+      });
       const store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
 
       const interceptors = new Interceptors(store);
@@ -170,13 +170,13 @@ describe('authentication/Interceptors', function() {
     });
 
     it('returns false when the new token is older than the previous token', function() {
-      const state = {
+      const state = Immutable.fromJS({
         authentication: {
           tokenInfo: {
             expiry: faker.date.future().getTime().toString()
           }
         }
-      };
+      });
       const store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
 
       const interceptors = new Interceptors(store);
@@ -188,13 +188,13 @@ describe('authentication/Interceptors', function() {
     });
 
     it('returns falsey when there is no new token/expiry', function() {
-      const state = {
+      const state = Immutable.fromJS({
         authentication: {
           tokenInfo: {
             expiry: faker.date.past().getTime().toString()
           }
         }
-      };
+      });
       const store = { getHydratedState: this.sandbox.spy(() => Promise.resolve(state)) };
 
       const interceptors = new Interceptors(store);
