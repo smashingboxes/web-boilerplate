@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {
   Link
 } from 'react-router';
+import routes from '../../../src/constants/routes';
 import services from '../services';
 
 const propTypes = {
@@ -49,7 +50,7 @@ class RegistrationConfirmed extends Component {
   render() {
     return (
       <div className={this.props.baseClassName}>
-        <p className={`${this.props.baseClassName}__title`}>Registration Finished! You will now be directed to the <Link to="/">home page</Link>.</p>
+        <p className={`${this.props.baseClassName}__title`}>Registration Finished! You will now be directed to the <Link to={routes.ROOT}>home page</Link>.</p>
         {this.props.children &&
           cloneElement(this.props.children, this.props)}
       </div>

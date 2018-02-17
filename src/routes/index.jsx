@@ -13,6 +13,7 @@ import RegistrationConfirmed from '../../modules/authentication/containers/Regis
 import ResetPassword from '../../modules/authentication/containers/ResetPassword';
 import SignIn from '../../modules/authentication/containers/SignIn';
 import authenticationService from '../../modules/authentication/services';
+import routes from '../constants/routes';
 
 const propTypes = {
   store: PropTypes.object.isRequired
@@ -21,20 +22,20 @@ const propTypes = {
 function Routes({ store }) {
   return (
     <Router history={history}>
-      <Route path="/" onEnter={authenticationService.checkAuth(store)}>
+      <Route path={routes.ROOT} onEnter={authenticationService.checkAuth(store)}>
         <IndexRoute component={AppContainer} />
       </Route>
-      <Route path="/forgot-password" component={ForgotPassword} />
-      <Route path="/register" component={Register} />
+      <Route path={routes.AUTHENTICATION.FORGOT_PASSWORD} component={ForgotPassword} />
+      <Route path={routes.AUTHENTICATION.REGISTER} component={Register} />
       <Route
-        path="/registration-confirmed"
+        path={routes.AUTHENTICATION.REGISTRATION_CONFIRMED}
         component={RegistrationConfirmed}
         onEnter={(nextState, replace, callback) => {
           return authenticationService.prehydrateStore(store)(null, null, callback);
         }}
       />
-      <Route path="/reset-password" component={ResetPassword} />
-      <Route path="/sign-in" component={SignIn} />
+      <Route path={routes.AUTHENTICATION.RESET_PASSWORD} component={ResetPassword} />
+      <Route path={routes.AUTHENTICATION.SIGN_IN} component={SignIn} />
     </Router>
   );
 }
