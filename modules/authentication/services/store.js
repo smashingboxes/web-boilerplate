@@ -8,7 +8,7 @@ import {
 import {
   autoRehydrate,
   persistStore
-} from 'redux-persist';
+} from 'redux-persist-immutable';
 import thunk from 'redux-thunk';
 
 class Store {
