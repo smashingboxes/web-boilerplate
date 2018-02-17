@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import apiService from '../../../src/services/api';
 import authenticationService from './index';
 
@@ -18,7 +19,7 @@ describe('authentication/service', function() {
       let replace;
 
       beforeEach(function() {
-        const state = {
+        const state = Immutable.fromJS({
           authentication: {
             tokenInfo: {
               'access-token': faker.internet.password(),
@@ -28,7 +29,7 @@ describe('authentication/service', function() {
               uid: faker.internet.email()
             }
           }
-        };
+        });
 
         callback = this.sandbox.stub();
         replace = this.sandbox.stub();
@@ -50,11 +51,11 @@ describe('authentication/service', function() {
     const failingTestCases = [
       {
         description: 'when there is not stored token info',
-        state: { authentication: { tokenInfo: {} } }
+        state: Immutable.fromJS({ authentication: { tokenInfo: {} } })
       },
       {
         description: 'when there is stored token info but it does not have valid info fields',
-        state: {
+        state: Immutable.fromJS({
           authentication: {
             tokenInfo: {
               [faker.random.word()]: faker.hacker.phrase(),
@@ -64,7 +65,7 @@ describe('authentication/service', function() {
               [faker.random.word()]: faker.hacker.phrase()
             }
           }
-        }
+        })
       }
     ];
 
