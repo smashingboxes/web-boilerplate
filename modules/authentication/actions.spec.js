@@ -52,7 +52,7 @@ describe('authentication/actions', function() {
           name: expectedName
         };
         dispatch = this.sandbox.stub();
-        register = this.sandbox.stub(service, 'register', () => {
+        register = this.sandbox.stub(service, 'register').callsFake(() => {
           return Promise.resolve(expectedUserInfo);
         });
         promise = actions.register(expectedCredentials)(dispatch);
@@ -94,7 +94,7 @@ describe('authentication/actions', function() {
       beforeEach(function() {
         expectedError = new Error();
         dispatch = this.sandbox.stub();
-        this.sandbox.stub(service, 'register', () => Promise.reject(expectedError));
+        this.sandbox.stub(service, 'register').callsFake(() => Promise.reject(expectedError));
         promise = actions.register()(dispatch);
       });
 
@@ -132,7 +132,7 @@ describe('authentication/actions', function() {
       beforeEach(function() {
         expectedEmail = faker.internet.email();
         dispatch = this.sandbox.stub();
-        requestPasswordReset = this.sandbox.stub(service, 'requestPasswordReset', () => {
+        requestPasswordReset = this.sandbox.stub(service, 'requestPasswordReset').callsFake(() => {
           return Promise.resolve();
         });
         promise = actions.requestPasswordReset(expectedEmail)(dispatch);
@@ -217,7 +217,7 @@ describe('authentication/actions', function() {
           name: faker.random.word()
         };
         dispatch = this.sandbox.stub();
-        resetPassword = this.sandbox.stub(service, 'resetPassword', () => {
+        resetPassword = this.sandbox.stub(service, 'resetPassword').callsFake(() => {
           return Promise.resolve(expectedUserInfo);
         });
         promise = actions.resetPassword(expectedCredentials)(dispatch);
@@ -309,7 +309,7 @@ describe('authentication/actions', function() {
         };
 
         dispatch = this.sandbox.stub();
-        signIn = this.sandbox.stub(service, 'signIn', () => {
+        signIn = this.sandbox.stub(service, 'signIn').callsFake(() => {
           return Promise.resolve({
             email: expectedUserInfo.email,
             id: expectedUserInfo.id,
@@ -361,7 +361,7 @@ describe('authentication/actions', function() {
       beforeEach(function() {
         expectedError = new Error();
 
-        this.sandbox.stub(service, 'signIn', () => {
+        this.sandbox.stub(service, 'signIn').callsFake(() => {
           return Promise.reject(expectedError);
         });
         dispatch = this.sandbox.stub();
@@ -404,7 +404,7 @@ describe('authentication/actions', function() {
       let signOut;
 
       beforeEach(function() {
-        signOut = this.sandbox.stub(service, 'signOut', () => Promise.resolve());
+        signOut = this.sandbox.stub(service, 'signOut').callsFake(() => Promise.resolve());
 
         promise = actions.signOut()(dispatch);
       });
@@ -428,7 +428,7 @@ describe('authentication/actions', function() {
       let promise;
 
       beforeEach(function() {
-        this.sandbox.stub(service, 'signOut', () => Promise.reject());
+        this.sandbox.stub(service, 'signOut').callsFake(() => Promise.reject());
 
         promise = actions.signOut()(dispatch);
       });

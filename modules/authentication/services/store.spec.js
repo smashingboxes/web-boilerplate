@@ -28,7 +28,7 @@ describe('authentication/storeService', function() {
       expectedComposeResult = () => { return 'foo'; };
       expectedReducers = () => { return 'baz'; };
       expectedStorage = { cookies: ['bar'] };
-      this.sandbox.stub(reduxDevtoolsExtension, 'composeWithDevTools', expectedComposeResult);
+      this.sandbox.stub(reduxDevtoolsExtension, 'composeWithDevTools').callsFake(expectedComposeResult);
       hydrateStore = this.sandbox.stub(StoreService.prototype, 'hydrateStore');
       storeService = new StoreService(expectedReducers, expectedStorage);
     });
