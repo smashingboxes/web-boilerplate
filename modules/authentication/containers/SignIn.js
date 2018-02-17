@@ -9,8 +9,8 @@ import SignIn from '../components/SignIn';
 
 function mapStateToProps(state) {
   return {
-    isActive: state.authentication.isActive,
-    tokenInfo: state.authentication.tokenInfo
+    isActive: state.getIn(['authentication', 'isActive']),
+    tokenInfo: state.getIn(['authentication', 'tokenInfo'])
   };
 }
 
