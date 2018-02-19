@@ -4,8 +4,8 @@ import App from '../components/App';
 
 function mapStateToProps(state) {
   return {
-    ...state.helloWorld,
-    tokenInfo: state.authentication.tokenInfo
+    helloWorld: state.get('helloWorld'),
+    tokenInfo: state.getIn(['authentication', 'tokenInfo'])
   };
 }
 

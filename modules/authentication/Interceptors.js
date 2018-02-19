@@ -15,10 +15,10 @@ class Interceptors {
     return this.store
       .getHydratedState()
       .then((state) => {
-        const tokenInfoFields = Object.keys(state.authentication.tokenInfo);
+        const tokenInfoFields = state.getIn(['authentication', 'tokenInfo']).keySeq().toArray();
 
         tokenInfoFields.reduce((memo, field) => {
-          memo[field] = state.authentication.tokenInfo[field];
+          memo[field] = state.getIn(['authentication', 'tokenInfo', field]);
           return memo;
         }, config.headers.common);
 
@@ -40,7 +40,7 @@ class Interceptors {
   isNewToken(newExpiry) {
     return this.store.getHydratedState()
       .then((state) => {
-        const oldExpiry = state.authentication.tokenInfo.expiry;
+        const oldExpiry = state.getIn(['authentication', 'tokenInfo', 'expiry']);
         const isNewerToken = !oldExpiry || (newExpiry && (newExpiry > oldExpiry));
 
         return isNewerToken;

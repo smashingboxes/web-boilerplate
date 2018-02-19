@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import * as redux from 'redux';
 import * as authenticationActionCreators from '../actions';
 import {
@@ -29,9 +30,9 @@ describe('SignIn container', function() {
           return memo;
         }, {})
       };
-      props = mapStateToProps({
+      props = mapStateToProps(Immutable.fromJS({
         authentication: authenticationState
-      });
+      }));
     });
 
     it('maps the sign in activity state to the props', function() {
@@ -39,7 +40,7 @@ describe('SignIn container', function() {
     });
 
     it('maps the token info to the props', function() {
-      expect(props.tokenInfo).to.equal(authenticationState.tokenInfo);
+      expect(props.tokenInfo).to.equal(Immutable.fromJS(authenticationState.tokenInfo));
     });
   });
 

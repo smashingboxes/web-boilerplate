@@ -8,7 +8,7 @@ function checkAuth(store) {
     return store.getHydratedState()
       .then((state) => {
         const hasAllTokenInfoKeys = VALID_TOKEN_INFO_FIELDS.filter((field) => {
-          return state.authentication.tokenInfo[field];
+          return state.getIn(['authentication', 'tokenInfo', field]);
         }).length === VALID_TOKEN_INFO_FIELDS.length;
 
         if (!hasAllTokenInfoKeys) {
