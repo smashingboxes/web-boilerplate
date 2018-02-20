@@ -123,11 +123,7 @@ describe('authentication/Interceptors', function() {
       const expectedError = new Error();
       expectedError.response = { status: 422 };
 
-      const saveTokenInfo = this.sandbox.stub(
-        Interceptors.prototype,
-        'saveTokenInfo',
-        () => {}
-      );
+      const saveTokenInfo = this.sandbox.stub(Interceptors.prototype, 'saveTokenInfo').callsFake(() => {});
 
       expect(() => {
         interceptors.invalidateHeaders(expectedError);
@@ -268,10 +264,9 @@ describe('authentication/Interceptors', function() {
 
         parseTokenInfoFromHeaders = this.sandbox.stub(
           Interceptors.prototype,
-          'parseTokenInfoFromHeaders',
-          () => expectedTokenInfo
-        );
-        isNewToken = this.sandbox.stub(Interceptors.prototype, 'isNewToken', () => {
+          'parseTokenInfoFromHeaders'
+        ).callsFake(() => expectedTokenInfo);
+        isNewToken = this.sandbox.stub(Interceptors.prototype, 'isNewToken').callsFake(() => {
           return Promise.resolve(true);
         });
         dispatch = this.sandbox.spy(() => expectedAction);
@@ -280,7 +275,7 @@ describe('authentication/Interceptors', function() {
             return { dispatch };
           })
         };
-        updateTokenInfo = this.sandbox.stub(actions, 'updateTokenInfo', () => expectedAction);
+        updateTokenInfo = this.sandbox.stub(actions, 'updateTokenInfo').callsFake(() => expectedAction);
 
         const interceptors = new Interceptors(store);
         promise = interceptors.saveTokenInfo(expectedResponse);
@@ -338,12 +333,8 @@ describe('authentication/Interceptors', function() {
           return memo;
         }, {});
 
-        this.sandbox.stub(
-          Interceptors.prototype,
-          'parseTokenInfoFromHeaders',
-          () => expectedTokenInfo
-        );
-        this.sandbox.stub(Interceptors.prototype, 'isNewToken', () => Promise.resolve(false));
+        this.sandbox.stub(Interceptors.prototype, 'parseTokenInfoFromHeaders').callsFake(() => expectedTokenInfo);
+        this.sandbox.stub(Interceptors.prototype, 'isNewToken').callsFake(() => Promise.resolve(false));
         dispatch = this.sandbox.stub();
         store = { getStore: () => { return { dispatch }; } };
 
@@ -366,12 +357,8 @@ describe('authentication/Interceptors', function() {
       beforeEach(function() {
         expectedResponse = {};
 
-        this.sandbox.stub(
-          Interceptors.prototype,
-          'parseTokenInfoFromHeaders',
-          () => { return {}; }
-        );
-        isNewToken = this.sandbox.stub(Interceptors.prototype, 'isNewToken', () => {
+        this.sandbox.stub(Interceptors.prototype, 'parseTokenInfoFromHeaders').callsFake(() => { return {}; });
+        isNewToken = this.sandbox.stub(Interceptors.prototype, 'isNewToken').callsFake(() => {
           return Promise.resolve(true);
         });
 

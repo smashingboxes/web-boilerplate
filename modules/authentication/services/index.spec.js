@@ -148,7 +148,7 @@ describe('authentication/service', function() {
           name: expectedName,
           password: faker.internet.password()
         };
-        post = this.sandbox.stub(apiService, 'post', () => {
+        post = this.sandbox.stub(apiService, 'post').callsFake(() => {
           return Promise.resolve({
             data: {
               data: {
@@ -185,7 +185,7 @@ describe('authentication/service', function() {
         let promise;
 
         beforeEach(function() {
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 404 };
             return Promise.reject(err);
@@ -206,7 +206,7 @@ describe('authentication/service', function() {
         let promise;
 
         beforeEach(function() {
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 422 };
             return Promise.reject(err);
@@ -285,7 +285,7 @@ describe('authentication/service', function() {
           email: faker.internet.email()
         };
         message = faker.random.word();
-        post = this.sandbox.stub(apiService, 'post', () => {
+        post = this.sandbox.stub(apiService, 'post').callsFake(() => {
           return Promise.resolve({
             data: { message }
           });
@@ -318,7 +318,7 @@ describe('authentication/service', function() {
           const params = {
             email: notFoundEmail
           };
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 404 };
             return Promise.reject(err);
@@ -339,7 +339,7 @@ describe('authentication/service', function() {
         let promise;
 
         beforeEach(function() {
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 422 };
             return Promise.reject(err);
@@ -374,7 +374,7 @@ describe('authentication/service', function() {
         expectedParams = {
           password: faker.internet.password()
         };
-        put = this.sandbox.stub(apiService, 'put', () => {
+        put = this.sandbox.stub(apiService, 'put').callsFake(() => {
           return Promise.resolve({
             data: {
               email: expectedEmail,
@@ -408,7 +408,7 @@ describe('authentication/service', function() {
       let promise;
 
       beforeEach(function() {
-        this.sandbox.stub(apiService, 'post', () => {
+        this.sandbox.stub(apiService, 'post').callsFake(() => {
           const err = new Error();
           return Promise.reject(err);
         });
@@ -446,7 +446,7 @@ describe('authentication/service', function() {
           email: expectedEmail,
           password: expectedPassword
         };
-        post = this.sandbox.stub(apiService, 'post', () => {
+        post = this.sandbox.stub(apiService, 'post').callsFake(() => {
           return Promise.resolve({
             data: {
               data: {
@@ -485,7 +485,7 @@ describe('authentication/service', function() {
         let promise;
 
         beforeEach(function() {
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 401 };
             return Promise.reject(err);
@@ -507,7 +507,7 @@ describe('authentication/service', function() {
         let promise;
 
         beforeEach(function() {
-          this.sandbox.stub(apiService, 'post', () => {
+          this.sandbox.stub(apiService, 'post').callsFake(() => {
             const err = new Error();
             err.response = { status: 422 };
             return Promise.reject(err);
@@ -531,7 +531,7 @@ describe('authentication/service', function() {
     let deleteRequest;
 
     beforeEach(function() {
-      deleteRequest = this.sandbox.stub(apiService, 'delete', () => {
+      deleteRequest = this.sandbox.stub(apiService, 'delete').callsFake(() => {
         return Promise.resolve();
       });
       authenticationService.signOut();
