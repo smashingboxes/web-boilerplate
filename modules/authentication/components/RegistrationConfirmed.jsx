@@ -5,7 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import {
   Link
-} from 'react-router';
+} from 'react-router-dom';
 import routes from '../../../src/constants/routes';
 import services from '../services';
 
