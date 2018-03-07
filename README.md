@@ -30,7 +30,7 @@ cd web-boilerplate/
 
 ## or
 
-### Follow these steps
+### Manual steps
 1. Clone the repo
 ```
 git clone https://github.com/smashingboxes/web-boilerplate

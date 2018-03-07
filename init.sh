@@ -1,5 +1,5 @@
 #!/bin/sh
-echo what is your PROJECT_NAME?
+echo "what is your PROJECT_NAME?"
 read PROJECT_NAME
 cd ..
 mv web-boilerplate $PROJECT_NAME
