@@ -1,20 +1,17 @@
 import { connect } from 'react-redux';
-import { setName } from '../actions/helloWorldActions';
+import { getFormValues } from 'redux-form/immutable';
 import App from '../components/App';
 
 function mapStateToProps(state) {
   return {
     helloWorld: state.get('helloWorld'),
-    tokenInfo: state.getIn(['authentication', 'tokenInfo'])
+    tokenInfo: state.getIn(['authentication', 'tokenInfo']),
+    name: getFormValues('nameTaker')(state)
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onSubmit(name) {
-      dispatch(setName(name));
-    }
-  };
+function mapDispatchToProps(/* dispatch */) {
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

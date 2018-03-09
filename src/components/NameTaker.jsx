@@ -1,48 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
+import { Field } from 'redux-form/immutable';
+import { Text /* , TextArea, Select, Checkbox, Radio */ } from './FormFields';
 
 const propTypes = {
   name: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 };
 
-const defaultProps = {
-  name: 'World',
-  onSubmit() {}
-};
+function NameTaker(props) {
+  const {
+    handleSubmit
+  } = props;
+  return (
+    <form onSubmit={handleSubmit}>
+      <Field
+        component={Text}
+        label="Name"
+        name="name"
+      />
 
-class NameTaker extends Component {
-  componentDidMount() {
-    this.nameInput.focus();
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-
-    this.props.onSubmit(this.nameInput.value);
-  }
-
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <label htmlFor="name">Name</label>
-          <input
-            defaultValue={this.props.name}
-            id="name"
-            ref={(input) => { this.nameInput = input; }}
-            type="text"
-          />
-
-          <button>Submit</button>
-        </form>
-      </div>
-    );
-  }
+      <button>Submit</button>
+    </form>
+  );
 }
 
 NameTaker.propTypes = propTypes;
-
-NameTaker.defaultProps = defaultProps;
 
 export default NameTaker;
