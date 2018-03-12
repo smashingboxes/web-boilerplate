@@ -8,10 +8,12 @@
   --box-shadow-inset: var(--box-shadow-default) inset;
   --box-shadow-elevated: 0 1px 3px rgba(0, 0, 0, 0.1),
     0 6px 24px rgba(0, 0, 0, 0.1);
+  --color-white: #fff;
   --color-off-white: #f2f2f2;
   --color-light-grey: #d8d8d8;
   --color-med-grey: #666;
   --color-dark-grey: #4a4a4a;
+  --color-black: #000;
   --helvetica-stack: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   --font-family-default: var(--helvetica-stack);
   --font-family-heading: var(--helvetica-stack);
