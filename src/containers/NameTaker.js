@@ -5,8 +5,8 @@ import {
   compose
 } from 'redux';
 import {
-  reduxForm,
-  getFormValues
+  getFormValues,
+  reduxForm
 } from 'redux-form/immutable';
 
 import { setName } from '../actions/helloWorldActions';
