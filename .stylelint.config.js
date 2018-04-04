@@ -140,7 +140,7 @@ module.exports = {
     "selector-max-compound-selectors": 3,
     "selector-max-empty-lines": 0,
     "selector-max-specificity": "0,4,1",
-    // https://regex101.com/r/8aHvye/4/tests
+    // https://regex101.com/r/8aHvye/5/tests
     // NOTE: The backslashes must be doubled
     "selector-nested-pattern": ["^(&(?=[\\s:.,\\[])|&$|[^&]|\\n)*$", {
       "message": "Don't use & for concatenation"
