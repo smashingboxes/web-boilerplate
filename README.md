@@ -1,6 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/smashingboxes/web-boilerplate.png?label=ready&title=Ready)](https://waffle.io/smashingboxes/web-boilerplate)
 # web-boilerplate
-A template for new front-end projects.  
+A template for new front-end projects.
 [Waffle.io Board](https://waffle.io/smashingboxes/web-boilerplate)
 
 ## Info
@@ -11,6 +11,26 @@ A template for new front-end projects.
 ## Using
 *NOTE: There are some additional steps for setting up a new project that are documented [here](https://github.com/smashingboxes/development-wiki/blob/master/technobabble/setting_up_a_new_project.md). The steps documented here are just the ones needed to set up the code for the repo.*
 
+### Initing with a script
+*NOTE: this is an experimental script, run with caution
+1. Clone the repo
+```
+git clone https://github.com/smashingboxes/web-boilerplate
+```
+2. Create your repo on GitHub
+it should look something like https://github.com/smashingboxes/my-project
+3. Go into web-boilerplate
+```
+cd web-boilerplate/
+```
+4. Run an init script
+```
+./init.sh
+```
+
+## or
+
+### Manual steps
 1. Clone the repo
 ```
 git clone https://github.com/smashingboxes/web-boilerplate
